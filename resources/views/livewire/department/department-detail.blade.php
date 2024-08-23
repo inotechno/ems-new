@@ -29,10 +29,17 @@
                         <div class="col-lg-6 align-self-center">
                             <div class="text-lg-center mt-4 mt-lg-0">
                                 <div class="row">
-                                    <div class="col-9">
+                                    <div class="col-6">
                                         <div>
                                             <p class="text-muted text-truncate mb-2">Supervisor</p>
                                             <h5 class="mb-0">{{ $supervisor->user->name }}</h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-3">
+                                        <div>
+                                            <p class="text-muted text-truncate mb-2">Total Position</p>
+                                            <h5 class="mb-0">{{ $positions->count() }}</h5>
                                         </div>
                                     </div>
 
@@ -53,6 +60,35 @@
                         </div>
                     </div>
                     <!-- end row -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card jobs-categories">
+                <div class="card-body">
+                    <h5 class="card-title pb-3">Positions</h5>
+                    @foreach ($positions as $position)
+                        <a href="#!"
+                            class="px-3 py-2 rounded bg-light bg-opacity-50 d-block mb-2">{{ $position->name }}<span
+                                class="badge font-size-12 text-bg-info float-end bg-opacity-100">Total Employee
+                                : {{ $position->employees->count() }}</span></a>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card jobs-categories">
+                <div class="card-body">
+                    <h5 class="card-title pb-3">Employees</h5>
+                    @foreach ($employees as $employee)
+                        <a href="#!"
+                            class="px-3 py-2 rounded bg-light bg-opacity-50 d-block mb-2">{{ $employee->user->name }}<span
+                                class="badge font-size-12 text-bg-info float-end bg-opacity-100">{{ $employee->user->username }}</span></a>
+                    @endforeach
                 </div>
             </div>
         </div>

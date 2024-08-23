@@ -21,7 +21,7 @@ use App\Livewire\Position\PositionIndex;
 use App\Livewire\Dashboard\DashboardIndex;
 use App\Livewire\Department\DepartmentIndex;
 use App\Livewire\Department\DepartmentDetail;
-
+use App\Livewire\Site\SiteDetail;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +48,7 @@ Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
         Route::get('/', SiteIndex::class)->name('site.index');
         Route::get('create', SiteForm::class)->name('site.create');
         Route::get('edit/{uid}', SiteForm::class)->name('site.edit');
+        Route::get('detail/{uid}', SiteDetail::class)->name('site.detail');
     });
 
     Route::group(['prefix' => 'department'], function () {
@@ -66,15 +67,18 @@ Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
         Route::get('create', ProjectForm::class)->name('project.create');
         Route::get('edit/{id}', ProjectForm::class)->name('project.edit');
     });
+
     Route::group(['prefix' => 'role'], function () {
         Route::get('/', RoleIndex::class)->name('role.index');
     });
+
     Route::group(['prefix' => 'employee'], function () {
         Route::get('/', EmployeeIndex::class)->name('employee.index');
         Route::get('detail/{id}', EmployeeDetail::class)->name('employee.detail');
         Route::get('create', EmployeeForm::class)->name('employee.create');
         Route::get('edit/{id}', EmployeeForm::class)->name('employee.edit');
     });
+
     Route::group(['prefix' => 'attendance'], function () {
         Route::get('/', AttendanceIndex::class)->name('attendance.index');
         // Route::get('detail/{id}', AttendanceDetail::class)->name('attendance.detail');

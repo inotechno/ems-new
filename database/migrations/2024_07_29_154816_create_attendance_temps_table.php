@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('machine_id')->nullable()->constrained()->nullOnDelete()->cascadeOnUpdate();
             $table->foreignId('attendance_method_id')->nullable()->constrained()->nullOnDelete()->cascadeOnUpdate();
             $table->foreignId('site_id')->nullable()->constrained()->nullOnDelete()->cascadeOnUpdate();
-            $table->timestamp('timestamp');
             $table->string('type')->nullable();
             $table->string('longitude')->nullable();
             $table->string('latitude')->nullable();

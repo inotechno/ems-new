@@ -16,7 +16,6 @@ class Attendance extends Model
         'attendance_method_id',
         'timestamp',
         'site_id',
-        'type',
         'longitude',
         'latitude',
         'notes',

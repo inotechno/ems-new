@@ -5,8 +5,9 @@
                 <a href="javascript:void(0)"><i class="uil uil-heart-alt fs-18"></i></a>
             </div>
             <img src="{{ $site->qrcode_url }}" alt="" height="50" class="mb-3">
-            <h5 class="fs-17 mb-2"><a href="javascript:void(0)" class="text-dark">{{ $site->name }}</a> <small
-                    class="text-muted fw-normal">(0-2 Yrs Exp.)</small></h5>
+            <h5 class="fs-17 mb-2"><a href="{{ route('site.detail', ['uid' => $site->uid]) }}"
+                    class="text-dark">{{ $site->name }}</a> <small class="text-muted fw-normal">(0-2 Yrs Exp.)</small>
+            </h5>
             <ul class="list-inline mb-0">
                 <li class="list-inline-item">
                     <a href="javascript:void(0)" class="text-link waves-effect waves-light" data-bs-toggle="popover"

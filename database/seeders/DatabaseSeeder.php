@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
             AttendanceMethodSeeder::class,
             ProjectSeeder::class,
             ProjectsEmployees::class,
+            AttendanceSeeder::class,
         ]);
     }
 }

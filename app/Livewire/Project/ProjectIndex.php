@@ -3,17 +3,16 @@
 namespace App\Livewire\Project;
 
 use App\Models\Project;
-use Jantinnerezo\LivewireAlert\LivewireAlert;   
+use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
-use URL;
 
 class ProjectIndex extends Component
 {
     use LivewireAlert, WithPagination;
 
-    #[URL(except: '')]
-
+    #[Url(except: '')]
     public $search = '';
     public $perPage = 10;
     public $status = '';

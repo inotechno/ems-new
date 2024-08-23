@@ -13,8 +13,7 @@
                     @if ($user->avatar)
                         <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip"
                             data-bs-placement="top" title="{{ $user->name }}">
-                            <img src="{{ $user->avatar }}" alt="{{ $user->name }}"
-                                class="rounded-circle avatar-sm">
+                            <img src="{{ $user->avatar }}" alt="{{ $user->name }}" class="rounded-circle avatar-sm">
                         </a>
                     @else
                         <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip"
@@ -33,7 +32,7 @@
                 </div>
                 <div class="d-flex mb-3 justify-content-center gap-2 text-muted">
                     <div>
-                        <i class='bx bx-envelope align-middle text-primary'></i> {{$user->email}}
+                        <i class='bx bx-envelope align-middle text-primary'></i> {{ $user->email }}
                     </div>
                     {{-- <p class="mb-0 text-center"><i class='bx bx-money align-middle text-primary'></i> $38 / hrs</p> --}}
                 </div>
@@ -44,7 +43,8 @@
                 </div> --}}
 
                 <div class="mt-4 pt-1">
-                    <a href="{{ route('employee.detail', ['id' => $employee->id]) }}" class="btn btn-soft-primary d-block">View
+                    <a href="{{ route('employee.detail', ['id' => $employee->id]) }}"
+                        class="btn btn-soft-primary d-block">View
                         Profile</a>
                 </div>
             </div>

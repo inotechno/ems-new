@@ -40,25 +40,25 @@
                             <label class="col-form-label col-lg-2">Project Date</label>
                             <div class="col-lg-10">
                                 <div class="input-daterange input-group" id="project-date-inputgroup"
-                                    data-provide="datepicker" data-date-format="dd M, yyyy"
+                                    data-provide="datepicker" data-date-format="yyyy-mm-dd"
                                     data-date-container='#project-date-inputgroup' data-date-autoclose="true">
                                     <input type="text" class="form-control @error('start_date') is-invalid @enderror"
                                         wire:model="start_date" placeholder="Start Date" name="start" />
+                                    @error('start_date')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                     <input type="text" class="form-control @error('end_date') is-invalid @enderror"
                                         wire:model="end_date" placeholder="End Date" name="end" />
+                                    @error('end_date')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
 
-                                @error('start_date')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
 
-                                @error('end_date')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
                             </div>
                         </div>
 
@@ -145,6 +145,7 @@
         <script src="{{ asset('libs/select2/js/select2.min.js') }}"></script>
         <script>
             document.addEventListener('livewire:init', function() {
+                initDatePicker();
                 let selectElement = $('.select2-multiple');
 
                 function initDatePicker() {
@@ -165,27 +166,21 @@
 
                 $('#status').select2({
                     width: '100%',
-                })
-
-                $('#status').on('change', function() {
+                }).on('change', function() {
                     Livewire.dispatch('changeSelectForm', ['status', this.value]);
                     // @this.set('status', this.value);
                 });
 
                 $('#employee_id').select2({
                     width: '100%',
-                })
-
-                $('#employee_id').on('change', function() {
+                }).on('change', function() {
                     Livewire.dispatch('changeSelectForm', ['employee_id', this.value]);
                     // @this.set('employee_id', this.value);
                 });
 
                 selectElement.select2({
                     width: '100%',
-                });
-
-                selectElement.on('change', function() {
+                }).on('change', function() {
                     let selectedValues = $(this).val();
                     Livewire.dispatch('changeSelectForm', ['selectedEmployees', selectedValues]);
 
