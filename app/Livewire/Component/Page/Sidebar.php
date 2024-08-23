@@ -59,13 +59,13 @@ class Sidebar extends Component
                     'icon' => 'bx bxs-key',
                     'permission' => 'view:role'
                 ],
-                [
-                    'name' => 'User',
-                    'url' => '/user',
-                    'route' => 'user.index',
-                    'icon' => 'bx bx-user-circle',
-                    'permission' => 'view:user'
-                ],
+                // [
+                //     'name' => 'User',
+                //     'url' => '/user',
+                //     'route' => 'user.index',
+                //     'icon' => 'bx bx-user-circle',
+                //     'permission' => 'view:user'
+                // ],
                 [
                     'name' => 'Employee',
                     'url' => '/employee',
@@ -92,183 +92,183 @@ class Sidebar extends Component
                     'icon' => 'bx bx-purchase-tag-alt',
                     'permission' => 'view:attendance'
                 ],
-                [
-                    'name' => 'Attendance Temporary',
-                    'url' => '/attendance-temporary',
-                    'route' => 'attendance-temporary.index',
-                    'icon' => 'bx bxs-purchase-tag-alt',
-                    'permission' => 'view:attendance-temp'
-                ],
-                [
-                    'name' => 'Daily Report',
-                    'url' => '/daily-report',
-                    'route' => 'daily-report.index',
-                    'icon' => 'bx bxs-report',
-                    'permission' => 'view:daily-report-all'
-                ],
-                [
-                    'name' => 'Daily Report',
-                    'icon' => 'bx bxs-report',
-                    'url' => '/daily-report',
-                    'permission' => 'view:daily-report',
-                    'subMenus' => [
-                        [
-                            'name' => 'My Daily Report',
-                            'url' => '/daily-report',
-                            'route' => 'daily-report.index',
-                            'icon' => 'bx bxs-report',
-                            'permission' => 'view:daily-report'
-                        ],
-                        [
-                            'name' => 'Team Daily Report ',
-                            'url' => '/daily-report/team',
-                            'route' => 'team-daily-report.index',
-                            'icon' => 'bx bxs-report',
-                            'permission' => 'view:daily-report'
-                        ],
-                    ],
-                ],
-                [
-                    'name' => 'Absence Request',
-                    'url' => '/absence-request',
-                    'route' => 'absence-request.index',
-                    'icon' => 'bx bxs-tired',
-                    'permission' => 'view:absence-request-all',
-                ],
-                [
-                    'name' => 'Absence Request',
-                    'icon' => 'bx bxs-tired',
-                    'url' => '/absence-request',
-                    'permission' => 'view:absence-request',
-                    'subMenus' => [
-                        [
-                            'name' => 'My Absence Request',
-                            'url' => '/absence-request',
-                            'route' => 'absence-request.index',
-                            'icon' => 'bx bxs-tired',
-                            'permission' => 'view:absence-request'
-                        ],
-                        [
-                            'name' => 'Team Absence Request',
-                            'url' => '/absence-request/team',
-                            'route' => 'team-absence-request.index',
-                            'icon' => 'bx bxs-tired',
-                            'permission' => 'view:absence-request'
-                        ],
-                    ],
-                ],
-                [
-                    'name' => 'Leave Request',
-                    'url' => '/leave-request',
-                    'route' => 'leave-request.index',
-                    'icon' => 'bx bx-log-out-circle',
-                    'permission' => 'view:leave-request-all',
-                ],
-                [
-                    'name' => 'Leave Request',
-                    'url' => '/leave-request',
-                    'icon' => 'bx bx-log-out-circle',
-                    'permission' => 'view:leave-request',
-                    'subMenus' => [
-                        [
-                            'name' => 'My Leave Request',
-                            'url' => '/leave-request',
-                            'route' => 'leave-request.index',
-                            'icon' => 'bx bx-log-out-circle',
-                            'permission' => 'view:leave-request'
-                        ],
-                        [
-                            'name' => 'Team Leave Request',
-                            'url' => '/leave-request/team',
-                            'route' => 'team-leave-request.index',
-                            'icon' => 'bx bx-log-out-circle',
-                            'permission' => 'view:leave-request'
-                        ],
-                    ],
-                ],
-                [
-                    'name' => 'Financial Request',
-                    'url' => '/financial-request',
-                    'route' => 'financial-request.index',
-                    'icon' => 'bx bxs-bank',
-                    'permission' => 'view:financial-request-all'
-                ],
-                [
-                    'name' => 'Financial Request',
-                    'url' => '/financial-request',
-                    'icon' => 'bx bxs-bank',
-                    'permission' => 'view:financial-request',
-                    'subMenus' => [
-                        [
-                            'name' => 'My Financial Request',
-                            'url' => '/financial-request',
-                            'route' => 'financial-request.index',
-                            'icon' => 'bx bxs-bank',
-                            'permission' => 'view:financial-request'
-                        ],
-                        [
-                            'name' => 'Team Financial Request',
-                            'url' => '/financial-request/team',
-                            'route' => 'team-financial-request.index',
-                            'icon' => 'bx bxs-bank',
-                            'permission' => 'view:financial-request'
-                        ],
-                    ]
-                ]
+                // [
+                //     'name' => 'Attendance Temporary',
+                //     'url' => '/attendance-temporary',
+                //     'route' => 'attendance-temporary.index',
+                //     'icon' => 'bx bxs-purchase-tag-alt',
+                //     'permission' => 'view:attendance-temp'
+                // ],
+                // [
+                //     'name' => 'Daily Report',
+                //     'url' => '/daily-report',
+                //     'route' => 'daily-report.index',
+                //     'icon' => 'bx bxs-report',
+                //     'permission' => 'view:daily-report-all'
+                // ],
+                // [
+                //     'name' => 'Daily Report',
+                //     'icon' => 'bx bxs-report',
+                //     'url' => '/daily-report',
+                //     'permission' => 'view:daily-report',
+                //     'subMenus' => [
+                //         [
+                //             'name' => 'My Daily Report',
+                //             'url' => '/daily-report',
+                //             'route' => 'daily-report.index',
+                //             'icon' => 'bx bxs-report',
+                //             'permission' => 'view:daily-report'
+                //         ],
+                //         [
+                //             'name' => 'Team Daily Report ',
+                //             'url' => '/daily-report/team',
+                //             'route' => 'team-daily-report.index',
+                //             'icon' => 'bx bxs-report',
+                //             'permission' => 'view:daily-report'
+                //         ],
+                //     ],
+                // ],
+                // [
+                //     'name' => 'Absence Request',
+                //     'url' => '/absence-request',
+                //     'route' => 'absence-request.index',
+                //     'icon' => 'bx bxs-tired',
+                //     'permission' => 'view:absence-request-all',
+                // ],
+                // [
+                //     'name' => 'Absence Request',
+                //     'icon' => 'bx bxs-tired',
+                //     'url' => '/absence-request',
+                //     'permission' => 'view:absence-request',
+                //     'subMenus' => [
+                //         [
+                //             'name' => 'My Absence Request',
+                //             'url' => '/absence-request',
+                //             'route' => 'absence-request.index',
+                //             'icon' => 'bx bxs-tired',
+                //             'permission' => 'view:absence-request'
+                //         ],
+                //         [
+                //             'name' => 'Team Absence Request',
+                //             'url' => '/absence-request/team',
+                //             'route' => 'team-absence-request.index',
+                //             'icon' => 'bx bxs-tired',
+                //             'permission' => 'view:absence-request'
+                //         ],
+                //     ],
+                // ],
+                // [
+                //     'name' => 'Leave Request',
+                //     'url' => '/leave-request',
+                //     'route' => 'leave-request.index',
+                //     'icon' => 'bx bx-log-out-circle',
+                //     'permission' => 'view:leave-request-all',
+                // ],
+                // [
+                //     'name' => 'Leave Request',
+                //     'url' => '/leave-request',
+                //     'icon' => 'bx bx-log-out-circle',
+                //     'permission' => 'view:leave-request',
+                //     'subMenus' => [
+                //         [
+                //             'name' => 'My Leave Request',
+                //             'url' => '/leave-request',
+                //             'route' => 'leave-request.index',
+                //             'icon' => 'bx bx-log-out-circle',
+                //             'permission' => 'view:leave-request'
+                //         ],
+                //         [
+                //             'name' => 'Team Leave Request',
+                //             'url' => '/leave-request/team',
+                //             'route' => 'team-leave-request.index',
+                //             'icon' => 'bx bx-log-out-circle',
+                //             'permission' => 'view:leave-request'
+                //         ],
+                //     ],
+                // ],
+                // [
+                //     'name' => 'Financial Request',
+                //     'url' => '/financial-request',
+                //     'route' => 'financial-request.index',
+                //     'icon' => 'bx bxs-bank',
+                //     'permission' => 'view:financial-request-all'
+                // ],
+                // [
+                //     'name' => 'Financial Request',
+                //     'url' => '/financial-request',
+                //     'icon' => 'bx bxs-bank',
+                //     'permission' => 'view:financial-request',
+                //     'subMenus' => [
+                //         [
+                //             'name' => 'My Financial Request',
+                //             'url' => '/financial-request',
+                //             'route' => 'financial-request.index',
+                //             'icon' => 'bx bxs-bank',
+                //             'permission' => 'view:financial-request'
+                //         ],
+                //         [
+                //             'name' => 'Team Financial Request',
+                //             'url' => '/financial-request/team',
+                //             'route' => 'team-financial-request.index',
+                //             'icon' => 'bx bxs-bank',
+                //             'permission' => 'view:financial-request'
+                //         ],
+                //     ]
+                // ]
             ]
         ],
-        [
-            'title' => 'Report',
-            'menus' => [
-                [
-                    'name' => 'Report Attendance',
-                    'url' => '/report-attendance',
-                    'route' => 'report-attendance.index',
-                    'icon' => 'bx bx-bar-chart-alt-2',
-                    'permission' => 'view:report-attendance'
-                ],
-                [
-                    'name' => 'Report Absence',
-                    'url' => '/report-absence-request',
-                    'route' => 'report-absence-request.index',
-                    'icon' => 'bx bx-bar-chart-alt-2',
-                    'permission' => 'view:report-absence-request'
-                ],
-                [
-                    'name' => 'Report Leave',
-                    'url' => '/report-leave-request',
-                    'route' => 'report-leave-request.index',
-                    'icon' => 'bx bx-bar-chart-alt-2',
-                    'permission' => 'view:report-leave-request'
-                ],
-                [
-                    'name' => 'Report Financial',
-                    'url' => '/report-financial-request',
-                    'route' => 'report-financial-request.index',
-                    'icon' => 'bx bx-bar-chart-alt-2',
-                    'permission' => 'view:report-financial-request'
-                ],
-                [
-                    'name' => 'Report Visit',
-                    'url' => '/report-visit-request',
-                    'route' => 'report-visit-request.index',
-                    'icon' => 'bx bx-bar-chart-alt-2',
-                    'permission' => 'view:report-visit'
-                ],
-            ]
-        ],
-        [
-            'title' => 'Setting',
-            'menus' => [
-                [
-                    'name' => 'Setting',
-                    'url' => '/setting',
-                    'route' => 'setting.index',
-                    'icon' => 'bx bx-cog',
-                    'permission' => 'view:setting'
-                ],
-            ]
-        ],
+        // [
+        //     'title' => 'Report',
+        //     'menus' => [
+        //         [
+        //             'name' => 'Report Attendance',
+        //             'url' => '/report-attendance',
+        //             'route' => 'report-attendance.index',
+        //             'icon' => 'bx bx-bar-chart-alt-2',
+        //             'permission' => 'view:report-attendance'
+        //         ],
+        //         [
+        //             'name' => 'Report Absence',
+        //             'url' => '/report-absence-request',
+        //             'route' => 'report-absence-request.index',
+        //             'icon' => 'bx bx-bar-chart-alt-2',
+        //             'permission' => 'view:report-absence-request'
+        //         ],
+        //         [
+        //             'name' => 'Report Leave',
+        //             'url' => '/report-leave-request',
+        //             'route' => 'report-leave-request.index',
+        //             'icon' => 'bx bx-bar-chart-alt-2',
+        //             'permission' => 'view:report-leave-request'
+        //         ],
+        //         [
+        //             'name' => 'Report Financial',
+        //             'url' => '/report-financial-request',
+        //             'route' => 'report-financial-request.index',
+        //             'icon' => 'bx bx-bar-chart-alt-2',
+        //             'permission' => 'view:report-financial-request'
+        //         ],
+        //         [
+        //             'name' => 'Report Visit',
+        //             'url' => '/report-visit-request',
+        //             'route' => 'report-visit-request.index',
+        //             'icon' => 'bx bx-bar-chart-alt-2',
+        //             'permission' => 'view:report-visit'
+        //         ],
+        //     ]
+        // ],
+        // [
+        //     'title' => 'Setting',
+        //     'menus' => [
+        //         [
+        //             'name' => 'Setting',
+        //             'url' => '/setting',
+        //             'route' => 'setting.index',
+        //             'icon' => 'bx bx-cog',
+        //             'permission' => 'view:setting'
+        //         ],
+        //     ]
+        // ],
     ];
 
     public function filterMenus()

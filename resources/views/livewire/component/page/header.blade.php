@@ -4,19 +4,19 @@
         <div class="navbar-brand-box">
             <a href="index.html" class="logo logo-dark">
                 <span class="logo-sm">
-                    <img src="{{ asset('images/logo.svg') }}" alt="" height="22">
+                    <img src="https://imajiwa.id/wp-content/uploads/2018/07/logogram-white.png" alt="" height="42">
                 </span>
                 <span class="logo-lg">
-                    <img src="{{ asset('images/logo-dark.png') }}" alt="" height="17">
+                    <img src="https://imajiwa.id/wp-content/uploads/2018/07/logogram-white.png" alt="" height="39">
                 </span>
             </a>
 
             <a href="index.html" class="logo logo-light">
                 <span class="logo-sm">
-                    <img src="{{ asset('images/logo-light.svg') }}" alt="" height="22">
+                    <img src="https://imajiwa.id/wp-content/uploads/2018/07/logogram-white.png" alt="" height="32">
                 </span>
                 <span class="logo-lg">
-                    <img src="{{ asset('images/logo-light.png') }}" alt="" height="19">
+                    <img src="https://imajiwa.id/wp-content/uploads/2018/07/logogram-white.png" alt="" height="49">
                 </span>
             </a>
         </div>
