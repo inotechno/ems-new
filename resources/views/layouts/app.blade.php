@@ -6,7 +6,7 @@
 
 @include('layouts.partials.head')
 
-<body data-sidebar="light" data-layout-mode="light">
+<body data-sidebar="dark" data-layout-mode="dark">
 
     <!-- <body data-layout="horizontal" data-topbar="dark"> -->
 

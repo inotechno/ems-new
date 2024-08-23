@@ -30,7 +30,7 @@ class Employee extends Model
 
     public function positions(): BelongsToMany
     {
-        return $this->belongsToMany(Department::class, 'employees_positions');
+        return $this->belongsToMany(Position::class, 'employees_positions');
     }
 
     public function attendances(): HasMany

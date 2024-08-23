@@ -3,7 +3,7 @@
 namespace App\Livewire\Project;
 
 use App\Models\Project;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Jantinnerezo\LivewireAlert\LivewireAlert;   
 use Livewire\Component;
 use Livewire\WithPagination;
 use URL;
