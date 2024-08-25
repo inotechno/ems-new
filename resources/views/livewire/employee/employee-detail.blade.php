@@ -19,13 +19,13 @@
                 </div>
                 <div class="card-body pt-0">
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="avatar-md profile-user-wid mb-4">
                                 @if ($user->avatar_url)
                                     <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}"
                                         class="img-thumbnail rounded-circle">
                                 @else
-                                    <span class="avatar-title rounded-circle bg-success text-white font-size-16">
+                                    <span class="avatar-title rounded-circle bg-success text-white font-size-24x">
                                         {{ strtoupper(substr($user->name, 0, 1)) }}
                                     </span>
                                 @endif
@@ -34,17 +34,17 @@
                             <p class="text-muted mb-0 text-truncate">{{ $user->email }}</p>
                         </div>
 
-                        <div class="col-sm-8">
+                        <div class="col-sm-6">
                             <div class="pt-4">
 
                                 <div class="row">
                                     <div class="col-6">
-                                        <h5 class="font-size-15">{{ $user->username }}</h5>
-                                        <p class="text-muted mb-0">Username</p>
+                                        <h5 class="font-size-15">{{ ucfirst($employee->gender) }}</h5>
+                                        <p class="text-muted mb-0">Gender</p>
                                     </div>
                                     <div class="col-6">
-                                        <h5 class="font-size-15">{{ $employee->leave_remaining }}</h5>
-                                        <p class="text-muted mb-0">Leave Remaining</p>
+                                        <h5 class="font-size-15">{{ toIndonesianDate($employee->join_date) }}</h5>
+                                        <p class="text-muted mb-0">Join Date</p>
                                     </div>
                                 </div>
                             </div>
@@ -65,19 +65,31 @@
                             <tbody>
                                 <tr>
                                     <th scope="row">Full Name :</th>
-                                    <td>Cynthia Price</td>
+                                    <td>{{ $user->name }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">Mobile :</th>
-                                    <td>(123) 123 1234</td>
+                                    <th scope="row">Citizen ID :</th>
+                                    <td>{{ $employee->citizen_id }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">E-mail :</th>
-                                    <td>cynthiaskote@gmail.com</td>
+                                    <th scope="row">Marital Status :</th>
+                                    <td>{{ $employee->marital_status }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">Location :</th>
-                                    <td>California, United States</td>
+                                    <th scope="row">Religion :</th>
+                                    <td>{{ $employee->religion }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Date of Birth :</th>
+                                    <td>{{ toIndonesianDate($employee->date_of_birth) }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Place of Birth :</th>
+                                    <td>{{ $employee->place_of_birth }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Leave Remaining :</th>
+                                    <td>{{ $employee->leave_remaining }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -130,15 +142,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($projects as $project)
+                                @if ($projects->count() > 0)
+                                    @foreach ($projects as $project)
+                                        <tr>
+                                            <th scope="row">{{ $project->id }}</th>
+                                            <td>{{ $project->name }}</td>
+                                            <td>{{ $project->start_date }}</td>
+                                            <td>{{ $project->end_date }}</td>
+                                            <td>{{ $project->status }}</td>
+                                        </tr>
+                                    @endforeach
+                                @else
                                     <tr>
-                                        <th scope="row">{{ $project->id }}</th>
-                                        <td>{{ $project->name }}</td>
-                                        <td>{{ $project->start_date }}</td>
-                                        <td>{{ $project->end_date }}</td>
-                                        <td>{{ $project->status }}</td>
+                                        <td colspan="5" class="text-center">No data</td>
                                     </tr>
-                                @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>

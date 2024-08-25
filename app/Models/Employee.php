@@ -14,8 +14,14 @@ class Employee extends Model
     protected $fillable = [
         'id',
         'user_id',
+        'citizen_id',
         'leave_remaining',
         'join_date',
+        'birth_date',
+        'place_of_birth',
+        'gender',
+        'marital_status',
+        'religion'
     ];
 
     public function user()

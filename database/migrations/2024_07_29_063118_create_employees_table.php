@@ -14,8 +14,15 @@ return new class extends Migration
         Schema::create('employees', function (Blueprint $table) {
             $table->unsignedBigInteger('id')->primary();
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('citizen_id')->nullable();
             $table->integer('leave_remaining')->nullable(false)->default(0);
             $table->date('join_date')->nullable();
+            $table->date('birth_date')->nullable();
+            $table->string('place_of_birth')->nullable();
+            $table->enum('gender', ['male', 'female'])->nullable();
+            $table->string('marital_status')->nullable();
+            $table->string('religion')->nullable();
+
             $table->timestamps();
         });
     }

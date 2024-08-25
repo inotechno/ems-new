@@ -21,6 +21,7 @@ use App\Livewire\Position\PositionIndex;
 use App\Livewire\Dashboard\DashboardIndex;
 use App\Livewire\Department\DepartmentIndex;
 use App\Livewire\Department\DepartmentDetail;
+use App\Livewire\ImportMasterData\ImportMasterDataIndex;
 use App\Livewire\Site\SiteDetail;
 
 /*
@@ -42,6 +43,7 @@ Route::get('/login', Login::class)->name('login')->middleware('guest');
 Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
     Route::get('/', DashboardIndex::class)->name('dashboard.index');
     Route::get('dashboard', DashboardIndex::class)->name('dashboard.index');
+    Route::get('import-master-data', ImportMasterDataIndex::class)->name('import.index');
 
     Route::get('machine', MachineIndex::class)->name('machine.index');
     Route::group(['prefix' => 'site'], function () {

@@ -17,7 +17,7 @@ class EmployeeItem extends Component
     public function render()
     {
         return view('livewire.employee.employee-item', [
-            'positions' => $this->employee->positions->take($this->limitDisplay), 
+            'positions' => $this->employee->positions->take($this->limitDisplay),
             'user' => $this->employee->user
         ]);
     }

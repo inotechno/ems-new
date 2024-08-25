@@ -17,10 +17,16 @@ class EmployeeFactory extends Factory
     public function definition(): array
     {
         return [
-            'id' => $this->faker->numberBetween(10000000000, 90000000000),
-            'leave_remaining' => $this->faker->numberBetween(0, 12),
-            'join_date' => $this->faker->dateTimeBetween('-2 years', 'now'),
+            'id' =>  fake('id_ID')->numberBetween(10000000000, 90000000000),
             'user_id' => null,
+            'citizen_id' => fake('id_ID')->nik(),
+            'leave_remaining' =>  fake('id_ID')->numberBetween(0, 12),
+            'join_date' =>  fake('id_ID')->dateTimeBetween('-2 years', 'now'),
+            'birth_date' =>  fake('id_ID')->dateTimeBetween('-50 years', '-18 years'),
+            'place_of_birth' =>  fake('id_ID')->city,
+            'gender' =>  fake('id_ID')->randomElement(['male', 'female']),
+            'marital_status' =>  fake('id_ID')->randomElement(['single', 'married']),
+            'religion' =>  fake('id_ID')->randomElement(['islam', 'kristen', 'katholik', 'hindu', 'budha', 'konghucu']),
         ];
     }
 }

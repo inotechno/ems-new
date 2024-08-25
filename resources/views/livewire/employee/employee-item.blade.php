@@ -42,9 +42,10 @@
                     <span class="badge badge-soft-secondary">CSS</span>
                 </div> --}}
 
-                <div class="mt-4 pt-1">
-                    <a href="{{ route('employee.detail', ['id' => $employee->id]) }}"
-                        class="btn btn-soft-primary d-block">View
+                <div class="mt-4 pt-1 d-flex gap-3 justify-content-center">
+                    <a href="{{ route('employee.detail', ['id' => $employee->id]) }}" class="btn btn-soft-primary">View
+                        Profile</a>
+                    <a href="{{ route('employee.edit', ['id' => $employee->id]) }}" class="btn btn-soft-warning">Edit
                         Profile</a>
                 </div>
             </div>

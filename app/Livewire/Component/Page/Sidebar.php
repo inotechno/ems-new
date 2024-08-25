@@ -25,6 +25,13 @@ class Sidebar extends Component
             'title' => 'Master Data',
             'menus' => [
                 [
+                    'name' => 'Import Master Data',
+                    'url' => '/import-master-data',
+                    'route' => 'import.index',
+                    'icon' => 'bx bx-upload',
+                    'permission' => 'view:import_master_data',
+                ],
+                [
                     'name' => 'Machine',
                     'url' => '/machine',
                     'route' => 'machine.index',
