@@ -14,12 +14,21 @@ class EmployeeSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(10)->create()->each(function ($user) {
+        $roles = [
+            'Administrator',
+            'Director',
+            'Finance',
+            'HR',
+            'Employee',
+            'Project Manager',
+        ];
+
+        User::factory(10)->create()->each(function ($user) use ($roles) {
             Employee::factory()->create([
                 'user_id' => $user->id, // Mengaitkan employee dengan user yang baru dibuat
             ]);
 
-            $user->assignRole('Employee');
+            $user->assignRole($roles[array_rand($roles)]);
         });
     }
 }

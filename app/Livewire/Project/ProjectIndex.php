@@ -3,6 +3,7 @@
 namespace App\Livewire\Project;
 
 use App\Models\Project;
+use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -40,7 +41,17 @@ class ProjectIndex extends Component
                 ->orWhere('description', 'like', '%' . $this->search . '%');
         })->when($this->status, function ($query) {
             $query->where('status', $this->status);
-        })->latest()->paginate($this->perPage);
+        })->latest();
+
+        if(Auth::user()->hasRole('Administrator')) {
+            $projects = $projects->paginate($this->perPage);
+        }else if(Auth::user()->hasRole('Project Manager')) {
+            $projects = $projects->where('employee_id', Auth::user()->employee->id)->paginate($this->perPage);
+        }else {
+            $projects = $projects->whereHas('employees', function($query) {
+                $query->where('employee_id', Auth::user()->employee->id);
+            })->paginate($this->perPage);
+        }
 
         return view('livewire.project.project-index', compact('projects'))->layout('layouts.app', ['title' => 'Project List']);
     }

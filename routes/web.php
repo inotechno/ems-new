@@ -35,54 +35,53 @@ use App\Livewire\Site\SiteDetail;
 |
 */
 
-
 Route::get('/test-component', TestComponent::class)->name('test-component');
 
 Route::get('/login', Login::class)->name('login')->middleware('guest');
 
 Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
-    Route::get('/', DashboardIndex::class)->name('dashboard.index');
-    Route::get('dashboard', DashboardIndex::class)->name('dashboard.index');
-    Route::get('import-master-data', ImportMasterDataIndex::class)->name('import.index');
+    Route::get('/', DashboardIndex::class)->name('dashboard.index')->middleware('can:view:dashboard');
+    Route::get('dashboard', DashboardIndex::class)->name('dashboard.index')->middleware('can:view:dashboard');
+    Route::get('import-master-data', ImportMasterDataIndex::class)->name('import.index')->middleware('can:view:import_master_data');
 
-    Route::get('machine', MachineIndex::class)->name('machine.index');
+    Route::get('machine', MachineIndex::class)->name('machine.index')->middleware('can:view:machine');
     Route::group(['prefix' => 'site'], function () {
-        Route::get('/', SiteIndex::class)->name('site.index');
-        Route::get('create', SiteForm::class)->name('site.create');
-        Route::get('edit/{uid}', SiteForm::class)->name('site.edit');
-        Route::get('detail/{uid}', SiteDetail::class)->name('site.detail');
+        Route::get('/', SiteIndex::class)->name('site.index')->middleware('can:view:site');
+        Route::get('create', SiteForm::class)->name('site.create')->middleware('can:create:site');
+        Route::get('edit/{uid}', SiteForm::class)->name('site.edit')->middleware('can:update:site');
+        Route::get('detail/{uid}', SiteDetail::class)->name('site.detail')->middleware('can:view:site');
     });
 
     Route::group(['prefix' => 'department'], function () {
-        Route::get('/', DepartmentIndex::class)->name('department.index');
-        Route::get('detail/{id}', DepartmentDetail::class)->name('department.detail');
+        Route::get('/', DepartmentIndex::class)->name('department.index')->middleware('can:view:department');
+        Route::get('detail/{id}', DepartmentDetail::class)->name('department.detail')->middleware('can:view:department');
     });
 
     Route::group(['prefix' => 'position'], function () {
-        Route::get('/', PositionIndex::class)->name('position.index');
-        Route::get('detail/{id}', DepartmentDetail::class)->name('position.detail');
+        Route::get('/', PositionIndex::class)->name('position.index')->middleware('can:view:position');
+        Route::get('detail/{id}', DepartmentDetail::class)->name('position.detail')->middleware('can:view:position');
     });
 
     Route::group(['prefix' => 'project'], function () {
-        Route::get('/', ProjectIndex::class)->name('project.index');
-        Route::get('detail/{id}', ProjectDetail::class)->name('project.detail');
-        Route::get('create', ProjectForm::class)->name('project.create');
-        Route::get('edit/{id}', ProjectForm::class)->name('project.edit');
+        Route::get('/', ProjectIndex::class)->name('project.index')->middleware('can:view:project');
+        Route::get('detail/{id}', ProjectDetail::class)->name('project.detail')->middleware('can:view:project');
+        Route::get('create', ProjectForm::class)->name('project.create')->middleware('can:create:project');
+        Route::get('edit/{id}', ProjectForm::class)->name('project.edit')->middleware('can:update:project');
     });
 
     Route::group(['prefix' => 'role'], function () {
-        Route::get('/', RoleIndex::class)->name('role.index');
+        Route::get('/', RoleIndex::class)->name('role.index')->middleware('can:view:role');
     });
 
     Route::group(['prefix' => 'employee'], function () {
-        Route::get('/', EmployeeIndex::class)->name('employee.index');
-        Route::get('detail/{id}', EmployeeDetail::class)->name('employee.detail');
-        Route::get('create', EmployeeForm::class)->name('employee.create');
-        Route::get('edit/{id}', EmployeeForm::class)->name('employee.edit');
+        Route::get('/', EmployeeIndex::class)->name('employee.index')->middleware('can:view:employee');
+        Route::get('detail/{id}', EmployeeDetail::class)->name('employee.detail')->middleware('can:view:employee');
+        Route::get('create', EmployeeForm::class)->name('employee.create')->middleware('can:create:employee');
+        Route::get('edit/{id}', EmployeeForm::class)->name('employee.edit')->middleware('can:update:employee');
     });
 
     Route::group(['prefix' => 'attendance'], function () {
-        Route::get('/', AttendanceIndex::class)->name('attendance.index');
+        Route::get('/', AttendanceIndex::class)->name('attendance.index')->middleware('can:view:attendance');
         // Route::get('detail/{id}', AttendanceDetail::class)->name('attendance.detail');
         // Route::get('create', AttendanceForm::class)->name('attendance.create');
         // Route::get('edit/{id}', AttendanceForm::class)->name('attendance.edit');

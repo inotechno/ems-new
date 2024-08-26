@@ -3,6 +3,7 @@
 namespace App\Livewire\Attendance;
 
 use App\Models\Attendance;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -64,8 +65,13 @@ class AttendanceIndex extends Component
             ->selectRaw('MIN(timestamp) as check_in')
             ->selectRaw('MAX(timestamp) as check_out')
             ->groupBy('employee_id', 'date')
-            ->orderBy('date', 'desc')
-            ->paginate($this->perPage);
+            ->orderBy('date', 'desc');
+
+        if (Auth::user()->hasRole('Administrator')) {
+            $attendances = $attendances->paginate($this->perPage);
+        } else {
+            $attendances = $attendances->where('employee_id', Auth::user()->employee->id)->paginate($this->perPage);
+        }
 
         // Fetch all check-in and check-out records at once with relations
         $checkInDetails = Attendance::whereIn('timestamp', $attendances->pluck('check_in'))

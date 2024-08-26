@@ -45,7 +45,9 @@ class MachineIndex extends Component
             $query->where('name', 'like', '%' . $this->search . '%')
                 ->orWhere('ip_address', 'like', '%' . $this->search . '%')
                 ->orWhere('port', 'like', '%' . $this->search . '%');
-        })->where('is_active', $this->is_active)->orderBy('name', 'ASC')->paginate($this->perPage);
+        })->where('is_active', $this->is_active)->orderBy('name', 'ASC');
+
+        $machines = $machines->paginate($this->perPage);
 
         // dd($machines->getCollection());
         return view('livewire.machine.machine-index', compact('machines'))->layout('layouts.app', ['title' => 'Machine']);

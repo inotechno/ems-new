@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
-<!-- Mirrored from themesbrand.com/skote/layouts/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 15 Nov 2022 07:56:52 GMT -->
-
 @include('layouts.partials.head')
 
 <body data-sidebar="dark" data-layout-mode="dark">

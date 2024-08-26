@@ -3,10 +3,10 @@
             <div class="card-body">
                 {{-- <div class="d-flex align-start mb-3">
                     <div class="flex-grow-1">
-                        <span class="badge badge-soft-success">Full Time</span>
+                        @foreach ($roles as $role)
+                            <span class="badge badge-soft-success">{{ $role->name }}</span>
+                        @endforeach
                     </div>
-                    <button type="button" class="btn btn-light btn-sm like-btn" data-bs-toggle="button"><i
-                            class="bx bx-heart"></i></button>
                 </div> --}}
                 <div class="text-center mb-3">
                     {{-- <img src="assets/images/users/avatar-1.jpg" alt="" class="avatar-sm rounded-circle" /> --}}

@@ -67,13 +67,13 @@ class RoleSeeder extends Seeder
             'delete:position' => ['HR', 'Administrator'],
 
             // Department
-            'view:department' => ['Employee', 'Finance', 'HR', 'Director', 'Administrator'],
+            'view:department' => ['Finance', 'HR', 'Director', 'Administrator'],
             'create:department' => ['Administrator'],
             'update:department' => ['Administrator'],
             'delete:department' => ['Administrator'],
 
             // Site
-            'view:site' => ['Employee', 'HR', 'Director', 'Administrator'],
+            'view:site' => ['HR', 'Director', 'Administrator'],
             'create:site' => ['HR', 'Administrator'],
             'update:site' => ['HR', 'Administrator'],
             'delete:site' => ['HR', 'Administrator'],
