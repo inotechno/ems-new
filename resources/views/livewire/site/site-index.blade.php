@@ -20,10 +20,13 @@
                                 <option value="100">100</option>
                             </select>
                         </div>
+
+                        @can('create:site')
                         <div class="flex-shrink-0">
                             {{-- Create Link Add Site --}}
                             <a href="{{ route('site.create') }}" class="btn btn-primary waves-effect waves-light">Create</a>
                         </div>
+                        @endcan
                     </div>
                 </div>
             </div>

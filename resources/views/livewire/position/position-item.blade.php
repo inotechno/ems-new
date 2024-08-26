@@ -45,35 +45,43 @@
                             </div>
                         @endif
 
-                        <div class="avatar-group-item" wire:key="avatar-item-add">
-                            <a href="javascript: void(0);" class="d-inline-block"
-                                wire:click="$dispatch('show-modal-add-employee', {position_id: {{ $position->id }}})"
-                                data-bs-toggle="tooltip" data-bs-placement="right" title="Add Employee">
-                                <div class="avatar-xs">
-                                    <span class="avatar-title rounded-circle bg-primary text-white font-size-16">
-                                        <i class="bx bx-plus"></i>
-                                    </span>
-                                </div>
-                            </a>
-                        </div>
+                        @can('update:position')
+                            <div class="avatar-group-item" wire:key="avatar-item-add">
+                                <a href="javascript: void(0);" class="d-inline-block"
+                                    wire:click="$dispatch('show-modal-add-employee', {position_id: {{ $position->id }}})"
+                                    data-bs-toggle="tooltip" data-bs-placement="right" title="Add Employee">
+                                    <div class="avatar-xs">
+                                        <span class="avatar-title rounded-circle bg-primary text-white font-size-16">
+                                            <i class="bx bx-plus"></i>
+                                        </span>
+                                    </div>
+                                </a>
+                            </div>
+                        @endcan
                     </div>
                 </div>
             </div>
         </div>
         <div class="px-3 py-2 border-top">
             <ul class="list-inline mb-0 d-flex gap-1 flex-wrap">
-                <li class="list-inline-item">
-                    <button type="button" wire:click="$dispatch('set-position', {position_id: {{ $position->id }}})"
-                        class="btn btn-primary btn-sm waves-effect waves-light">
-                        <i class="mdi mdi-pencil me-1"></i> Edit
-                    </button>
-                </li>
-                <li class="list-inline-item">
-                    <button type="button" wire:click="deleteConfirm()"
-                        class="btn btn-danger btn-sm waves-effect waves-light">
-                        <i class="mdi mdi-delete me-1"></i> Delete
-                    </button>
-                </li>
+                @can('update:position')
+                    <li class="list-inline-item">
+                        <button type="button" wire:click="$dispatch('set-position', {position_id: {{ $position->id }}})"
+                            class="btn btn-primary btn-sm waves-effect waves-light">
+                            <i class="mdi mdi-pencil me-1"></i> Edit
+                        </button>
+                    </li>
+                @endcan
+
+                @can('delete:position')
+                    <li class="list-inline-item">
+                        <button type="button" wire:click="deleteConfirm()"
+                            class="btn btn-danger btn-sm waves-effect waves-light">
+                            <i class="mdi mdi-delete me-1"></i> Delete
+                        </button>
+                    </li>
+                @endcan
+
                 <li class="list-inline-item ms-auto align-self-center">
                     <a class="text-muted" href="{{ route('position.detail', ['id' => $position->id]) }}">
                         <i class= "bx bx-group me-1"></i> {{ $employees->count() }}

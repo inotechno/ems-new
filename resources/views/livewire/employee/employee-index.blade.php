@@ -12,8 +12,8 @@
                         </div>
 
                         <div class="flex-shrink-0 me-3" wire:ignore>
-                            <select class="form-control select2 select-position-index" data-placeholder="Select Position"
-                                wire:model.live="position_id">
+                            <select class="form-control select2 select-position-index"
+                                data-placeholder="Select Position" wire:model.live="position_id">
                                 <option></option>
                                 @foreach ($positions as $position)
                                     <option value="{{ $position->id }}">{{ $position->name }}</option>
@@ -33,11 +33,14 @@
                         <div class="flex-shrink-0">
                             <button class="btn btn-warning" wire:click="resetFilter">Reset Filter</button>
                         </div>
-                        <div class="flex-shrink-0">
-                            {{-- Create Link Add Site --}}
-                            <a href="{{ route('employee.create') }}"
-                                class="btn btn-primary waves-effect waves-light">Create</a>
-                        </div>
+
+                        @can('create:employee')
+                            <div class="flex-shrink-0">
+                                {{-- Create Link Add Site --}}
+                                <a href="{{ route('employee.create') }}"
+                                    class="btn btn-primary waves-effect waves-light">Create</a>
+                            </div>
+                        @endcan
 
                     </div>
                 </div>

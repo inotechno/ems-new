@@ -4,25 +4,27 @@
     <div class="row">
         <div class="col-lg-12">
 
-            <div class="card" id="form-position">
-                <div class="card-body" wire:ignore>
-                    <div class="d-flex">
-                        <div class="flex-grow-1">
-                            <h4 class="card-title mb-4">Position Form</h4>
+            @can('create:position')
+                <div class="card" id="form-position">
+                    <div class="card-body" wire:ignore>
+                        <div class="d-flex">
+                            <div class="flex-grow-1">
+                                <h4 class="card-title mb-4">Position Form</h4>
+                            </div>
+                            <div class="flex-shrink-0">
+                                <a href="#!" class="btn btn-sm btn-primary" wire:click="changeStatusForm()"
+                                    data-bs-toggle="collapse" data-bs-target="#showForm" aria-expanded="true"
+                                    aria-controls="showForm">{{ $showForm ? 'Hide' : 'Show' }}</a>
+                            </div>
                         </div>
-                        <div class="flex-shrink-0">
-                            <a href="#!" class="btn btn-sm btn-primary" wire:click="changeStatusForm()"
-                                data-bs-toggle="collapse" data-bs-target="#showForm" aria-expanded="true"
-                                aria-controls="showForm">{{ $showForm ? 'Hide' : 'Show' }}</a>
-                        </div>
-                    </div>
 
-                    <div class="collapse @if ($showForm) show @endif" wire:click="changeStatusForm()"
-                        id="showForm">
-                        @livewire('position.position-form', ['departments' => $departments], key('position-form'))
+                        <div class="collapse @if ($showForm) show @endif" wire:click="changeStatusForm()"
+                            id="showForm">
+                            @livewire('position.position-form', ['departments' => $departments], key('position-form'))
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endcan
 
             <div class="card">
                 <div class="card-body border-bottom">
@@ -32,11 +34,12 @@
                                 placeholder="Search for ...">
                         </div>
                         <div class="flex-shrink-0 me-3" wire:ignore>
-                            <select class="form-control select2 select-department-index" data-placeholder="Select Department"
-                                wire:model.live="department_id">
+                            <select class="form-control select2 select-department-index"
+                                data-placeholder="Select Department" wire:model.live="department_id">
                                 <option></option>
                                 @foreach ($departments as $department)
-                                    <option value="{{ $department->id }}">{{ $department->name }} | {{ $department->site->name }}</option>
+                                    <option value="{{ $department->id }}">{{ $department->name }} |
+                                        {{ $department->site->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -67,7 +70,7 @@
         </div>
     </div>
 
-    @livewire('position.position-modal-add-employee',['employees' => $employees], key('position-modal-add-employee'))
+    @livewire('position.position-modal-add-employee', ['employees' => $employees], key('position-modal-add-employee'))
 
     @script
         <script>

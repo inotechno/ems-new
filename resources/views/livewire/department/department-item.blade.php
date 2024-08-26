@@ -4,7 +4,8 @@
             <div class="d-flex">
                 <div class="flex-grow-1 overflow-hidden">
                     <h5 class="text-truncate font-size-15">
-                        <a href="{{ route('department.detail', ['id' => $department->id]) }}" class="text-dark">{{ $department->name }}</a>
+                        <a href="{{ route('department.detail', ['id' => $department->id]) }}"
+                            class="text-dark">{{ $department->name }}</a>
                     </h5>
                     <p class="text-muted mb-2">{{ $site->name }}</p>
                     <div class="avatar-group">
@@ -61,19 +62,25 @@
         </div>
         <div class="px-3 py-2 border-top">
             <ul class="list-inline mb-0 d-flex gap-1 flex-wrap">
-                <li class="list-inline-item">
-                    <button type="button"
-                        wire:click="$dispatch('set-department', {department_id: {{ $department->id }}})"
-                        class="btn btn-primary btn-sm waves-effect waves-light">
-                        <i class="mdi mdi-pencil me-1"></i> Edit
-                    </button>
-                </li>
-                <li class="list-inline-item">
-                    <button type="button" wire:click="deleteConfirm()"
-                        class="btn btn-danger btn-sm waves-effect waves-light">
-                        <i class="mdi mdi-delete me-1"></i> Delete
-                    </button>
-                </li>
+                @can('update:department')
+                    <li class="list-inline-item">
+                        <button type="button"
+                            wire:click="$dispatch('set-department', {department_id: {{ $department->id }}})"
+                            class="btn btn-primary btn-sm waves-effect waves-light">
+                            <i class="mdi mdi-pencil me-1"></i> Edit
+                        </button>
+                    </li>
+                @endcan
+
+                @can('delete:department')
+                    <li class="list-inline-item">
+                        <button type="button" wire:click="deleteConfirm()"
+                            class="btn btn-danger btn-sm waves-effect waves-light">
+                            <i class="mdi mdi-delete me-1"></i> Delete
+                        </button>
+                    </li>
+                @endcan
+
                 <li class="list-inline-item ms-auto align-self-center">
                     <a class="text-muted" href="{{ route('department.detail', ['id' => $department->id]) }}">
                         <i class= "bx bx-group me-1"></i> {{ $employees->count() }}

@@ -4,25 +4,27 @@
     <div class="row">
         <div class="col-lg-12">
 
-            <div class="card" id="form-department">
-                <div class="card-body" wire:ignore>
-                    <div class="d-flex">
-                        <div class="flex-grow-1">
-                            <h4 class="card-title mb-4">Department Form</h4>
+            @can('create:department')
+                <div class="card" id="form-department">
+                    <div class="card-body" wire:ignore>
+                        <div class="d-flex">
+                            <div class="flex-grow-1">
+                                <h4 class="card-title mb-4">Department Form</h4>
+                            </div>
+                            <div class="flex-shrink-0">
+                                <a href="#!" class="btn btn-sm btn-primary" wire:click="changeStatusForm()"
+                                    data-bs-toggle="collapse" data-bs-target="#showForm" aria-expanded="true"
+                                    aria-controls="showForm">{{ $showForm ? 'Hide' : 'Show' }}</a>
+                            </div>
                         </div>
-                        <div class="flex-shrink-0">
-                            <a href="#!" class="btn btn-sm btn-primary" wire:click="changeStatusForm()"
-                                data-bs-toggle="collapse" data-bs-target="#showForm" aria-expanded="true"
-                                aria-controls="showForm">{{ $showForm ? 'Hide' : 'Show' }}</a>
-                        </div>
-                    </div>
 
-                    <div class="collapse @if ($showForm) show @endif" wire:click="changeStatusForm()"
-                        id="showForm">
-                        @livewire('department.department-form', ['sites' => $sites, 'employees' => $employees], key('department-form'))
+                        <div class="collapse @if ($showForm) show @endif" wire:click="changeStatusForm()"
+                            id="showForm">
+                            @livewire('department.department-form', ['sites' => $sites, 'employees' => $employees], key('department-form'))
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endcan
 
             <div class="card">
                 <div class="card-body border-bottom">

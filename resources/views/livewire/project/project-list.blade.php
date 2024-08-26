@@ -11,7 +11,10 @@
                             <th scope="col">End Date</th>
                             <th scope="col">Status</th>
                             <th scope="col">Team</th>
-                            <th scope="col">Action</th>
+
+                            @can('update:project')
+                                <th scope="col">Action</th>
+                            @endcan
                         </tr>
                     </thead>
                     <tbody>

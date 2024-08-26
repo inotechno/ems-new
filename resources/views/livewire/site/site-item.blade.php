@@ -32,10 +32,15 @@
                 @endif
             </div>
             <div class="mt-4 hstack gap-2">
-                <a href="{{ route('site.edit', ['uid' => $site->uid]) }}"
-                    class="btn btn-soft-primary w-100">{{ __('Edit') }}</a>
-                <a href="javascript:void(0)" wire:click="deleteConfirm()"
-                    class="btn btn-soft-danger w-100">{{ __('Hapus') }}</a>
+                @can('update:site')
+                    <a href="{{ route('site.edit', ['uid' => $site->uid]) }}"
+                        class="btn btn-soft-primary w-100">{{ __('Edit') }}</a>
+                @endcan
+
+                @can('delete:site')
+                    <a href="javascript:void(0)" wire:click="deleteConfirm()"
+                        class="btn btn-soft-danger w-100">{{ __('Hapus') }}</a>
+                @endcan
             </div>
         </div>
     </div>

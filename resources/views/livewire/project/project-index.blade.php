@@ -12,7 +12,8 @@
                                 placeholder="Search for ...">
                         </div>
                         <div class="flex-shrink-0" wire:ignore>
-                            <select class="form-control select2 select-status" wire:model.live="status" data-placeholder="Select Status">
+                            <select class="form-control select2 select-status" wire:model.live="status"
+                                data-placeholder="Select Status">
                                 <option></option>
                                 <option value="not_started">Not Started</option>
                                 <option value="in_progress">In Progress</option>
@@ -22,7 +23,8 @@
                             </select>
                         </div>
                         <div class="flex-shrink-0" wire:ignore>
-                            <select class="form-control select2 select-per-page" wire:model.live="perPage" data-placeholder="Select Per Page">
+                            <select class="form-control select2 select-per-page" wire:model.live="perPage"
+                                data-placeholder="Select Per Page">
                                 <option></option>
                                 <option value="10">10</option>
                                 <option value="25">25</option>
@@ -31,15 +33,20 @@
                             </select>
                         </div>
                         <div class="flex-shrink-0">
-                            <button type="button" class="btn btn-warning waves-effect waves-light" wire:click="resetFilter">
+                            <button type="button" class="btn btn-warning waves-effect waves-light"
+                                wire:click="resetFilter">
                                 Reset
                             </button>
                         </div>
-                        <div class="flex-shrink-0">
-                            {{-- Create Link Add Site --}}
-                            <a href="{{ route('project.create') }}"
-                                class="btn btn-primary waves-effect waves-light">Create</a>
-                        </div>
+
+                        @can('create:project')
+                            <div class="flex-shrink-0">
+                                {{-- Create Link Add Site --}}
+                                <a href="{{ route('project.create') }}"
+                                    class="btn btn-primary waves-effect waves-light">Create</a>
+                            </div>
+                        @endcan
+
                     </div>
                 </div>
             </div>
