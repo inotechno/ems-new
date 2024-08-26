@@ -15,7 +15,7 @@ use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Spatie\Permission\Models\Role;
 
-class EmployeeSheetImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
+class EmployeeSheetImport implements ToCollection, WithHeadingRow, SkipsEmptyRows, PersistRelations
 {
     use Importable;
     protected $employees;
@@ -92,8 +92,8 @@ class EmployeeSheetImport implements ToCollection, WithHeadingRow, SkipsEmptyRow
 
                 if ($position_id != null) {
                     $positionIds = is_array($position_id) ? $position_id : [$position_id];
-                    $positions = $this->positions->only($positionIds);
-                    $employee->setRelation('positions', $positions);
+                    $positions = $this->positions->whereIn('id', $positionIds);
+                    $employee->positions()->sync($positions->pluck('id')->toArray());
                 }
 
                 if (!empty($roleIds)) {
@@ -128,8 +128,8 @@ class EmployeeSheetImport implements ToCollection, WithHeadingRow, SkipsEmptyRow
 
                 if ($position_id != null) {
                     $positionIds = is_array($position_id) ? $position_id : [$position_id];
-                    $positions = $this->positions->only($positionIds);
-                    $employee->setRelation('positions', $positions);
+                    $positions = $this->positions->whereIn('id', $positionIds);
+                    $employee->positions()->sync($positions->pluck('id')->toArray());
                 }
             }
         }
