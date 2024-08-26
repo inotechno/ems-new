@@ -42,7 +42,7 @@ class EmployeeSheetExport implements FromCollection, WithHeadings, WithMapping, 
             $employee->marital_status,
             $employee->religion,
             $employee->leave_remaining,
-            $employee->user->roles->pluck('name'),
+            $employee->user->roles->pluck('name')->implode(','),
             $position ? $position->id : '', // Mengambil ID posisi pertama jika ada, jika tidak kosong
             $position ? $position->name : '', // Mengambil nama posisi pertama jika ada, jika tidak kosong
         ];

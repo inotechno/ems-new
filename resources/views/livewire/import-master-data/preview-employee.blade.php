@@ -4,6 +4,7 @@
             <thead >
                 <tr>
                     <th class="align-middle">ID</th>
+                    <th class="align-middle">Username</th>
                     <th class="align-middle">Name</th>
                     <th class="align-middle">Email</th>
                     <th class="align-middle">Password</th>

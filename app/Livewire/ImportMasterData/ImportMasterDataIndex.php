@@ -15,6 +15,7 @@ use App\Imports\MasterDataImport;
 use App\Imports\PositionSheetImport;
 use App\Imports\RoleSheetImport;
 use App\Imports\SiteSheetImport;
+use Carbon\Carbon;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -22,6 +23,7 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Imports\HeadingRowFormatter;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 
 class ImportMasterDataIndex extends Component
 {
@@ -38,8 +40,26 @@ class ImportMasterDataIndex extends Component
     {
         $this->validate();
         try {
-            Excel::import(new MasterDataImport, $this->file->getRealPath());
+            if ($this->type_data == 'Employee') {
+                $importFile = new EmployeeSheetImport();
+            } else if ($this->type_data == 'Department') {
+                $importFile = new DepartmentSheetImport();
+            } else if ($this->type_data == 'Position') {
+                $importFile = new PositionSheetImport();
+            } else if ($this->type_data == 'Site') {
+                $importFile = new SiteSheetImport();
+            } else if ($this->type_data == 'Machine') {
+                $importFile = new MachineSheetExport();
+            } else if ($this->type_data == 'Role') {
+                $importFile = new RoleSheetImport();
+            }
+
+            Excel::import($importFile, $this->file->getRealPath());
+
+            // Excel::import($importFile, $this->file->getRealPath());
             $this->alert('success', 'Master Data Imported Successfully');
+
+            return redirect()->route('import.index');
         } catch (\Exception $e) {
             $this->alert('error', "Message : {$e->getMessage()} Code : {$e->getCode()} Line : {$e->getLine()}");
         }
@@ -78,7 +98,19 @@ class ImportMasterDataIndex extends Component
 
         // Retrieve the sheet data (assuming you have only one sheet for preview)
         $sheetData = $collection[0];
-
+        // dd($sheetData);
+        if ($this->type_data == 'Employee') {
+            // Convert dates for preview data
+            $sheetData = array_map(function ($row) {
+                if (isset($row['join_date'])) {
+                    $row['join_date'] = $this->excelDateToCarbon($row['join_date']);
+                }
+                if (isset($row['birth_date'])) {
+                    $row['birth_date'] = $this->excelDateToCarbon($row['birth_date']);
+                }
+                return $row;
+            }, $sheetData);
+        }
         // return $sheetData;
         // Filter out rows where 'ID' is not empty
         $filteredData = array_filter($sheetData, function ($row) {
@@ -88,6 +120,28 @@ class ImportMasterDataIndex extends Component
         return array_values($filteredData); // Re-index array for consistent output
     }
 
+    private function excelDateToCarbon($serialDate)
+    {
+        // Cek apakah nilai kosong atau null
+        if (empty($serialDate)) {
+            return null;
+        }
+
+        // Cek apakah sudah dalam format tanggal yang valid
+        if (Carbon::hasFormat($serialDate, 'Y-m-d')) {
+            return $serialDate; // Jika sudah dalam format Y-m-d, langsung kembalikan
+        }
+
+        // Cek apakah nilai adalah numerik
+        if (is_numeric($serialDate) && $serialDate > 0) {
+            $unixDate = ($serialDate - 25569) * 86400;
+            return Carbon::createFromTimestamp($unixDate)->format('Y-m-d');
+        }
+
+        // Jika tidak, kembalikan null atau bisa juga melempar exception
+        return null;
+    }
+
     public function download()
     {
         if ($this->type_data == 'Employee') {
@@ -95,7 +149,7 @@ class ImportMasterDataIndex extends Component
         } else if ($this->type_data == 'Department') {
             return Excel::download(new DepartmentSheetExport, 'template-department.xlsx');
         } else if ($this->type_data == 'Position') {
-            return Excel::download(new PositionSheetExport, 'template-all.xlsx');
+            return Excel::download(new PositionSheetExport, 'template-position.xlsx');
         } else if ($this->type_data == 'Site') {
             return Excel::download(new SiteSheetExport, 'template-site.xlsx');
         } else if ($this->type_data == 'Machine') {

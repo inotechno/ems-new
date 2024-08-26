@@ -4,10 +4,10 @@
         <div class="navbar-brand-box">
             <a href="index.html" class="logo logo-dark">
                 <span class="logo-sm">
-                    <img src="https://imajiwa.id/wp-content/uploads/2018/07/logogram-white.png" alt="" height="42">
+                    <img src="https://imajiwa.id/wp-content/uploads/2018/07/logogram-black.png" alt="" height="42">
                 </span>
                 <span class="logo-lg">
-                    <img src="https://imajiwa.id/wp-content/uploads/2018/07/logogram-white.png" alt="" height="39">
+                    <img src="https://imajiwa.id/wp-content/uploads/2018/07/logogram-black.png" alt="" height="39">
                 </span>
             </a>
 
@@ -287,6 +287,10 @@
                 </div>
             </div>
         </div> --}}
+
+        <div class="dropdown d-lg-inline-block ms-1">
+           @livewire('component.change-theme')
+        </div>
 
         <div class="dropdown d-none d-lg-inline-block ms-1">
             <button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="fullscreen">

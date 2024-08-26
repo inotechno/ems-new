@@ -3,7 +3,7 @@
 
 @include('layouts.partials.head')
 
-<body data-sidebar="dark" data-layout-mode="dark">
+<body data-sidebar="{{ session('theme', 'dark') }}" data-layout-mode="{{ session('theme', 'dark') }}">
 
     <!-- <body data-layout="horizontal" data-topbar="dark"> -->
 

@@ -5,11 +5,13 @@ namespace App\Imports;
 use App\Jobs\GenerateQRCode;
 use App\Models\Site;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class SiteSheetImport implements ToModel, WithHeadingRow
 {
+    use Importable;
     /**
      * @param array $row
      *

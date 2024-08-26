@@ -63,15 +63,15 @@
                         @if ($type_data == 'Employee')
                             @livewire('import-master-data.preview-employee', ['employees' => $previewData])
                         @elseif ($type_data == 'Position')
-                            @livewire('import-master-data.preview-position')
+                            @livewire('import-master-data.preview-position', ['positions' => $previewData])
                         @elseif ($type_data == 'Department')
-                            @livewire('import-master-data.preview-department')
+                            @livewire('import-master-data.preview-department', ['departments' => $previewData])
                         @elseif ($type_data == 'Site')
-                            @livewire('import-master-data.preview-site')
+                            @livewire('import-master-data.preview-site', ['sites' => $previewData])
                         @elseif ($type_data == 'Machine')
-                            @livewire('import-master-data.preview-machine')
+                            @livewire('import-master-data.preview-machine', ['machines' => $previewData])
                         @elseif ($type_data == 'Role')
-                            @livewire('import-master-data.preview-role')
+                            @livewire('import-master-data.preview-role', ['roles' => $previewData])
                         @endif
 
                         <button class="btn btn-primary mt-3" wire:click="import" wire:loading.attr="disabled" wire:target="import">Import</button>

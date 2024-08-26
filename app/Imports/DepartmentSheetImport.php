@@ -3,11 +3,13 @@
 namespace App\Imports;
 
 use App\Models\Department;
+use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class DepartmentSheetImport implements ToModel, WithHeadingRow
 {
+    use Importable;
     /**
      * @param array $row
      *
@@ -29,6 +31,7 @@ class DepartmentSheetImport implements ToModel, WithHeadingRow
             'supervisor_id' => $supervisor_id,
         ]);
 
+        // dd($department);
         return $department;
     }
 

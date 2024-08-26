@@ -3,11 +3,13 @@
 namespace App\Imports;
 
 use App\Models\Position;
+use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class PositionSheetImport implements ToModel, WithHeadingRow
 {
+    use Importable;
     /**
      * @param array $row
      *
