@@ -11,12 +11,13 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\PersistRelations;
+use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
+use Maatwebsite\Excel\Concerns\WithValidation;
 use Spatie\Permission\Models\Role;
 
-class EmployeeSheetImport implements ToCollection, WithHeadingRow, PersistRelations
+class EmployeeSheetImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
 {
     use Importable;
-
     protected $employees;
     protected $positions;
     protected $roles;
@@ -53,6 +54,8 @@ class EmployeeSheetImport implements ToCollection, WithHeadingRow, PersistRelati
             if (!empty($role)) {
                 $roles = array_map('trim', explode(',', $role));
             }
+
+            // dd($username, $name, $email, $password, $citizen_id, $join_date, $birth_date, $place_of_birth, $gender, $marital_status, $religion, $leave_remaining, $role, $position_id, $roles);
 
             // Fetch roles by name
             $foundRoles = $this->roles->whereIn('name', $roles);
@@ -97,7 +100,7 @@ class EmployeeSheetImport implements ToCollection, WithHeadingRow, PersistRelati
                     $user->roles()->sync($roleIds);
                 }
             } else {
-                $user = new User([
+                $user = User::create([
                     'username' => $username,
                     'name' => $name,
                     'email' => $email,
@@ -105,15 +108,13 @@ class EmployeeSheetImport implements ToCollection, WithHeadingRow, PersistRelati
                     'password_string' => $password,
                 ]);
 
-                $user->save();
-
                 \Log::info('User created:', $user->toArray());
 
                 if (!empty($roleIds)) {
                     $user->assignRole($roleIds);
                 }
 
-                $employee = new Employee([
+                $employee = $user->employee()->create([
                     'id' => $id,
                     'citizen_id' => $citizen_id,
                     'join_date' => $join_date,
@@ -123,10 +124,7 @@ class EmployeeSheetImport implements ToCollection, WithHeadingRow, PersistRelati
                     'marital_status' => $marital_status,
                     'religion' => $religion,
                     'leave_remaining' => $leave_remaining,
-                    'user_id' => $user->id,
                 ]);
-
-                $employee->save();
 
                 if ($position_id != null) {
                     $positionIds = is_array($position_id) ? $position_id : [$position_id];
