@@ -47,7 +47,7 @@ class EmployeeIndex extends Component
 
     public function render()
     {
-        $employees = Employee::with('user', 'positions')->when($this->search, function ($query) {
+        $employees = Employee::with('user.roles', 'positions')->when($this->search, function ($query) {
             $query->whereHas('user', function ($query) {
                 $query->where('name', 'like', '%' . $this->search . '%');
             });

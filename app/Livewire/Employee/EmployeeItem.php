@@ -16,12 +16,12 @@ class EmployeeItem extends Component
     public function render()
     {
         $user = $this->employee->user;
-        // $roles = $user->roles;
+        $roles = $user->roles;
 
         return view('livewire.employee.employee-item', [
             'positions' => $this->employee->positions->take($this->limitDisplay),
             'user' => $user,
-            'roles' => $user->roles
+            'roles' => $roles
         ]);
     }
 }

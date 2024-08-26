@@ -1,13 +1,13 @@
     <div class="col-xl-4">
         <div class="card">
             <div class="card-body">
-                {{-- <div class="d-flex align-start mb-3">
+                <div class="d-flex align-start mb-3">
                     <div class="flex-grow-1">
                         @foreach ($roles as $role)
-                            <span class="badge badge-soft-success">{{ $role->name }}</span>
+                            <span class="badge badge-soft-success font-size-12">{{ $role->name }}</span>
                         @endforeach
                     </div>
-                </div> --}}
+                </div>
                 <div class="text-center mb-3">
                     {{-- <img src="assets/images/users/avatar-1.jpg" alt="" class="avatar-sm rounded-circle" /> --}}
                     @if ($user->avatar)
