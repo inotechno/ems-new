@@ -6,7 +6,7 @@ use App\Models\Machine;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class MachineSheetImport implements ToModel
+class MachineSheetImport implements ToModel, WithHeadingRow
 {
     /**
      * @param array $row
@@ -15,13 +15,14 @@ class MachineSheetImport implements ToModel
      */
     public function model(array $row)
     {
-        $id = $row[0];
-        $name = $row[1];
-        $ip_address = $row[2];
-        $port = $row[3];
-        $comkey = $row[4];
-        $is_active = $row[5];
-        $password = $row[6];
+        // dd($row);
+        $id = $row['id'];
+        $name = $row['name'];
+        $ip_address = $row['ip_address'];
+        $port = $row['port'];
+        $comkey = $row['comkey'];
+        $is_active = $row['is_active'];
+        $password = $row['password'];
 
         return Machine::updateOrCreate([
             'id' => $id,
@@ -33,5 +34,10 @@ class MachineSheetImport implements ToModel
             'is_active' => $is_active,
             'password' => $password,
         ]);
+    }
+
+    public function headingRow(): int
+    {
+        return 1;
     }
 }

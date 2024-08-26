@@ -3,9 +3,10 @@
 namespace App\Imports;
 
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Spatie\Permission\Models\Role;
 
-class RoleSheetImport implements ToModel
+class RoleSheetImport implements ToModel, WithHeadingRow
 {
     /**
      * @param array $row
@@ -14,13 +15,18 @@ class RoleSheetImport implements ToModel
      */
     public function model(array $row)
     {
-        $id = $row[0];
-        $name = $row[1];
-        $guard_name = $row[2];
+        $id = $row['id'];
+        $name = $row['name'];
+        $guard_name = $row['guard_name'];
 
         return Role::updateOrCreate(
             ['id' => $id],
             ['name' => $name, 'guard_name' => $guard_name]
         );
+    }
+
+    public function headingRow(): int
+    {
+        return 1;
     }
 }

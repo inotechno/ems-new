@@ -4,8 +4,9 @@ namespace App\Imports;
 
 use App\Models\Department;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class DepartmentSheetImport implements ToModel
+class DepartmentSheetImport implements ToModel, WithHeadingRow
 {
     /**
      * @param array $row
@@ -14,10 +15,11 @@ class DepartmentSheetImport implements ToModel
      */
     public function model(array $row)
     {
-        $id = $row['0'];
-        $name = $row['1'];
-        $site_id = $row['2'];
-        $supervisor_id = $row['3'];
+        // dd($row);
+        $id = $row['id'];
+        $name = $row['name'];
+        $site_id = $row['site_id'];
+        $supervisor_id = $row['supervisor_id'];
 
         $department = Department::updateOrCreate([
             'id' => $id,
@@ -28,5 +30,10 @@ class DepartmentSheetImport implements ToModel
         ]);
 
         return $department;
+    }
+
+    public function headingRow(): int
+    {
+        return 1;
     }
 }

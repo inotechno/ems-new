@@ -10,6 +10,7 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{asset('images/favicon.ico') }}">
 
+
     @stack('styles')
 
     <!-- Bootstrap Css -->
@@ -20,6 +21,7 @@
     <link href="{{asset('css/app.min.css' ) }}" id="app-style" rel="stylesheet" type="text/css" />
 
     @livewireStyles
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-borderless/borderless.css" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </head>

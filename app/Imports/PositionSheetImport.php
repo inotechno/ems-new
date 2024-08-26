@@ -4,8 +4,9 @@ namespace App\Imports;
 
 use App\Models\Position;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class PositionSheetImport implements ToModel
+class PositionSheetImport implements ToModel, WithHeadingRow
 {
     /**
      * @param array $row
@@ -14,9 +15,9 @@ class PositionSheetImport implements ToModel
      */
     public function model(array $row)
     {
-        $id = $row[0];
-        $name = $row[1];
-        $department_id = $row[2];
+        $id = $row['id'];
+        $name = $row['name'];
+        $department_id = $row['department_id'];
 
         return Position::updateOrCreate([
             'id' => $id,
@@ -24,5 +25,10 @@ class PositionSheetImport implements ToModel
             'name' => $name,
             'department_id' => $department_id,
         ]);
+    }
+
+    public function headingRow(): int
+    {
+        return 1;
     }
 }

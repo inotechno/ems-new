@@ -7,10 +7,12 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class EmployeeSheetExport implements FromCollection, WithHeadings, WithMapping, WithTitle, WithEvents
+class EmployeeSheetExport implements FromCollection, WithHeadings, WithMapping, WithTitle, WithEvents, WithStyles
 {
     /**
      * @return \Illuminate\Support\Collection
@@ -41,28 +43,30 @@ class EmployeeSheetExport implements FromCollection, WithHeadings, WithMapping, 
             $employee->religion,
             $employee->leave_remaining,
             $employee->user->roles->pluck('name'),
-            optional($position)->id, // Mengambil ID posisi pertama dengan eager loading
+            $position ? $position->id : '', // Mengambil ID posisi pertama jika ada, jika tidak kosong
+            $position ? $position->name : '', // Mengambil nama posisi pertama jika ada, jika tidak kosong
         ];
     }
 
     public function headings(): array
     {
         return [
-            'ID',
-            'Username',
-            'Name',
-            'Email',
-            'Password',
-            'Citizen ID',
-            'Join Date',
-            'Birth Date',
-            'Place of Birth',
-            'Gender',
-            'Marital Status',
-            'Religion',
-            'Leave Remaining',
-            'Role',
-            'Position ID'
+            'ID', // A
+            'Username', // B
+            'Name', // C
+            'Email', // D
+            'Password', // E
+            'Citizen ID', // F
+            'Join Date', // G
+            'Birth Date', // H
+            'Place of Birth', // I
+            'Gender', // J
+            'Marital Status', // K
+            'Religion', // L
+            'Leave Remaining', // M
+            'Role', // N
+            'Position ID', // O
+            'Position Name', // P
         ];
     }
 
@@ -132,6 +136,14 @@ class EmployeeSheetExport implements FromCollection, WithHeadings, WithMapping, 
                     $validation
                 );
             },
+        ];
+    }
+
+    public function styles(Worksheet $sheet)
+    {
+        return [
+            // Style the first row as bold text.
+            'P'  => ['font' => ['color' => ['rgb' => 'FFFFFF']], 'fill' => ['fillType' => 'solid', 'startColor' => ['rgb' => '7C7C7C']]],
         ];
     }
 }

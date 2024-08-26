@@ -6,8 +6,9 @@ use App\Jobs\GenerateQRCode;
 use App\Models\Site;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class SiteSheetImport implements ToModel
+class SiteSheetImport implements ToModel, WithHeadingRow
 {
     /**
      * @param array $row
@@ -16,20 +17,31 @@ class SiteSheetImport implements ToModel
      */
     public function model(array $row)
     {
-        $id = $row[0];
-        $name = $row[1];
-        $longitude = $row[2];
-        $latitude = $row[3];
+        $id = $row['id'];
+        $name = $row['name'];
+        $longitude = $row['longitude'];
+        $latitude = $row['latitude'];
 
         $uid = Str::uuid();
-        GenerateQRCode::dispatch($uid);
 
-        return Site::updateOrCreate([
+        $site = Site::updateOrCreate([
             'id' => $id,
         ], [
+            'uid' => $uid,
             'name' => $name,
             'longitude' => $longitude,
             'latitude' => $latitude,
         ]);
+
+        if($site->wasRecentlyCreated) {
+            GenerateQRCode::dispatch($site);
+        }
+
+        return $site;
+    }
+
+    public function headingRow(): int
+    {
+        return 1;
     }
 }

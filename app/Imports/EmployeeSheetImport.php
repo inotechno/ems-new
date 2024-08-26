@@ -5,10 +5,14 @@ namespace App\Imports;
 use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class EmployeeSheetImport implements ToModel
+class EmployeeSheetImport implements ToModel, WithHeadingRow
 {
+    use Importable;
+
     /**
      * @param array $row
      *
@@ -16,21 +20,22 @@ class EmployeeSheetImport implements ToModel
      */
     public function model(array $row)
     {
-        $id = $row[0];
-        $username = $row[1];
-        $name = $row[2];
-        $email = $row[3];
-        $password = $row[4];
-        $citizen_id = $row[5];
-        $join_date = $row[6];
-        $birth_date = $row[7];
-        $place_of_birth = $row[8];
-        $gender = $row[9];
-        $marital_status = $row[10];
-        $religion = $row[11];
-        $leave_remaining = $row[12];
-        $role = $row[13];
-        $position_id = $row[14];
+        // dd($row);
+        $id = $row['id'];
+        $username = $row['username'];
+        $name = $row['name'];
+        $email = $row['email'];
+        $password = $row['password'];
+        $citizen_id = $row['citizen_id'];
+        $join_date = $row['join_date'];
+        $birth_date = $row['birth_date'];
+        $place_of_birth = $row['place_of_birth'];
+        $gender = $row['gender'];
+        $marital_status = $row['marital_status'];
+        $religion = $row['religion'];
+        $leave_remaining = $row['leave_remaining'];
+        $role = $row['role'];
+        $position_id = $row['position_id'];
 
         // Menyimpan data user
         $user = User::updateOrCreate(
@@ -72,5 +77,10 @@ class EmployeeSheetImport implements ToModel
         }
 
         return $employee;
+    }
+
+    public function headingRow(): int
+    {
+        return 1;
     }
 }

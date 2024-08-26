@@ -9,6 +9,20 @@
 
                     <div class="d-flex gap-3">
                         <div class="flex-grow-1">
+                            <label for="type_data" class="form-label">Type Data</label>
+                            <select name="" class="form-control" class="type_data" wire:model="type_data"
+                                id="">
+                                <option value="">Select Type</option>
+                                <option value="Employee">Employee</option>
+                                <option value="Position">Position</option>
+                                <option value="Department">Department</option>
+                                <option value="Site">Site</option>
+                                <option value="Machine">Machine</option>
+                                <option value="Role">Role</option>
+                            </select>
+                        </div>
+                        <div class="flex-grow-1">
+                            <label for="file" class="form-label">File</label>
                             <input type="file" class="form-control @error('file') is-invalid @enderror"
                                 wire:model="file">
 
@@ -19,8 +33,8 @@
                             @enderror
                         </div>
 
-                        <button class="btn btn-primary" wire:click="import" wire:loading.attr="disabled"
-                            wire:target="import">Import
+                        <button class="btn btn-primary" wire:click="preview" wire:loading.attr="disabled"
+                            wire:target="preview">Preview
                         </button>
                         <button class="btn btn-warning" wire:click="download" wire:loading.attr="disabled"
                             wire:target="download">Download Template
@@ -39,4 +53,31 @@
             </div>
         </div>
     </div>
+
+    @if ($previewData)
+        <div class="row">
+            <div class="col-lg">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">Preview {{ $type_data }}</h4>
+                        @if ($type_data == 'Employee')
+                            @livewire('import-master-data.preview-employee', ['employees' => $previewData])
+                        @elseif ($type_data == 'Position')
+                            @livewire('import-master-data.preview-position')
+                        @elseif ($type_data == 'Department')
+                            @livewire('import-master-data.preview-department')
+                        @elseif ($type_data == 'Site')
+                            @livewire('import-master-data.preview-site')
+                        @elseif ($type_data == 'Machine')
+                            @livewire('import-master-data.preview-machine')
+                        @elseif ($type_data == 'Role')
+                            @livewire('import-master-data.preview-role')
+                        @endif
+
+                        <button class="btn btn-primary mt-3" wire:click="import" wire:loading.attr="disabled" wire:target="import">Import</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>
