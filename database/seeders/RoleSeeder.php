@@ -90,6 +90,12 @@ class RoleSeeder extends Seeder
             'update:visit-category' => ['Administrator'],
             'delete:visit-category' => ['Administrator'],
 
+            // Email Template
+            'view:email-template' => ['Administrator'],
+            'create:email-template' => ['Administrator'],
+            'update:email-template' => ['Administrator'],
+            'delete:email-template' => ['Administrator'],
+
             // Machine
             'view:machine' => ['Administrator'],
             'create:machine' => ['Administrator'],

@@ -80,6 +80,13 @@ class Sidebar extends Component
                     'icon' => 'bx bxs-user-circle',
                     'permission' => 'view:employee'
                 ],
+                [
+                    'name' => 'Email Template',
+                    'url' => '/email-template',
+                    'route' => 'email-template.index',
+                    'icon' => 'bx bx-code-curly',
+                    'permission' => 'view:email-template'
+                ],
             ]
         ],
         [

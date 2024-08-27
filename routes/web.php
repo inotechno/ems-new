@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\ImageUploadController;
+use App\Http\Controllers\SendEmailController;
 use App\Livewire\Auth\Login;
+use App\Livewire\EmailTemplateManager\EmailTemplateManagerIndex;
 use App\Livewire\Role\RoleForm;
 use App\Livewire\Role\RoleIndex;
 use App\Livewire\Site\SiteForm;
@@ -21,6 +24,7 @@ use App\Livewire\Position\PositionIndex;
 use App\Livewire\Dashboard\DashboardIndex;
 use App\Livewire\Department\DepartmentIndex;
 use App\Livewire\Department\DepartmentDetail;
+use App\Livewire\EmailTemplateManager\EmailTemplateManagerForm;
 use App\Livewire\ImportMasterData\ImportMasterDataIndex;
 use App\Livewire\Site\SiteDetail;
 
@@ -40,11 +44,15 @@ Route::get('/test-component', TestComponent::class)->name('test-component');
 Route::get('/login', Login::class)->name('login')->middleware('guest');
 
 Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
+    Route::post('upload-image', [ImageUploadController::class, 'upload']);
+    Route::get('send-mail', [SendEmailController::class, 'newUser'])->name('send-mail');
+
     Route::get('/', DashboardIndex::class)->name('dashboard.index')->middleware('can:view:dashboard');
     Route::get('dashboard', DashboardIndex::class)->name('dashboard.index')->middleware('can:view:dashboard');
     Route::get('import-master-data', ImportMasterDataIndex::class)->name('import.index')->middleware('can:view:import_master_data');
 
     Route::get('machine', MachineIndex::class)->name('machine.index')->middleware('can:view:machine');
+
     Route::group(['prefix' => 'site'], function () {
         Route::get('/', SiteIndex::class)->name('site.index')->middleware('can:view:site');
         Route::get('create', SiteForm::class)->name('site.create')->middleware('can:create:site');
@@ -103,5 +111,11 @@ Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
     Route::group(['prefix' => 'absence-request'], function () {
         // Route::get('/', 'path.to.view')->name('absence-request.index');
         // Route::get('team', 'path.to.view')->name('team-absence-request.index');
+    });
+
+    Route::group(['prefix' => 'email-template'], function () {
+        Route::get('/', EmailTemplateManagerIndex::class)->name('email-template.index');
+        Route::get('create', EmailTemplateManagerForm::class)->name('email-template.create');
+        Route::get('edit/{slug}', EmailTemplateManagerForm::class)->name('email-template.edit');
     });
 });

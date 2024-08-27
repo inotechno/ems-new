@@ -20,7 +20,14 @@
     <link href="{{asset('css/app.min.css' ) }}" id="app-style" rel="stylesheet" type="text/css" />
 
     @livewireStyles
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <link id="borderless-theme" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-borderless/borderless.css" rel="stylesheet">
+    <script>
+        window.Laravel = {
+            csrfToken: document.querySelector('meta[name="csrf_token"]').getAttribute('value')
+        };
+    </script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </head>
