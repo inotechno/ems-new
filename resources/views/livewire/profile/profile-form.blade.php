@@ -1,13 +1,13 @@
 <div>
-    @livewire('component.page.breadcrumb', ['breadcrumbs' => [['name' => 'Application', 'url' => '/'], ['name' => 'Employee', 'url' => route('employee.index')], ['name' => $type == 'create' ? 'Create' : 'Edit employee ' . $employee->user->name]]], key('breadcrumb'))
+    @livewire('component.page.breadcrumb', ['breadcrumbs' => [['name' => 'Application', 'url' => '/'], ['name' => 'Employee', 'url' => route('employee.index')], ['name' => 'Edit profile ' . $employee->user->name]]], key('breadcrumb'))
 
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title mb-4">
-                        {{ $type == 'create' ? 'Create Employee' : 'Edit Employee ' . $employee->name }}</h4>
+                    <h4 class="card-title mb-4">Edit Profile</h4>
                     <form wire:submit.prevent="save" class="needs-validation" wire:ignore.self>
+                        {{-- citizen  --}}
                         <div class="row mb-4">
                             <label for="citizen_id" class="col-form-label col-lg-2"> Citizen ID</label>
                             <div class="col-lg-10">
@@ -21,12 +21,13 @@
                                 @enderror
                             </div>
                         </div>
+                        {{-- name  --}}
                         <div class="row mb-4">
                             <label for="name" class="col-form-label col-lg-2"> Name</label>
                             <div class="col-lg-10">
                                 <input id="name" name="name" wire:model="name" type="text"
                                     class="form-control @error('name') is-invalid @enderror"
-                                    placeholder="Enter Employee Name...">
+                                    placeholder="Enter User Name...">
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -34,12 +35,13 @@
                                 @enderror
                             </div>
                         </div>
+                        {{-- username  --}}
                         <div class="row mb-4">
                             <label for="username" class="col-form-label col-lg-2"> User Name</label>
                             <div class="col-lg-10">
                                 <input id="username" name="username" wire:model="username" type="text"
                                     class="form-control @error('username') is-invalid @enderror"
-                                    placeholder="Enter Employee Username...">
+                                    placeholder="Enter Username...">
                                 @error('username')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -47,12 +49,13 @@
                                 @enderror
                             </div>
                         </div>
+                        {{-- email  --}}
                         <div class="row mb-4">
                             <label for="email" class="col-form-label col-lg-2"> Email</label>
                             <div class="col-lg-10">
                                 <input id="email" name="email" wire:model="email" type="email"
                                     class="form-control @error('email') is-invalid @enderror"
-                                    placeholder="Enter Employee Email...">
+                                    placeholder="Enter User Email...">
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -60,26 +63,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="row mb-4">
-                            <label for="join_date" class="col-form-label col-lg-2"> Join Date, Leave Remaining</label>
-                            <div class="col-lg-4">
-                                <input id="join_date" name="join_date" wire:model="join_date" type="date"
-                                    class="form-control @error('join_date') is-invalid @enderror"
-                                    placeholder="Enter Employee Join Date...">
-                                @error('join_date')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-
-                            <div class="col-lg-6">
-                                <input type="text" inputmode="numeric" pattern="[0-9\s]{1,3}" maxlength="3"
-                                    wire:model="leave_remaining" class="form-control"
-                                    oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-
-                            </div>
-                        </div>
+                        {{-- ttl  --}}
                         <div class="row mb-4">
                             <label for="join_date" class="col-form-label col-lg-2"> Place, Birth Date</label>
                             <div class="col-lg-4 mb-3">
@@ -95,7 +79,7 @@
                             <div class="col-lg-6">
                                 <input id="birth_date" name="birth_date" wire:model="birth_date" type="date"
                                     class="form-control @error('birth_date') is-invalid @enderror"
-                                    placeholder="Enter Employee Birth Date...">
+                                    placeholder="Enter User Birth Date...">
                                 @error('birth_date')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -103,13 +87,11 @@
                                 @enderror
                             </div>
                         </div>
-
                         {{-- select-gender --}}
                         <div class="row mb-4" wire:ignore>
                             <label for="gender" class="col-form-label col-lg-2">Select Gender</label>
                             <div class="col-lg-10">
-                                <select
-                                    class="form-control select2 @error('gender') is-invalid @enderror select-gender"
+                                <select class="form-control select2 @error('gender') is-invalid @enderror select-gender"
                                     id="gender" wire:model="gender" data-placeholder="Select Gender">
                                     <option value="">Select Gender</option>
                                     <option value="male">Male</option>
@@ -123,7 +105,6 @@
                                 @enderror
                             </div>
                         </div>
-
                         {{-- select-religion --}}
                         <div class="row mb-4" wire:ignore>
                             <label for="religion" class="col-form-label col-lg-2">Select Religion</label>
@@ -147,7 +128,6 @@
                                 @enderror
                             </div>
                         </div>
-
                         {{-- select-marital-status --}}
                         <div class="row mb-4" wire:ignore>
                             <label for="marital_status" class="col-form-label col-lg-2">Select Marital Status</label>
@@ -169,55 +149,61 @@
                             </div>
                         </div>
 
-                        @can('update:employee')
-                        {{-- select-role --}}
-                        <div class="row mb-4" wire:ignore>
-                            <label for="role" class="col-form-label col-lg-2">Select Role</label>
-                            <div class="col-lg-10">
-                                <select class="form-control select2 @error('role') is-invalid @enderror select-role"
-                                    id="role" wire:model="role" data-placeholder="Select Role">
-                                    <option value="">Select Role</option>
-                                    @foreach ($roles as $rl)
-                                        <option value="{{ $rl->name }}">{{ $rl->name }}</option>
-                                    @endforeach
-                                </select>
+                        <!-- Input untuk Password Lama -->
+                        <div class="row mb-4">
+                            <label for="old_password" class="col-form-label col-lg-2"> Change Password</label>
+                            <div class="col-md-3 mb-4">
+                                <div class="input-group auth-pass-inputgroup">
+                                    <input id="old_password" name="old_password" wire:model="old_password"
+                                        type="password"
+                                        class="form-control @error('old_password') is-invalid @enderror"
+                                        placeholder="Enter Old Password...">
+                                    <button class="btn btn-light" type="button" id="password-addon"><i
+                                            class="mdi mdi-eye-outline"></i></button>
+                                </div>
+                                @error('old_password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-md-3  mb-4">
+                                <div class="input-group auth-pass-inputgroup">
+                                    <input id="new_password" name="new_password" wire:model="new_password"
+                                        type="password"
+                                        class="form-control @error('new_password') is-invalid @enderror"
+                                        placeholder="Enter New Password...">
+                                    <button class="btn btn-light" type="button" id="password-addon"><i
+                                            class="mdi mdi-eye-outline"></i></button>
+                                </div>
 
-                                @error('status')
+                                @error('new_password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-md-3  mb-4">
+                                <div class="input-group auth-pass-inputgroup">
+                                    <input id="confirm_password" name="confirm_password"
+                                        wire:model="confirm_password" type="password"
+                                        class="form-control @error('confirm_password') is-invalid @enderror"
+                                        placeholder="Enter Confirm Password...">
+                                    <button class="btn btn-light" type="button" id="password-addon"><i
+                                            class="mdi mdi-eye-outline"></i></button>
+                                </div>
+                                @error('confirm_password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
                         </div>
-
-                        {{-- select-position --}}
-                        <div class="row mb-4" wire:ignore>
-                            <label for="position_id" class="col-form-label col-lg-2">Select Position</label>
-                            <div class="col-lg-10">
-                                <select
-                                    class="form-control select2 @error('position_id') is-invalid @enderror select-position_id"
-                                    id="position_id" wire:model="position_id" data-placeholder="Select Position">
-                                    <option value="">Select Position</option>
-                                    @foreach ($positions as $position)
-                                        <option value="{{ $position->id }}">{{ $position->name }} |
-                                            {{ $position->department->name }} |
-                                            {{ $position->department->site->name }}</option>
-                                    @endforeach
-                                </select>
-
-                                @error('position_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        @endcan
 
                         <div class="row justify-content-end">
                             <div class="col-lg-10">
                                 <button type="submit" class="btn btn-primary" wire:loading.attr="disabled"
-                                    wire:target="save">{{ ucfirst($type) }} Employee</button>
+                                    wire:target="save">Update User</button>
                             </div>
                         </div>
                     </form>
@@ -238,10 +224,6 @@
             document.addEventListener('livewire:init', function() {
                 $('.select2').select2();
 
-                $('.select-position_id').on('change', function() {
-                    Livewire.dispatch('changeSelectForm', ['position_id', this.value]);
-                });
-
                 $('.select-religion').on('change', function() {
                     Livewire.dispatch('changeSelectForm', ['religion', this.value]);
                 });
@@ -250,36 +232,26 @@
                     Livewire.dispatch('changeSelectForm', ['marital_status', this.value]);
                 });
 
-                $('.select-role').on('change', function() {
-                    Livewire.dispatch('changeSelectForm', ['role', this.value]);
-                });
+
 
                 $('.select-gender').on('change', function() {
                     Livewire.dispatch('changeSelectForm', ['gender', this.value]);
                 });
 
                 Livewire.on('change-select-form', () => {
-                    var position_id = @json($position_id);
                     var religion = @json($religion);
                     var marital_status = @json($marital_status);
-                    var role = @json($role);
                     var gender = @json($gender);
 
-                    console.log(@json($role));
 
-                    // console.log(@this.position_id); // Debugging output
-                    $('.select-position_id').val(position_id).trigger('change');
                     $('.select-religion').val(religion).trigger('change');
                     $('.select-marital-status').val(marital_status).trigger('change');
-                    $('.select-role').val(role).trigger('change');
                     $('.select-gender').val(gender).trigger('change');
                 });
 
                 Livewire.on('reset-select2', () => {
-                    $('.select-position_id').val(null).trigger('change');
                     $('.select-religion').val(null).trigger('change');
                     $('.select-marital-status').val(null).trigger('change');
-                    $('.select-role').val(null).trigger('change');
                     $('.select-gender').val(null).trigger('change');
                 })
             });
