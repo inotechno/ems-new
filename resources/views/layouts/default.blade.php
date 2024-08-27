@@ -3,7 +3,7 @@
 
 @include('layouts.partials.head')
 
-<body>
+<body data-sidebar="{{ session('theme', 'dark') }}" data-layout-mode="{{ session('theme', 'dark') }}">
 
     {{$slot}}
     <!-- end account-pages -->

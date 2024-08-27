@@ -6,6 +6,7 @@ use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use App\Models\EmailTemplate;
+use Illuminate\Support\Facades\Schema;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class EmailTemplateManagerForm extends Component
@@ -18,6 +19,7 @@ class EmailTemplateManagerForm extends Component
     public $template_id;
     public $body;
     public $slug;
+    public $preview;
 
     public function mount($slug = null)
     {
@@ -32,6 +34,13 @@ class EmailTemplateManagerForm extends Component
 
             $this->dispatch('contentChanged', $this->body);
         }
+    }
+
+    #[On('previewContent')]
+    public function previewContent($content)
+    {
+        $content = htmlspecialchars_decode($content);
+        $this->preview = $content;
     }
 
     public function save()
@@ -74,6 +83,10 @@ class EmailTemplateManagerForm extends Component
 
     public function render()
     {
-        return view('livewire.email-template-manager.email-template-manager-form')->layout('layouts.app', ['title' => 'Email Template Manager']);
+        $users = Schema::getColumnListing('users');
+        $placeholders = $users; // Data yang akan digunakan sebagai placeholder
+        return view('livewire.email-template-manager.email-template-manager-form', [
+            'placeholders' => $placeholders
+        ])->layout('layouts.app', ['title' => 'Email Template Manager']);
     }
 }

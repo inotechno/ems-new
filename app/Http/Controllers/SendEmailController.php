@@ -4,42 +4,39 @@ namespace App\Http\Controllers;
 
 use App\Models\EmailTemplate;
 use App\Models\User;
+use App\Services\EmailService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
 
 class SendEmailController extends Controller
 {
+    protected $EmailService;
+
+    public function __construct(EmailService $EmailService)
+    {
+        $this->EmailService = $EmailService;
+    }
 
     public function newUser(Request $request)
     {
-        $template = EmailTemplate::where('slug', 'new-account-register')->first();
         $user = User::where('email', 'ahmad.fatoni@mindotek.com')->first();
 
-        if (!$template || !$user) {
-            return 'Template or user not found';
+        if($user == null) {
+            return response()->json(['error' => 'User not found'], 404);
         }
 
-        $decodedHtml = htmlspecialchars_decode($template->body);
+        try {
+            $emailSent = $this->EmailService->sendTemplateEmail($user, 'new-account-register');
 
-        $replacements = [
-            '{{ $user->name }}' => $user->name,
-            '{{ $user->email }}' => $user->email,
-            '{{ $user->username }}' => $user->username,
-            '{{ $user->password }}' => $user->password_string,
-            '{{ $user->created_at }}' => $user->created_at->format('d M Y'),
-        ];
+            if (!$emailSent) {
+                return response()->json(['error' => 'Failed to send email'], 500);
+            }
 
-        $body = strtr($decodedHtml, $replacements);
-
-        // Mail::to($user->email)->send(new \App\Mail\SendEmail($user, $template));
-        $beautymail = app()->make(\Snowfire\Beautymail\Beautymail::class);
-        $beautymail->send('email.template', ['body' => $body], function ($message) use ($user, $template) {
-            $message
-                ->to($user->email)
-                ->subject($template->subject);
-        });
-
-        return 'Email successfully sent to ' . $user->email;
+            return response()->json(['success' => 'Email successfully sent to ' . $user->email], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

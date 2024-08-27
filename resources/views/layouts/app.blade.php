@@ -35,7 +35,7 @@
 
             <div class="page-content">
                 <div class="container-fluid">
-                    {{$slot}}
+                    {{ $slot }}
                     <!-- end row -->
                 </div>
                 <!-- container-fluid -->

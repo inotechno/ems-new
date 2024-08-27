@@ -307,7 +307,7 @@
             </button>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
                 aria-labelledby="page-header-notifications-dropdown">
-                <div class="p-3">
+                {{-- <div class="p-3">
                     <div class="row align-items-center">
                         <div class="col">
                             <h6 class="m-0" key="t-notifications"> Notifications </h6>
@@ -391,7 +391,7 @@
                         <i class="mdi mdi-arrow-right-circle me-1"></i> <span key="t-view-more">View
                             More..</span>
                     </a>
-                </div>
+                </div> --}}
             </div>
         </div>
 
@@ -405,8 +405,10 @@
             </button>
             <div class="dropdown-menu dropdown-menu-end">
                 <!-- item-->
+                @can('view:profile')
                 <a class="dropdown-item" href="{{ route('profile.index') }}"><i class="bx bx-user font-size-16 align-middle me-1"></i>
                     <span key="t-profile">Profile</span></a>
+                @endcan
                 {{-- <a class="dropdown-item" href="#"><i class="bx bx-wallet font-size-16 align-middle me-1"></i>
                     <span key="t-my-wallet">My
                         Wallet</span></a> --}}

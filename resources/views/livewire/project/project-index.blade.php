@@ -14,7 +14,7 @@
                         <div class="flex-shrink-0" wire:ignore>
                             <select class="form-control select2 select-status" wire:model.live="status"
                                 data-placeholder="Select Status">
-                                <option></option>
+                                <option>Select Status</option>
                                 <option value="not_started">Not Started</option>
                                 <option value="in_progress">In Progress</option>
                                 <option value="completed">Completed</option>
@@ -25,7 +25,7 @@
                         <div class="flex-shrink-0" wire:ignore>
                             <select class="form-control select2 select-per-page" wire:model.live="perPage"
                                 data-placeholder="Select Per Page">
-                                <option></option>
+                                <option>Select Per Page</option>
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>

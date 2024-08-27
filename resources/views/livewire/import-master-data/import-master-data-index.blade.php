@@ -74,7 +74,17 @@
                             @livewire('import-master-data.preview-role', ['roles' => $previewData])
                         @endif
 
-                        <button class="btn btn-primary mt-3" wire:click="import" wire:loading.attr="disabled" wire:target="import">Import</button>
+                        <div class="mt-3">
+                            <!-- Tombol Import -->
+                            <button class="btn btn-primary" wire:click="import" wire:loading.attr="disabled" wire:target="import">
+                                Import
+                            </button>
+                            <!-- Indikator Loading -->
+                            <div wire:loading wire:target="import">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Importing...
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

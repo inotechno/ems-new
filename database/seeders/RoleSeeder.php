@@ -183,6 +183,10 @@ class RoleSeeder extends Seeder
             'create:project' => ['Administrator', 'Project Manager'],
             'update:project' => ['Administrator', 'Project Manager'],
             'delete:project' => ['Administrator', 'Project Manager'],
+
+            // Profile
+            'view:profile' => ['Employee', 'HR', 'Director', 'Project Manager', 'Finance'],
+            'update:profile' => ['Employee', 'HR', 'Director', 'Project Manager', 'Finance'],
         ];
 
         foreach ($permissions as $permissionName => $roles) {

@@ -4,6 +4,7 @@ namespace App\Imports;
 use App\Models\Employee;
 use App\Models\Position;
 use App\Models\User;
+use App\Services\EmailService;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
@@ -18,12 +19,15 @@ use Spatie\Permission\Models\Role;
 class EmployeeSheetImport implements ToCollection, WithHeadingRow, SkipsEmptyRows, PersistRelations
 {
     use Importable;
+
+    protected $EmailService;
     protected $employees;
     protected $positions;
     protected $roles;
 
     public function __construct()
     {
+        $this->EmailService = app(EmailService::class);
         $this->employees = Employee::with('positions', 'user', 'user.roles')->get();
         $this->positions = Position::all()->keyBy('id');
         $this->roles = Role::all()->keyBy('name');
@@ -107,6 +111,8 @@ class EmployeeSheetImport implements ToCollection, WithHeadingRow, SkipsEmptyRow
                     'password' => Hash::make($password),
                     'password_string' => $password,
                 ]);
+
+                $this->EmailService->sendTemplateEmail($user, 'new-account-register');
 
                 \Log::info('User created:', $user->toArray());
 

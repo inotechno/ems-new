@@ -3,7 +3,7 @@
 
 
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-9">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">{{ $type == 'create' ? 'Create Email Template' : 'Edit Email Template' }}</h4>
@@ -45,6 +45,52 @@
                             <div class="col-md">
                                 <div class="mb-3">
                                     <label for="body" class="form-label">Body</label>
+                                    <div id="toolbar-container">
+                                        <span class="ql-formats">
+                                            <select class="ql-font"></select>
+                                            <select class="ql-size"></select>
+                                        </span>
+                                        <span class="ql-formats">
+                                            <button class="ql-bold"></button>
+                                            <button class="ql-italic"></button>
+                                            <button class="ql-underline"></button>
+                                            <button class="ql-strike"></button>
+                                        </span>
+                                        <span class="ql-formats">
+                                            <select class="ql-color"></select>
+                                            <select class="ql-background"></select>
+                                        </span>
+                                        <span class="ql-formats">
+                                            <button class="ql-script" value="sub"></button>
+                                            <button class="ql-script" value="super"></button>
+                                        </span>
+                                        <span class="ql-formats">
+                                            <button class="ql-header" value="1"></button>
+                                            <button class="ql-header" value="2"></button>
+                                            <button class="ql-blockquote"></button>
+                                            <button class="ql-code-block"></button>
+                                        </span>
+                                        <span class="ql-formats">
+                                            <button class="ql-list" value="ordered"></button>
+                                            <button class="ql-list" value="bullet"></button>
+                                            <button class="ql-indent" value="-1"></button>
+                                            <button class="ql-indent" value="+1"></button>
+                                        </span>
+                                        <span class="ql-formats">
+                                            <button class="ql-direction" value="rtl"></button>
+                                            <select class="ql-align"></select>
+                                        </span>
+                                        <span class="ql-formats">
+                                            <button class="ql-link"></button>
+                                            <button class="ql-image"></button>
+                                            <button class="ql-video"></button>
+                                            <button class="ql-formula"></button>
+                                        </span>
+                                        <span class="ql-formats">
+                                            <button class="ql-clean"></button>
+                                        </span>
+                                    </div>
+
                                     <div wire:ignore>
                                         <div id="editor-container"></div>
                                         <textarea id="body" wire:model.defer="body" class="d-none"></textarea>
@@ -65,11 +111,76 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-3">
+            <div class="card mb-5">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">Placeholder Subject</h4>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="javascript:void(0)" class="placeholder-item-subject text-muted text-decoration"
+                            data-placeholder="name"><u>name</u></a>
+                        <a href="javascript:void(0)" class="placeholder-item-subject text-muted text-decoration"
+                            data-placeholder="email"><u>email</u></a>
+                        <a href="javascript:void(0)" class="placeholder-item-subject text-muted text-decoration"
+                            data-placeholder="username"><u>username</u></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-5">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">Placeholder Body</h4>
+                    <div class="d-flex flex-wrap gap-2">
+                        @foreach ($placeholders as $column)
+                            <a href="javascript:void(0)" class="placeholder-item text-muted text-decoration"
+                                data-placeholder="{{ $column }}"><u>{{ $column }}</u></a>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">Preview</h4>
+
+                    <div class="preview-container">
+                        <div id="preview" class="preview-content">
+                            {!! $preview !!}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     @push('styles')
+        <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"
             rel="stylesheet">
+        <style>
+            .preview-container {
+                display: flex;
+                justify-content: center;
+                /* Center horizontally */
+                align-items: top;
+                /* Center vertically */
+                height: 50vh;
+                /* Full viewport height for vertical centering */
+            }
+
+            .preview-content {
+                max-width: 100%;
+                /* Prevents the preview from being wider than its container */
+                max-height: 100%;
+                /* Prevents the preview from being taller than its container */
+                overflow: auto;
+                /* Allows scrolling if content is too large */
+            }
+        </style>
     @endpush
 
     @push('js')
@@ -78,24 +189,13 @@
 
         <script>
             document.addEventListener('livewire:init', function() {
+
                 const quill = new Quill('#editor-container', {
                     theme: 'snow',
                     modules: {
                         syntax: true,
                         toolbar: {
-                            container: [
-                                [{
-                                    header: [1, 2, 3, false]
-                                }],
-                                ['bold', 'italic', 'underline'],
-                                ['link', 'image', 'code-block'],
-                                [{
-                                    list: 'ordered'
-                                }, {
-                                    list: 'bullet'
-                                }],
-                                ['clean']
-                            ],
+                            container: '#toolbar-container',
                             handlers: {
                                 image: function() {
                                     const range = quill.getSelection();
@@ -124,10 +224,53 @@
                                                 console.error('Error:', error);
                                             });
                                     };
-                                }
+                                },
+                            },
+                        },
+                    }
+                });
+
+                // Tambahkan event listener pada setiap elemen placeholder
+                const placeholderItems = document.querySelectorAll('.placeholder-item');
+                placeholderItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        const placeholderText = item.getAttribute(
+                            'data-placeholder'); // Ambil placeholder dari atribut data
+
+                        if (placeholderText) {
+                            const range = quill.getSelection(true); // Ambil posisi kursor saat ini
+                            var user = "$user";
+                            if (range) {
+                                const formattedPlaceholder = `{ ${user}->${placeholderText} }`;
+                                quill.insertText(range.index,
+                                    '{' + formattedPlaceholder + '}'); // Insert placeholder ke editor
+                                quill.setSelection(range.index + formattedPlaceholder
+                                    .length); // Pindahkan kursor setelah placeholder
+                            } else {
+                                console.error('Selection range is undefined');
                             }
                         }
-                    }
+                    });
+                });
+
+                // Handle placeholders for subject field
+                const subjectPlaceholderItems = document.querySelectorAll('.placeholder-item-subject');
+                subjectPlaceholderItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        const placeholderText = item.getAttribute('data-placeholder');
+                        var user = "$user";
+
+                        if (placeholderText) {
+                            const subjectInput = document.getElementById('subject');
+                            if (subjectInput) {
+                                const currentValue = subjectInput.value;
+                                const formattedPlaceholder = `{ ${user}->${placeholderText} }`;
+                                subjectInput.value = currentValue + '{' + formattedPlaceholder + '}';
+                            } else {
+                                console.error('Subject input element is undefined');
+                            }
+                        }
+                    });
                 });
 
                 // Set initial content if available
@@ -139,6 +282,10 @@
                 // Update Livewire property on Quill editor content change
                 quill.on('text-change', function() {
                     @this.set('body', quill.root.innerHTML);
+
+                    Livewire.dispatch('previewContent', {
+                        content: quill.root.innerHTML
+                    });
                 });
 
                 Livewire.on('contentChanged', (body) => {

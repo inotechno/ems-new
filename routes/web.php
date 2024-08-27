@@ -89,12 +89,11 @@ Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
         Route::get('create', EmployeeForm::class)->name('employee.create')->middleware('can:create:employee');
         Route::get('edit/{id}', EmployeeForm::class)->name('employee.edit')->middleware('can:update:employee');
     });
-    
-    Route::group(['prefix' => 'profile'], function () {
-        Route::get('/', ProfileIndex::class)->name('profile.index');
-        Route::get('edit/{id}', ProfileForm::class)->name('profile.edit');
-    });
 
+    Route::group(['prefix' => 'profile'], function () {
+        Route::get('/', ProfileIndex::class)->name('profile.index')->middleware('can:view:profile');
+        Route::get('edit/{id}', ProfileForm::class)->name('profile.edit')->middleware('can:update:profile');
+    });
 
     Route::group(['prefix' => 'attendance'], function () {
         Route::get('/', AttendanceIndex::class)->name('attendance.index')->middleware('can:view:attendance');
