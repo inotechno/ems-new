@@ -37,6 +37,7 @@ class MachineItem extends Component
         ]);
     }
 
+
     #[On('delete-machine')]
     public function delete()
     {
