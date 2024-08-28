@@ -6,7 +6,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-4">
+                        <div class="col-lg-6">
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
                                     <img src="{{ asset('images/users/avatar-1.jpg') }}" alt=""
@@ -22,7 +22,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-4 align-self-center">
+                        <div class="col-lg-6 align-self-center">
                             <div class="text-lg-center mt-4 mt-lg-0">
                                 <div class="row">
                                     <div class="col-4">

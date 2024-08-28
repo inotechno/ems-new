@@ -13,11 +13,9 @@
         <div class="px-3 py-2 border-top">
             <ul class="list-inline mb-0 d-flex gap-1 flex-wrap">
                 <li class="list-inline-item">
-                    <button type="button"
-                        wire:click="$dispatch('set-role', {role_id: {{ $role->id }}})"
-                        class="btn btn-primary btn-sm waves-effect waves-light">
+                    <a href="{{ route('role.edit', ['id' => $role->id]) }}" class="btn btn-primary btn-sm waves-effect waves-light">
                         <i class="mdi mdi-pencil me-1"></i> Edit
-                    </button>
+                    </a>
                 </li>
                 <li class="list-inline-item">
                     <button type="button" wire:click="deleteConfirm()"

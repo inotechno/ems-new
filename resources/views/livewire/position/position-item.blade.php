@@ -9,7 +9,7 @@
                     </h5>
                     <p class="text-muted mb-2">{{ $position->name }}</p>
                     <div class="avatar-group">
-                        @foreach ($employees->take($limitDisplay) as $employee)
+                        @foreach ($employeesLimit as $employee)
                             @if ($employee->user->avatar)
                                 <div class="avatar-group-item" wire:key="avatar-item-{{ $employee->id }}">
                                     <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip"
@@ -33,12 +33,12 @@
                             @endif
                         @endforeach
 
-                        @if ($employees->count() > $limitDisplay)
+                        @if ($moreCount > $limitDisplay)
                             <div class="avatar-group-item" wire:key="avatar-item-more">
                                 <a href="javascript: void(0);" class="d-inline-block">
                                     <div class="avatar-xs">
                                         <span class="avatar-title rounded-circle bg-secondary text-white font-size-16">
-                                            +{{ $employees->count() - $limitDisplay }}
+                                            +{{ $moreCount }}
                                         </span>
                                     </div>
                                 </a>

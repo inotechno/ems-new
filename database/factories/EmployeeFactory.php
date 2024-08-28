@@ -17,7 +17,7 @@ class EmployeeFactory extends Factory
     public function definition(): array
     {
         return [
-            'id' =>  fake('id_ID')->numberBetween(10000000000, 90000000000),
+            'id' =>  fake('id_ID')->numberBetween(1000000000, 9000000000),
             'user_id' => null,
             'citizen_id' => fake('id_ID')->nik(),
             'leave_remaining' =>  fake('id_ID')->numberBetween(0, 12),

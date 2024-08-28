@@ -12,9 +12,14 @@ class DepartmentItem extends Component
 {
     use LivewireAlert;
 
-    #[Reactive]
+
     public $department;
     public $limitDisplay = 5;
+
+    public function mount(Department $department)
+    {
+        $this->department = $department;
+    }
 
     public function getEmployeesProperty()
     {
@@ -26,22 +31,23 @@ class DepartmentItem extends Component
 
     public function deleteConfirm()
     {
-        $this->alert(
-            'question',
-            'Are you sure you want to delete this department?',
-            [
-                'toast' => false,
-                'timer' => 3000,
-                'position' => 'center',
-                'showConfirmButton' => true,
-                'showCancelButton' => true,
-                'confirmButtonColor' => '#cc2626',
-                'confirmButtonText' => 'Yes, Delete it!',
-                'cancelButtonText' => 'No, Cancel!',
-                'onConfirmed' => 'delete-department',
-                'timerProgressBar' => true,
-            ]
-        );
+        $this->alert('warning', 'Are you sure you want to delete this department?', [
+            'position' => 'center',
+            'timer' => null,
+            'toast' => false,
+
+            'showConfirmButton' => true,
+            'confirmButtonColor' => '#DD6B55',
+            'confirmButtonText' => 'Yes, Delete',
+            'cancelButtonText' => 'No',
+            'onConfirmed' => 'delete-department',
+            'showCancelButton' => true,
+
+            'allowOutsideClick' => false,
+            'allowEnterKey' => true,
+            'allowEscapeKey' => false,
+            'stopKeydownPropagation' => false,
+        ]);
     }
 
     #[On('delete-department')]

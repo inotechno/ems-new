@@ -81,6 +81,8 @@ Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
 
     Route::group(['prefix' => 'role'], function () {
         Route::get('/', RoleIndex::class)->name('role.index')->middleware('can:view:role');
+        Route::get('create', RoleForm::class)->name('role.create')->middleware('can:create:role');
+        Route::get('edit/{id}', RoleForm::class)->name('role.edit')->middleware('can:update:role');
     });
 
     Route::group(['prefix' => 'employee'], function () {

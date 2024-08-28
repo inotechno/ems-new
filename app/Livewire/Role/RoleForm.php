@@ -5,38 +5,49 @@ namespace App\Livewire\Role;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RoleForm extends Component
 {
-
     use LivewireAlert;
 
     public $role;
     public $name;
     public $mode = 'create';
+    public $permissions;
+    public $selectedPermissions = [];
+    public $groupedPermissions;
+
+    public function mount($id = null)
+    {
+        if ($id) {
+            $this->role = Role::find($id);
+            $this->name = $this->role->name;
+            $this->mode = 'edit';
+            $this->selectedPermissions = $this->role->permissions()->pluck('name')->toArray();
+        }
+
+        $permissions = Permission::all()->pluck('name');
+        $this->groupedPermissions = $permissions->groupBy(function ($item) {
+            return explode(':', $item)[0];
+        });
+    }
 
     public function resetFormFields()
     {
-        $this->name = '';
+        $this->name = null;
         $this->mode = 'create';
-    }
-
-    #[On('set-role')]
-    public function getDataRole($role_id)
-    {
-        $this->role = Role::find($role_id);
-        $this->name = $this->role->name;
-
-        $this->mode = 'edit';
-        $this->dispatch('change-status-form');
+        $this->permissions = null;
+        $this->selectedPermissions = [];
+        $this->resetErrorBag();
     }
 
     public function save()
     {
-
         $this->validate([
             'name' => 'required',
+            'selectedPermissions' => 'required',
         ]);
 
         if ($this->mode == 'create') {
@@ -53,10 +64,10 @@ class RoleForm extends Component
                 'name' => $this->name,
             ]);
 
-            $this->alert('success', 'role created successfully');
+            $role->syncPermissions($this->selectedPermissions);
 
-            $this->resetFormFields();
-            $this->dispatch('refreshIndex');
+            $this->alert('success', 'role created successfully');
+            return redirect()->route('role.index');
         } catch (\Exception $e) {
             $this->alert('error', $e->getMessage());
         }
@@ -69,15 +80,16 @@ class RoleForm extends Component
                 'name' => $this->name,
             ]);
 
+            $this->role->syncPermissions($this->selectedPermissions);
+
             $this->alert('success', 'role updated successfully');
-            $this->dispatch('refreshIndex');
-            $this->resetFormFields();
+            return redirect()->route('role.index');
         } catch (\Exception $e) {
             $this->alert('error', $e->getMessage());
         }
     }
     public function render()
     {
-        return view('livewire.role.role-form');
+        return view('livewire.role.role-form')->layout('layouts.app', ['title' => 'Role Form']);
     }
 }
