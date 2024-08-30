@@ -25,6 +25,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         $password =Str::random(10);
+
         return [
             'name' => fake('id_ID')->name(), // Menggunakan locale Indonesia
             'username' => fake('id_ID')->userName(),
