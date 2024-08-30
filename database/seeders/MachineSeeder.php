@@ -27,6 +27,5 @@ class MachineSeeder extends Seeder
             'is_active' => 1,
         ]);
 
-        Machine::factory(10)->create();
     }
 }
