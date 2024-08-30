@@ -16,6 +16,15 @@ class DailyReport extends Model
         'description',
     ];
 
+    protected $casts = [
+        'date' => 'date',
+    ];
+
+    public function getShortDescriptionAttribute()
+    {
+        return substr($this->description, 0, 50); // Sesuaikan panjang deskripsi singkat yang diinginkan
+    }
+
     public function employee()
     {
         return $this->belongsTo(Employee::class);
@@ -35,4 +44,5 @@ class DailyReport extends Model
     {
         return $this->hasMany(DailyReportComment::class);
     }
+
 }

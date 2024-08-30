@@ -107,13 +107,13 @@ class Sidebar extends Component
                 //     'icon' => 'bx bxs-purchase-tag-alt',
                 //     'permission' => 'view:attendance-temp'
                 // ],
-                // [
-                //     'name' => 'Daily Report',
-                //     'url' => '/daily-report',
-                //     'route' => 'daily-report.index',
-                //     'icon' => 'bx bxs-report',
-                //     'permission' => 'view:daily-report-all'
-                // ],
+                [
+                    'name' => 'Daily Report',
+                    'url' => '/daily-report-all',
+                    'route' => 'daily-report.index',
+                    'icon' => 'bx bxs-report',
+                    'permission' => 'view:daily-report-all'
+                ],
                 // [
                 //     'name' => 'Daily Report',
                 //     'icon' => 'bx bxs-report',

@@ -15,6 +15,7 @@ use App\Livewire\Employee\EmployeeDetail;
 use App\Livewire\Attendance\AttendanceIndex;
 use App\Livewire\Attendance\AttendanceDetail;
 use App\Livewire\Attendance\AttendanceForm;
+use App\Livewire\DailyReport\DailyReportIndex;
 use App\Livewire\Project\ProjectForm;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Machine\MachineIndex;
@@ -103,6 +104,8 @@ Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
         // Route::get('create', AttendanceForm::class)->name('attendance.create');
         // Route::get('edit/{id}', AttendanceForm::class)->name('attendance.edit');
     });
+
+    Route::get('/daily-report-all', DailyReportIndex::class)->name('daily-report.all')->middleware('can:view:daily-report-all');
 
     // Route::get('site', 'path.to.view')->name('site.index');
     // Route::get('department', 'path.to.view')->name('department.index');
