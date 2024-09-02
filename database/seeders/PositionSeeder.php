@@ -16,34 +16,42 @@ class PositionSeeder extends Seeder
     {
         // \App\Models\Position::factory(20)->create();
         DB::table('positions')->insert([
-            // SDM
-            ['name' => 'Komisaris', 'department_id' => 1],
-            ['name' => 'SDM', 'department_id' => 1],
+             // THE MAIN COMMISSIONER
+             ['name' => 'CHIEF COMMISSIONER', 'department_id' => 1],
 
-            // Proyek
-            ['name' => 'Direktur Proyek', 'department_id' => 2],
-            ['name' => 'Akun Eksekutif', 'department_id' => 2],
-            ['name' => 'Creative Design Team', 'department_id' => 2],
-            ['name' => 'Pemasaran', 'department_id' => 2],
-
-            // Keuangan
-            ['name' => 'Direktur Keuangan', 'department_id' => 3],
-            ['name' => 'Admin', 'department_id' => 3],
-            ['name' => 'Keuangan', 'department_id' => 3],
-
-            // Teknis
-            ['name' => 'Direktur Teknis', 'department_id' => 4],
-            ['name' => 'Visual Lab Head Div', 'department_id' => 4],
-            ['name' => 'Visual Lab Team', 'department_id' => 4],
-
-            // Kreatif
-            ['name' => 'Direktur Kreatif', 'department_id' => 5],
-            ['name' => 'Creative Planner', 'department_id' => 5],
-            ['name' => 'Creative Design Team', 'department_id' => 5],
-            ['name' => 'Creative Head', 'department_id' => 5],
-            ['name' => 'Lead Teknis', 'department_id' => 5],
-            ['name' => 'Lead Motion', 'department_id' => 5],
-            ['name' => 'Creative Team', 'department_id' => 5],
+             // COMMISSIONER
+             ['name' => 'COMMISSIONER', 'department_id' => 2],
+ 
+             // PRESIDENT DIRECTOR
+             ['name' => 'PRESIDENT DIRECTOR', 'department_id' => 3],
+ 
+             // HRD
+             ['name' => 'HUMAN RESOURCES MANAGER', 'department_id' => 4],
+ 
+             // PROJECT
+             ['name' => 'PROJECT DIRECTOR', 'department_id' => 5],
+             ['name' => 'ACCOUNT EXECUTIVE', 'department_id' => 5],
+             ['name' => 'CREATIVE DESIGN TEAM', 'department_id' => 5],
+             ['name' => 'MARKETING', 'department_id' => 5],
+ 
+             // FINANCE
+             ['name' => 'FINANCE DIRECTOR', 'department_id' => 6],
+             ['name' => 'ADMINISTRATOR', 'department_id' => 6],
+             ['name' => 'FINANCE OFFICER', 'department_id' => 6],
+ 
+             // TECHNICAL
+             ['name' => 'TECHNICAL DIRECTOR', 'department_id' => 7],
+             ['name' => 'VISUAL LAB HEAD', 'department_id' => 7],
+             ['name' => 'VISUAL LAB TEAM', 'department_id' => 7],
+ 
+             // CREATIVE
+             ['name' => 'CREATIVE DIRECTOR', 'department_id' => 8],
+             ['name' => 'CREATIVE PLANNER', 'department_id' => 8],
+             ['name' => 'CREATIVE DESIGN TEAM', 'department_id' => 8],
+             ['name' => 'CREATIVE HEAD', 'department_id' => 8],
+             ['name' => 'TECHNICAL LEAD', 'department_id' => 8],
+             ['name' => 'MOTION LEAD', 'department_id' => 8],
+             ['name' => 'CREATIVE TEAM', 'department_id' => 8],
         ]);
     }
 }

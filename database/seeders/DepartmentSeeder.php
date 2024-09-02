@@ -30,11 +30,14 @@ class DepartmentSeeder extends Seeder
         // }
 
         DB::table('departments')->insert([
-            ['name' => 'HRD', 'site_id' => 1],
-            ['name' => 'PROJECT', 'site_id' => 1],
-            ['name' => 'FINANCE', 'site_id' => 1],
-            ['name' => 'TECHNICAL', 'site_id' => 1],
-            ['name' => 'CREATIVE', 'site_id' => 1],
+            ['name' => 'THE MAIN COMMISSIONER', 'site_id' => 1, 'supervisor_id' => null],
+            ['name' => 'COMMISSIONER', 'site_id' => 1, 'supervisor_id' => null],
+            ['name' => 'PRESIDENT DIRECTOR', 'site_id' => 1, 'supervisor_id' => null],
+            ['name' => 'HRD', 'site_id' => 1, 'supervisor_id' => null],
+            ['name' => 'PROJECT', 'site_id' => 1, 'supervisor_id' => null],
+            ['name' => 'FINANCE', 'site_id' => 1, 'supervisor_id' => null],
+            ['name' => 'TECHNICAL', 'site_id' => 1, 'supervisor_id' => null],
+            ['name' => 'CREATIVE', 'site_id' => 1, 'supervisor_id' => null],
         ]);
     }
 }
