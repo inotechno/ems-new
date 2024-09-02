@@ -80,6 +80,7 @@ class Sidebar extends Component
                     'icon' => 'bx bxs-user-circle',
                     'permission' => 'view:employee'
                 ],
+
             ]
         ],
         [
@@ -106,35 +107,35 @@ class Sidebar extends Component
                 //     'icon' => 'bx bxs-purchase-tag-alt',
                 //     'permission' => 'view:attendance-temp'
                 // ],
-                // [
-                //     'name' => 'Daily Report',
-                //     'url' => '/daily-report',
-                //     'route' => 'daily-report.index',
-                //     'icon' => 'bx bxs-report',
-                //     'permission' => 'view:daily-report-all'
-                // ],
-                // [
-                //     'name' => 'Daily Report',
-                //     'icon' => 'bx bxs-report',
-                //     'url' => '/daily-report',
-                //     'permission' => 'view:daily-report',
-                //     'subMenus' => [
-                //         [
-                //             'name' => 'My Daily Report',
-                //             'url' => '/daily-report',
-                //             'route' => 'daily-report.index',
-                //             'icon' => 'bx bxs-report',
-                //             'permission' => 'view:daily-report'
-                //         ],
-                //         [
-                //             'name' => 'Team Daily Report ',
-                //             'url' => '/daily-report/team',
-                //             'route' => 'team-daily-report.index',
-                //             'icon' => 'bx bxs-report',
-                //             'permission' => 'view:daily-report'
-                //         ],
-                //     ],
-                // ],
+                [
+                    'name' => 'Daily Report All',
+                    'url' => '/daily-report-all',
+                    'route' => 'daily-report.index',
+                    'icon' => 'bx bxs-report',
+                    'permission' => 'view:daily-report-all'
+                ],
+                [
+                    'name' => 'Daily Report',
+                    'icon' => 'bx bxs-report',
+                    'url' => '/daily-report',
+                    'permission' => 'view:daily-report',
+                    'subMenus' => [
+                        [
+                            'name' => 'My Daily Report',
+                            'url' => '/daily-report',
+                            'route' => 'daily-report.index',
+                            'icon' => 'bx bxs-report',
+                            'permission' => 'view:daily-report'
+                        ],
+                        [
+                            'name' => 'Team Daily Report ',
+                            'url' => '/daily-report/team',
+                            'route' => 'team-daily-report.index',
+                            'icon' => 'bx bxs-report',
+                            'permission' => 'view:daily-report'
+                        ],
+                    ],
+                ],
                 // [
                 //     'name' => 'Absence Request',
                 //     'url' => '/absence-request',
@@ -222,6 +223,18 @@ class Sidebar extends Component
                 //         ],
                 //     ]
                 // ]
+            ]
+        ],
+        [
+            'title' => 'Other',
+            'menus' => [
+                [
+                    'name' => 'Email Template',
+                    'url' => '/email-template',
+                    'route' => 'email-template.index',
+                    'icon' => 'bx bx-code-curly',
+                    'permission' => 'view:email-template'
+                ],
             ]
         ],
         // [

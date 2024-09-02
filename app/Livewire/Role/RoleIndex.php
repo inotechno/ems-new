@@ -4,6 +4,7 @@ namespace App\Livewire\Role;
 
 use App\Models\Position;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -17,7 +18,8 @@ class RoleIndex extends Component
     #[Url(except: '')]
     public $search = '';
     public $perPage = 10;
-    public $showForm = true;
+    public $showForm;
+    public $mode = 'create';
 
     protected $listeners = [
         'refreshIndex' => 'handleRefresh',
@@ -34,26 +36,10 @@ class RoleIndex extends Component
         $this->dispatch('$refresh');
     }
 
-    public function changeStatusForm()
-    {
-        if ($this->showForm) {
-            $this->showForm = false;
-        } else {
-            $this->showForm = true;
-        }
-    }
-
     public function resetFilter()
     {
         $this->search = "";
         $this->resetPage();
-    }
-
-    #[On('change-status-form')]
-    public function updateShowForm()
-    {
-        $this->showForm = true;
-        $this->dispatch('collapse-form');
     }
 
     public function render()

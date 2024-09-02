@@ -3,27 +3,6 @@
 
     <div class="row">
         <div class="col-lg-12">
-
-            <div class="card" id="form-position">
-                <div class="card-body" wire:ignore>
-                    <div class="d-flex">
-                        <div class="flex-grow-1">
-                            <h4 class="card-title mb-4">Role Form</h4>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <a href="#!" class="btn btn-sm btn-primary" wire:click="changeStatusForm()"
-                                data-bs-toggle="collapse" data-bs-target="#showForm" aria-expanded="true"
-                                aria-controls="showForm">{{ $showForm ? 'Hide' : 'Show' }}</a>
-                        </div>
-                    </div>
-
-                    <div class="collapse @if ($showForm) show @endif" wire:click="changeStatusForm()"
-                        id="showForm">
-                        @livewire('role.role-form', key('role-form'))
-                    </div>
-                </div>
-            </div>
-
             <div class="card">
                 <div class="card-body border-bottom">
                     <div class="d-flex align-content-stretch gap-1 flex-column flex-md-row">
@@ -31,10 +10,10 @@
                             <input type="search" class="form-control" id="searchInput" wire:model.live="search"
                                 placeholder="Search for ...">
                         </div>
-                        
+
                         <div class="flex-shrink-0 me-3">
                             <select class="form-control select2" wire:model.live="perPage">
-                                <option>Per Page</option>
+                                <option>Select Per Page</option>
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
@@ -42,7 +21,8 @@
                             </select>
                         </div>
                         <div class="flex-shrink-0">
-                            <button class="btn btn-warning" wire:click="resetFilter">Reset Filter</button>
+                            <button class="btn btn-warning me-3" wire:click="resetFilter">Reset Filter</button>
+                            <a href="{{ route('role.create') }}" class="btn btn-primary">Create</a>
                         </div>
 
                     </div>
@@ -58,25 +38,6 @@
             {{ $roles->links() }}
         </div>
     </div>
-
-    @script
-        <script>
-            $wire.on('collapse-form', () => {
-                let showForm = $wire.get('showForm');
-                console.log('showForm', showForm);
-                if (showForm) {
-                    $('#showForm').collapse('show');
-                    // Fokus pada elemen input dengan id "name"
-                    $('#name').focus();
-                    $('html, body').animate({
-                        scrollTop: $('#form-position').offset().top
-                    }, 500); // 500ms untuk animasi scroll
-                } else {
-                    $('#showForm').collapse('hide');
-                }
-            })
-        </script>
-    @endscript
 
     @push('styles')
         <link href="{{ asset('libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
@@ -98,6 +59,6 @@
             });
         </script>
     @endpush
-     
-    
+
+
 </div>

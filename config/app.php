@@ -191,6 +191,7 @@ return [
         App\Providers\ApiResponseProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        App\Providers\EmailServiceProvider::class,
 
         /*
          * Application Service Providers...

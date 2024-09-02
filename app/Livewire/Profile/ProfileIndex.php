@@ -3,12 +3,13 @@
 namespace App\Livewire\Profile;
 
 use App\Models\Employee;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileIndex extends Component
 {
-
+    use LivewireAlert;
     public $employee;
 
     public $user;

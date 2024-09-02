@@ -17,23 +17,26 @@ class MachineItem extends Component
 
     public function deleteConfirm()
     {
-        $this->alert(
-            'question',
-            'Are you sure you want to delete this machine?',
-            [
-                'toast' => false,
-                'timer' => 3000,
-                'position' => 'center',
-                'showConfirmButton' => true,
-                'showCancelButton' => true,
-                'confirmButtonColor' => '#cc2626',
-                'confirmButtonText' => 'Yes, Delete it!',
-                'cancelButtonText' => 'No, Cancel!',
-                'onConfirmed' => 'delete-machine',
-                'timerProgressBar' => true,
-            ]
-        );
+        // dd($this->user);
+        $this->alert('warning', 'Are you sure you want to delete this machine?', [
+            'position' => 'center',
+            'timer' => null,
+            'toast' => false,
+
+            'showConfirmButton' => true,
+            'confirmButtonColor' => '#DD6B55',
+            'confirmButtonText' => 'Yes, Delete',
+            'cancelButtonText' => 'No',
+            'onConfirmed' => 'delete-machine',
+            'showCancelButton' => true,
+
+            'allowOutsideClick' => false,
+            'allowEnterKey' => true,
+            'allowEscapeKey' => false,
+            'stopKeydownPropagation' => false,
+        ]);
     }
+
 
     #[On('delete-machine')]
     public function delete()

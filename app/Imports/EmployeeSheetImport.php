@@ -4,6 +4,7 @@ namespace App\Imports;
 use App\Models\Employee;
 use App\Models\Position;
 use App\Models\User;
+use App\Services\EmailService;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
@@ -15,15 +16,18 @@ use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Spatie\Permission\Models\Role;
 
-class EmployeeSheetImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
+class EmployeeSheetImport implements ToCollection, WithHeadingRow, SkipsEmptyRows, PersistRelations
 {
     use Importable;
+
+    protected $EmailService;
     protected $employees;
     protected $positions;
     protected $roles;
 
     public function __construct()
     {
+        $this->EmailService = app(EmailService::class);
         $this->employees = Employee::with('positions', 'user', 'user.roles')->get();
         $this->positions = Position::all()->keyBy('id');
         $this->roles = Role::all()->keyBy('name');
@@ -92,8 +96,8 @@ class EmployeeSheetImport implements ToCollection, WithHeadingRow, SkipsEmptyRow
 
                 if ($position_id != null) {
                     $positionIds = is_array($position_id) ? $position_id : [$position_id];
-                    $positions = $this->positions->only($positionIds);
-                    $employee->setRelation('positions', $positions);
+                    $positions = $this->positions->whereIn('id', $positionIds);
+                    $employee->positions()->sync($positions->pluck('id')->toArray());
                 }
 
                 if (!empty($roleIds)) {
@@ -107,6 +111,8 @@ class EmployeeSheetImport implements ToCollection, WithHeadingRow, SkipsEmptyRow
                     'password' => Hash::make($password),
                     'password_string' => $password,
                 ]);
+
+                $this->EmailService->sendTemplateEmail($user, 'new-account-register');
 
                 \Log::info('User created:', $user->toArray());
 
@@ -128,8 +134,8 @@ class EmployeeSheetImport implements ToCollection, WithHeadingRow, SkipsEmptyRow
 
                 if ($position_id != null) {
                     $positionIds = is_array($position_id) ? $position_id : [$position_id];
-                    $positions = $this->positions->only($positionIds);
-                    $employee->setRelation('positions', $positions);
+                    $positions = $this->positions->whereIn('id', $positionIds);
+                    $employee->positions()->sync($positions->pluck('id')->toArray());
                 }
             }
         }
