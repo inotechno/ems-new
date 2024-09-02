@@ -6,6 +6,7 @@ use App\Models\Site;
 use App\Models\Employee;
 use App\Models\Department;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DepartmentSeeder extends Seeder
@@ -15,20 +16,28 @@ class DepartmentSeeder extends Seeder
      */
     public function run(): void
     {
-        $departmentNames = [
-            'Human Resources', 'Finance', 'Marketing', 'Sales', 'Engineering',
-            'Product Development', 'Customer Support', 'IT', 'Legal', 'Operations',
-            'Research and Development', 'Business Development', 'Training', 'Administration',
-            'Design', 'Quality Assurance', 'Supply Chain', 'Project Management', 'Health & Safety',
-            'Logistics', 'Purchasing'
-        ];
+        // $departmentNames = [
+        //     'Human Resources', 'Finance',
+        //    'Administration','Project Management'
+        // ];
 
-        foreach ($departmentNames as $departmentName) {
-            $department = Department::create([
-                'name' => $departmentName,
-                'supervisor_id' => Employee::inRandomOrder()->first()->id,
-                'site_id' => Site::inRandomOrder()->first()->id
-            ]);
-        }
+        // foreach ($departmentNames as $departmentName) {
+        //     $department = Department::create([
+        //         'name' => $departmentName,
+        //         'supervisor_id' => Employee::inRandomOrder()->first()->id,
+        //         'site_id' => Site::inRandomOrder()->first()->id
+        //     ]);
+        // }
+
+        DB::table('departments')->insert([
+            ['name' => 'THE MAIN COMMISSIONER', 'site_id' => 1, 'supervisor_id' => null],
+            ['name' => 'COMMISSIONER', 'site_id' => 1, 'supervisor_id' => null],
+            ['name' => 'PRESIDENT DIRECTOR', 'site_id' => 1, 'supervisor_id' => null],
+            ['name' => 'HRD', 'site_id' => 1, 'supervisor_id' => null],
+            ['name' => 'PROJECT', 'site_id' => 1, 'supervisor_id' => null],
+            ['name' => 'FINANCE', 'site_id' => 1, 'supervisor_id' => null],
+            ['name' => 'TECHNICAL', 'site_id' => 1, 'supervisor_id' => null],
+            ['name' => 'CREATIVE', 'site_id' => 1, 'supervisor_id' => null],
+        ]);
     }
 }

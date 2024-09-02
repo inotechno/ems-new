@@ -22,17 +22,17 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             UserSeeder::class,
-            EmployeeSeeder::class,
+            // EmployeeSeeder::class,
             MachineSeeder::class,
             VisitCategorySeeder::class,
             SiteSeeder::class,
             DepartmentSeeder::class,
             PositionSeeder::class,
-            EmployeesPositionsSeeder::class,
-            AttendanceMethodSeeder::class,
-            ProjectSeeder::class,
-            ProjectsEmployees::class,
-            AttendanceSeeder::class,
+            // EmployeesPositionsSeeder::class,
+            // AttendanceMethodSeeder::class,
+            // ProjectSeeder::class,
+            // ProjectsEmployees::class,
+            // AttendanceSeeder::class,
         ]);
     }
 }

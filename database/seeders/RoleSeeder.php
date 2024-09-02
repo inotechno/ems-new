@@ -30,6 +30,10 @@ class RoleSeeder extends Seeder
             'name' => 'HR',
         ]);
 
+        $commissioner = Role::create([
+            'name' => 'Commissioner',
+        ]);
+
         $employee = Role::create([
             'name' => 'Employee',
         ]);
@@ -40,7 +44,7 @@ class RoleSeeder extends Seeder
 
         $permissions = [
             // Dashboard
-            'view:dashboard' => ['Employee', 'HR', 'Finance', 'Director', 'Administrator', 'Project Manager'],
+            'view:dashboard' => ['Commissioner','Employee', 'HR', 'Finance', 'Director', 'Administrator', 'Project Manager'],
 
             // Import Master Data
             'view:import_master_data' => ['HR', 'Administrator'],
