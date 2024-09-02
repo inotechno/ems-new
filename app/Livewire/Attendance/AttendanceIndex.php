@@ -67,7 +67,7 @@ class AttendanceIndex extends Component
             ->groupBy('employee_id', 'date')
             ->orderBy('date', 'desc');
 
-        if (Auth::user()->hasRole('Administrator')) {
+        if (Auth::user()->can('view:attendance-all')) {
             $attendances = $attendances->paginate($this->perPage);
         } else {
             $attendances = $attendances->where('employee_id', Auth::user()->employee->id)->paginate($this->perPage);

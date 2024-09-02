@@ -33,6 +33,8 @@
             </div>
         </form>
 
+        @livewire('component.page.dropdown-roles')
+
         {{-- <div class="dropdown dropdown-mega d-none d-lg-block ms-2">
             <button type="button" class="btn header-item waves-effect" data-bs-toggle="dropdown" aria-haspopup="false"
                 aria-expanded="false">

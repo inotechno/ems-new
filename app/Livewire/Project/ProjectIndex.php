@@ -43,7 +43,7 @@ class ProjectIndex extends Component
             $query->where('status', $this->status);
         })->latest();
 
-        if(Auth::user()->hasRole('Administrator')) {
+        if(Auth::user()->can('view:project-all')) {
             $projects = $projects->paginate($this->perPage);
         }else if(Auth::user()->hasRole('Project Manager')) {
             $projects = $projects->where('employee_id', Auth::user()->employee->id)->paginate($this->perPage);

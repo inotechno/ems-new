@@ -6,8 +6,9 @@
                     <th scope="col" style="width: 100px">#</th>
                     <th scope="col">NAME</th>
                     <th scope="col">DATE</th>
-                    <th scope="col">DESCRIPTION</th>
+                    <th scope="col">RECIPIENTS</th>
                     <th scope="col">CREATED AT</th>
+                    <th scope="col">ACTION</th>
                 </tr>
             </thead>
             <tbody>

@@ -3,6 +3,8 @@
 use App\Http\Controllers\ImageUploadController;
 use App\Http\Controllers\SendEmailController;
 use App\Livewire\Auth\Login;
+use App\Livewire\DailyReport\DailyReportForm;
+use App\Livewire\DailyReport\DailyReportTeam;
 use App\Livewire\EmailTemplateManager\EmailTemplateManagerIndex;
 use App\Livewire\Role\RoleForm;
 use App\Livewire\Role\RoleIndex;
@@ -15,6 +17,8 @@ use App\Livewire\Employee\EmployeeDetail;
 use App\Livewire\Attendance\AttendanceIndex;
 use App\Livewire\Attendance\AttendanceDetail;
 use App\Livewire\Attendance\AttendanceForm;
+use App\Livewire\DailyReport\DailyReportAll;
+use App\Livewire\DailyReport\DailyReportDetail;
 use App\Livewire\DailyReport\DailyReportIndex;
 use App\Livewire\Project\ProjectForm;
 use Illuminate\Support\Facades\Route;
@@ -99,13 +103,13 @@ Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
     });
 
     Route::group(['prefix' => 'attendance'], function () {
-        Route::get('/', AttendanceIndex::class)->name('attendance.index')->middleware('can:view:attendance');
+        Route::get('/', AttendanceIndex::class)->name('attendance.index')->middleware(['can:view:attendance']);
         // Route::get('detail/{id}', AttendanceDetail::class)->name('attendance.detail');
         // Route::get('create', AttendanceForm::class)->name('attendance.create');
         // Route::get('edit/{id}', AttendanceForm::class)->name('attendance.edit');
     });
 
-    Route::get('/daily-report-all', DailyReportIndex::class)->name('daily-report.all')->middleware('can:view:daily-report-all');
+    Route::get('/daily-report-all', DailyReportAll::class)->name('daily-report.all')->middleware('can:view:daily-report-all');
 
     // Route::get('site', 'path.to.view')->name('site.index');
     // Route::get('department', 'path.to.view')->name('department.index');
@@ -116,10 +120,11 @@ Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
     // Route::get('attendance-temporary', 'path.to.view')->name('attendance-temporary.index');
 
     Route::group(['prefix' => 'daily-report'], function () {
-        Route::get('/', DailyReportIndex::class)->name('daily-report.index');
-        Route::get('team', DailyReportIndex::class)->name('team-daily-report.index');
-        Route::get('create', DailyReportForm::class)->name('daily-report.create');
-        Route::get('edit/{id}', DailyReportForm::class)->name('daily-report.edit');
+        Route::get('/', DailyReportIndex::class)->name('daily-report.index')->middleware('can:view:daily-report');
+        Route::get('team', DailyReportTeam::class)->name('team-daily-report.index')->middleware('can:view:daily-report');
+        Route::get('create', DailyReportForm::class)->name('daily-report.create')->middleware('can:create:daily-report');
+        Route::get('edit/{id}', DailyReportForm::class)->name('daily-report.edit')->middleware('can:update:daily-report');
+        Route::get('detail/{id}', DailyReportDetail::class)->name('daily-report.detail')->middleware('can:view:daily-report');
         // Route::get('/', 'path.to.view')->name('daily-report.index');
         // Route::get('team', 'path.to.view')->name('team-daily-report.index');
     });

@@ -108,34 +108,34 @@ class Sidebar extends Component
                 //     'permission' => 'view:attendance-temp'
                 // ],
                 [
-                    'name' => 'Daily Report',
+                    'name' => 'Daily Report All',
                     'url' => '/daily-report-all',
                     'route' => 'daily-report.index',
                     'icon' => 'bx bxs-report',
                     'permission' => 'view:daily-report-all'
                 ],
-                // [
-                //     'name' => 'Daily Report',
-                //     'icon' => 'bx bxs-report',
-                //     'url' => '/daily-report',
-                //     'permission' => 'view:daily-report',
-                //     'subMenus' => [
-                //         [
-                //             'name' => 'My Daily Report',
-                //             'url' => '/daily-report',
-                //             'route' => 'daily-report.index',
-                //             'icon' => 'bx bxs-report',
-                //             'permission' => 'view:daily-report'
-                //         ],
-                //         [
-                //             'name' => 'Team Daily Report ',
-                //             'url' => '/daily-report/team',
-                //             'route' => 'team-daily-report.index',
-                //             'icon' => 'bx bxs-report',
-                //             'permission' => 'view:daily-report'
-                //         ],
-                //     ],
-                // ],
+                [
+                    'name' => 'Daily Report',
+                    'icon' => 'bx bxs-report',
+                    'url' => '/daily-report',
+                    'permission' => 'view:daily-report',
+                    'subMenus' => [
+                        [
+                            'name' => 'My Daily Report',
+                            'url' => '/daily-report',
+                            'route' => 'daily-report.index',
+                            'icon' => 'bx bxs-report',
+                            'permission' => 'view:daily-report'
+                        ],
+                        [
+                            'name' => 'Team Daily Report ',
+                            'url' => '/daily-report/team',
+                            'route' => 'team-daily-report.index',
+                            'icon' => 'bx bxs-report',
+                            'permission' => 'view:daily-report'
+                        ],
+                    ],
+                ],
                 // [
                 //     'name' => 'Absence Request',
                 //     'url' => '/absence-request',

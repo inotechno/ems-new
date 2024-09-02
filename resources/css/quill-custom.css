@@ -1,28 +1,38 @@
 /* Gaya kustom untuk tema snow dengan penyesuaian tinggi */
-.ql-container {
+body[data-layout-mode="dark"] .ql-container {
     background-color: var(--bs-custom-white); /* Warna latar belakang editor */
     color: var(--bs-gray-700); /* Warna teks dalam editor */
-    border-radius: .25rem; /* Radius border sesuai spesifikasi */
+    border-radius: 0.25rem; /* Radius border sesuai spesifikasi */
     border: 1px solid var(--bs-input-border-color) !important;
     height: 300px; /* Atur tinggi kontainer sesuai kebutuhan */
     display: flex;
     flex-direction: column;
 }
 
-.ql-editor {
+body[data-layout-mode="light"] .ql-container {
+    background-color: var(--bs-custom-white); /* Warna latar belakang editor */
+    color: var(--bs-gray-700); /* Warna teks dalam editor */
+    border-radius: 0.25rem; /* Radius border sesuai spesifikasi */
+    border: 1px solid var(--bs-input-border-color) !important;
+    height: 300px; /* Atur tinggi kontainer sesuai kebutuhan */
+    display: flex;
+    flex-direction: column;
+}
+
+body[data-layout-mode="dark"] .ql-editor {
     color: var(--bs-gray-700); /* Warna teks dalam editor */
     background-color: var(--bs-custom-white); /* Warna latar belakang editor */
-    padding: .47rem .75rem; /* Padding sesuai spesifikasi */
-    border-radius: .25rem; /* Radius border sesuai spesifikasi */
+    padding: 0.47rem 0.75rem; /* Padding sesuai spesifikasi */
+    border-radius: 0.25rem; /* Radius border sesuai spesifikasi */
     flex: 1; /* Membuat editor fleksibel untuk mengisi ruang kontainer */
     overflow-y: auto; /* Menambahkan scroll jika konten lebih besar dari tinggi editor */
 }
 
-.ql-picker-label {
+body[data-layout-mode="dark"] .ql-picker-label {
     color: var(--bs-gray-700) !important;
 }
 
-.ql-toolbar {
+body[data-layout-mode="dark"] .ql-toolbar {
     color: var(--bs-gray-700);
     background-color: #3c3957; /* Warna latar belakang toolbar */
     border: 1px solid var(--bs-input-border-color) !important;
@@ -35,21 +45,25 @@
 .ql-toolbar button {
     display: block;
     width: 100%;
-    padding: .47rem .75rem;
-    font-size: .8125rem;
+    padding: 0.47rem 0.75rem;
+    font-size: 0.8125rem;
     font-weight: 400;
     line-height: 1.5;
     color: var(--bs-gray-700); /* Warna teks tombol */
     background-color: var(--bs-custom-white); /* Warna latar belakang tombol */
     border: 1px solid #444; /* Warna border tombol */
-    border-radius: .25rem; /* Radius border tombol */
-    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    border-radius: 0.25rem; /* Radius border tombol */
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-.ql-toolbar button:hover, .ql-toolbar .ql-stroke:hover, .ql-toolbar .ql-fill:hover {
-    background-color: var(--bs-gray-700); /* Warna latar belakang tombol saat hover */
+body[data-layout-mode="dark"] .ql-toolbar button:hover,
+.ql-toolbar .ql-stroke:hover,
+.ql-toolbar .ql-fill:hover {
+    background-color: var(
+        --bs-gray-700
+    ); /* Warna latar belakang tombol saat hover */
     border: 1px solid var(--bs-input-border-color);
-    box-shadow: 0 0 0 .2rem rgba(0, 0, 0, .125); /* Shadow saat hover */
+    box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.125); /* Shadow saat hover */
 }
 
 .ql-toolbar .ql-stroke {
@@ -77,12 +91,14 @@
 
 .ql-picker.ql-placeholder {
     width: 118px;
-  }
+}
 
-  .ql-picker.ql-placeholder > span.ql-picker-label::before {
-    content: 'Placeholders';
-  }
+.ql-picker.ql-placeholder > span.ql-picker-label::before {
+    content: "Placeholders";
+}
 
-  .ql-picker.ql-placeholder > span.ql-picker-options > span.ql-picker-item::before {
+.ql-picker.ql-placeholder
+    > span.ql-picker-options
+    > span.ql-picker-item::before {
     content: attr(data-label);
-  }
+}

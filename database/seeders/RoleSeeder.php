@@ -79,6 +79,7 @@ class RoleSeeder extends Seeder
             'delete:site' => ['HR', 'Administrator'],
 
             // Visit
+            'view:visit-all' => ['HR', 'Director', 'Administrator'],
             'view:visit' => ['Employee', 'HR', 'Director', 'Administrator'],
             'create:visit' => ['Employee', 'Administrator'],
             'update:visit' => ['Administrator'],
@@ -103,13 +104,15 @@ class RoleSeeder extends Seeder
             'delete:machine' => ['Administrator'],
 
             // Attendance
-            'view:attendance' => ['Employee', 'HR', 'Finance', 'Director', 'Administrator'],
+            'view:attendance-all' => ['Finance', 'Director', 'HR', 'Administrator'],
+            'view:attendance' => ['Employee','Finance', 'Director', 'HR', 'Administrator'],
             'create:attendance' => ['Employee', 'Administrator'],
             'update:attendance' => ['Administrator'],
             'delete:attendance' => ['Administrator'],
 
             // Attendance Temp
-            'view:attendance-temp' => ['Employee', 'HR', 'Administrator'],
+            'view:attendance-temp-all' => ['HR', 'Administrator'],
+            'view:attendance-temp' => ['Employee','HR', 'Administrator'],
             'create:attendance-temp' => ['Employee', 'Administrator'],
             'update:attendance-temp' => ['Administrator'],
             'delete:attendance-temp' => ['Administrator'],
@@ -134,8 +137,8 @@ class RoleSeeder extends Seeder
             'delete:setting' => ['Administrator'],
 
             // Daily Report
-            'view:daily-report' => ['Employee'],
             'view:daily-report-all' => ['HR', 'Director', 'Administrator'],
+            'view:daily-report' => ['Employee'],
             'create:daily-report' => ['Employee', 'Administrator'],
             'update:daily-report' => ['Employee', 'Administrator'],
             'delete:daily-report' => ['Employee', 'Administrator'],
@@ -147,24 +150,24 @@ class RoleSeeder extends Seeder
             'delete:announcement' => ['HR', 'Administrator'],
 
             // Financial Request
-            'view:financial-request' => ['Employee'],
             'view:financial-request-all' => ['HR', 'Director', 'Finance', 'Administrator'],
+            'view:financial-request' => ['Employee', 'HR', 'Director', 'Administrator', 'Finance'],
             'create:financial-request' => ['Finance', 'Administrator'],
             'update:financial-request' => ['Finance', 'Administrator'],
             'delete:financial-request' => ['Finance', 'Administrator'],
             'approve:financial-request' => ['Employee', 'Finance', 'Director', 'Administrator'],
 
             // Absence Request
-            'view:absence-request' => ['Employee'],
             'view:absence-request-all' => ['HR', 'Director', 'Administrator'],
+            'view:absence-request' => ['Employee', 'HR', 'Director', 'Administrator'],
             'create:absence-request' => ['Employee', 'HR', 'Administrator'],
             'update:absence-request' => ['Employee', 'HR', 'Administrator'],
             'delete:absence-request' => ['Employee', 'HR', 'Administrator'],
             'approve:absence-request' => ['Employee', 'HR', 'Director', 'Administrator'],
 
             // Leave Request
-            'view:leave-request' => ['Employee'],
             'view:leave-request-all' => ['HR', 'Director', 'Administrator'],
+            'view:leave-request' => ['Employee', 'HR', 'Director', 'Administrator'],
             'create:leave-request' => ['Employee', 'HR', 'Administrator'],
             'update:leave-request' => ['Employee', 'HR', 'Administrator'],
             'delete:leave-request' => ['Employee', 'HR', 'Administrator'],
@@ -179,6 +182,7 @@ class RoleSeeder extends Seeder
             'view:report-visit' => ['Employee', 'HR', 'Director', 'Administrator'],
 
             // Project
+            'view:project-all' => ['HR', 'Director', 'Administrator'],
             'view:project' => ['Employee', 'HR', 'Director', 'Administrator', 'Project Manager'],
             'create:project' => ['Administrator', 'Project Manager'],
             'update:project' => ['Administrator', 'Project Manager'],
