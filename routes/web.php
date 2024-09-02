@@ -103,10 +103,10 @@ Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
     // Route::get('attendance', 'path.to.view')->name('attendance.index');
     // Route::get('attendance-temporary', 'path.to.view')->name('attendance-temporary.index');
 
-    Route::group(['prefix' => 'daily-report'], function () {
-        // Route::get('/', 'path.to.view')->name('daily-report.index');
-        // Route::get('team', 'path.to.view')->name('team-daily-report.index');
-    });
+    // Route::group(['prefix' => 'daily-report'], function () {
+    //     Route::get('/', 'path.to.view')->name('daily-report.index');
+    //     Route::get('team', 'path.to.view')->name('team-daily-report.index');
+    // });
 
     Route::group(['prefix' => 'absence-request'], function () {
         // Route::get('/', 'path.to.view')->name('absence-request.index');
