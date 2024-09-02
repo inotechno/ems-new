@@ -28,7 +28,5 @@ class CategoryInventorySeeder extends Seeder
         foreach ($categories as $category) {
             CategoryInventory::create($category);
         }
-
-
     }
 }
