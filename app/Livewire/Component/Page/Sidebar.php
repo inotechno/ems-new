@@ -136,35 +136,35 @@ class Sidebar extends Component
                         ],
                     ],
                 ],
-                // [
-                //     'name' => 'Absence Request',
-                //     'url' => '/absence-request',
-                //     'route' => 'absence-request.index',
-                //     'icon' => 'bx bxs-tired',
-                //     'permission' => 'view:absence-request-all',
-                // ],
-                // [
-                //     'name' => 'Absence Request',
-                //     'icon' => 'bx bxs-tired',
-                //     'url' => '/absence-request',
-                //     'permission' => 'view:absence-request',
-                //     'subMenus' => [
-                //         [
-                //             'name' => 'My Absence Request',
-                //             'url' => '/absence-request',
-                //             'route' => 'absence-request.index',
-                //             'icon' => 'bx bxs-tired',
-                //             'permission' => 'view:absence-request'
-                //         ],
-                //         [
-                //             'name' => 'Team Absence Request',
-                //             'url' => '/absence-request/team',
-                //             'route' => 'team-absence-request.index',
-                //             'icon' => 'bx bxs-tired',
-                //             'permission' => 'view:absence-request'
-                //         ],
-                //     ],
-                // ],
+                [
+                    'name' => 'Absent Request All',
+                    'url' => '/absent-request-all',
+                    'route' => 'absent-request.index',
+                    'icon' => 'bx bxs-tired',
+                    'permission' => 'view:absent-request-all',
+                ],
+                [
+                    'name' => 'Absent Request',
+                    'icon' => 'bx bxs-tired',
+                    'url' => '/absent-request',
+                    'permission' => 'view:absent-request',
+                    'subMenus' => [
+                        [
+                            'name' => 'My Absent Request',
+                            'url' => '/absent-request',
+                            'route' => 'absent-request.index',
+                            'icon' => 'bx bxs-tired',
+                            'permission' => 'view:absent-request'
+                        ],
+                        [
+                            'name' => 'Team Absent Request',
+                            'url' => '/absent-request/team',
+                            'route' => 'team-absent-request.index',
+                            'icon' => 'bx bxs-tired',
+                            'permission' => 'view:absent-request'
+                        ],
+                    ],
+                ],
                 // [
                 //     'name' => 'Leave Request',
                 //     'url' => '/leave-request',
@@ -248,11 +248,11 @@ class Sidebar extends Component
         //             'permission' => 'view:report-attendance'
         //         ],
         //         [
-        //             'name' => 'Report Absence',
-        //             'url' => '/report-absence-request',
-        //             'route' => 'report-absence-request.index',
+        //             'name' => 'Report absent',
+        //             'url' => '/report-absent-request',
+        //             'route' => 'report-absent-request.index',
         //             'icon' => 'bx bx-bar-chart-alt-2',
-        //             'permission' => 'view:report-absence-request'
+        //             'permission' => 'view:report-absent-request'
         //         ],
         //         [
         //             'name' => 'Report Leave',
