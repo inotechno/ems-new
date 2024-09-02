@@ -8,8 +8,7 @@
                     <div class="card">
                         <div class="card-body">
                             <label for="form-label">Search</label>
-                            <input type="text" class="form-control" wire:model.live="search"
-                                placeholder="Search ...">
+                            <input type="text" class="form-control" wire:model.live="search" placeholder="Search ...">
                         </div>
                     </div>
                 </div>
@@ -18,7 +17,8 @@
                     <div class="card">
                         <div class="card-body" wire:ignore>
                             <label for="employees">Select Employee</label>
-                            <select class="form-control select2-multiple" id="employees" data-placeholder="Select Employee" wire:model="employee_id" multiple>
+                            <select class="form-control select2-multiple" id="employees"
+                                data-placeholder="Select Employee" wire:model="employee_id" multiple>
                                 @foreach ($employees as $employee)
                                     <option value="{{ $employee->id }}">{{ $employee->user->name }}</option>
                                 @endforeach
@@ -58,6 +58,7 @@
                 <div class="col-12 text-end mb-3">
                     <button class="btn btn-primary mt-2" wire:click="resetFilter" wire:loading.attr="disabled">Reset
                         Filter</button>
+                    <a href="{{ route('daily-report.create') }}" class="btn btn-primary mt-2">Create</a>
                 </div>
             </div>
         </div>
