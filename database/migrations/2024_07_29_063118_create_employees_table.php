@@ -22,6 +22,7 @@ return new class extends Migration
             $table->enum('gender', ['male', 'female'])->nullable();
             $table->string('marital_status')->nullable();
             $table->string('religion')->nullable();
+            $table->foreignId('position_id')->nullable();
 
             $table->timestamps();
         });

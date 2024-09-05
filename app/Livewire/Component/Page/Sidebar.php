@@ -165,35 +165,35 @@ class Sidebar extends Component
                         ],
                     ],
                 ],
-                // [
-                //     'name' => 'Leave Request',
-                //     'url' => '/leave-request',
-                //     'route' => 'leave-request.index',
-                //     'icon' => 'bx bx-log-out-circle',
-                //     'permission' => 'view:leave-request-all',
-                // ],
-                // [
-                //     'name' => 'Leave Request',
-                //     'url' => '/leave-request',
-                //     'icon' => 'bx bx-log-out-circle',
-                //     'permission' => 'view:leave-request',
-                //     'subMenus' => [
-                //         [
-                //             'name' => 'My Leave Request',
-                //             'url' => '/leave-request',
-                //             'route' => 'leave-request.index',
-                //             'icon' => 'bx bx-log-out-circle',
-                //             'permission' => 'view:leave-request'
-                //         ],
-                //         [
-                //             'name' => 'Team Leave Request',
-                //             'url' => '/leave-request/team',
-                //             'route' => 'team-leave-request.index',
-                //             'icon' => 'bx bx-log-out-circle',
-                //             'permission' => 'view:leave-request'
-                //         ],
-                //     ],
-                // ],
+                [
+                    'name' => 'Leave Request All',
+                    'url' => '/leave-request-all',
+                    'route' => 'leave-request.all',
+                    'icon' => 'bx bx-log-out-circle',
+                    'permission' => 'view:leave-request-all',
+                ],
+                [
+                    'name' => 'Leave Request',
+                    'url' => '/leave-request',
+                    'icon' => 'bx bx-log-out-circle',
+                    'permission' => 'view:leave-request',
+                    'subMenus' => [
+                        [
+                            'name' => 'My Leave Request',
+                            'url' => '/leave-request',
+                            'route' => 'leave-request.index',
+                            'icon' => 'bx bx-log-out-circle',
+                            'permission' => 'view:leave-request'
+                        ],
+                        [
+                            'name' => 'Team Leave Request',
+                            'url' => '/leave-request/team',
+                            'route' => 'team-leave-request.index',
+                            'icon' => 'bx bx-log-out-circle',
+                            'permission' => 'view:leave-request'
+                        ],
+                    ],
+                ],
                 // [
                 //     'name' => 'Financial Request',
                 //     'url' => '/financial-request',

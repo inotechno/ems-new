@@ -19,7 +19,7 @@ class EmployeeItem extends Component
         $roles = $user->roles;
 
         return view('livewire.employee.employee-item', [
-            'positions' => $this->employee->positions->take($this->limitDisplay),
+            'position' => $this->employee->position->name ?? null,
             'user' => $user,
             'roles' => $roles
         ]);

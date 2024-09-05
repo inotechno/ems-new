@@ -22,7 +22,7 @@
     @livewireStyles
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-    <link id="borderless-theme" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-borderless/borderless.css" rel="stylesheet">
+    <link id="theme-css" rel="stylesheet" href="">
     <script>
         window.Laravel = {
             csrfToken: document.querySelector('meta[name="csrf_token"]').getAttribute('value')

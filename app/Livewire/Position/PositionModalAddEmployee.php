@@ -40,7 +40,7 @@ class PositionModalAddEmployee extends Component
         ]);
 
         try {
-            $this->position->employees()->syncWithoutDetaching($this->employee_id);
+            Employee::whereIn('id', $this->employee_id)->update(['position_id' => $this->position->id]);
             $this->alert('success', 'Successfully added employees');
 
             $this->resetFormFields();

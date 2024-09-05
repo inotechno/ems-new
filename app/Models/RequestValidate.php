@@ -14,6 +14,7 @@ class RequestValidate extends Model
         'validatable_id',
         'validatable_type',
         'employee_id',
+        'status',
     ];
 
     public function validatable()

@@ -28,7 +28,7 @@ class EmployeeSheetImport implements ToCollection, WithHeadingRow, SkipsEmptyRow
     public function __construct()
     {
         $this->EmailService = app(EmailService::class);
-        $this->employees = Employee::with('positions', 'user', 'user.roles')->get();
+        $this->employees = Employee::with('position', 'user', 'user.roles')->get();
         $this->positions = Position::all()->keyBy('id');
         $this->roles = Role::all()->keyBy('name');
     }
@@ -71,6 +71,13 @@ class EmployeeSheetImport implements ToCollection, WithHeadingRow, SkipsEmptyRow
             $roleIds = $foundRoles->pluck('id')->toArray();
 
             $employee = $this->employees->where('id', $id)->first();
+            $position = $this->positions->where('id', $position_id)->first();
+
+            if($position) {
+                $position_id = $position->id;
+            }else{
+                $position_id = null;
+            }
 
             if ($employee) {
                 $user = $employee->user;
@@ -92,13 +99,8 @@ class EmployeeSheetImport implements ToCollection, WithHeadingRow, SkipsEmptyRow
                     'marital_status' => $marital_status,
                     'religion' => $religion,
                     'leave_remaining' => $leave_remaining,
+                    'position_id' => $position_id,
                 ]);
-
-                if ($position_id != null) {
-                    $positionIds = is_array($position_id) ? $position_id : [$position_id];
-                    $positions = $this->positions->whereIn('id', $positionIds);
-                    $employee->positions()->sync($positions->pluck('id')->toArray());
-                }
 
                 if (!empty($roleIds)) {
                     $user->roles()->sync($roleIds);
@@ -130,13 +132,8 @@ class EmployeeSheetImport implements ToCollection, WithHeadingRow, SkipsEmptyRow
                     'marital_status' => $marital_status,
                     'religion' => $religion,
                     'leave_remaining' => $leave_remaining,
+                    'position_id' => $position_id,
                 ]);
-
-                if ($position_id != null) {
-                    $positionIds = is_array($position_id) ? $position_id : [$position_id];
-                    $positions = $this->positions->whereIn('id', $positionIds);
-                    $employee->positions()->sync($positions->pluck('id')->toArray());
-                }
             }
         }
     }

@@ -15,12 +15,12 @@ class EmployeeSeeder extends Seeder
     public function run(): void
     {
         $roles = [
-            'Administrator',
-            'Director',
-            'Finance',
-            'HR',
+            // 'Administrator',
+            // 'Director',
+            // 'Finance',
+            // 'HR',
             'Employee',
-            'Project Manager',
+            // 'Project Manager',
         ];
 
         User::factory(10)->create()->each(function ($user) use ($roles) {

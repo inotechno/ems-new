@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('absent_requests', function (Blueprint $table) {
             $table->id();
             $table->foreignId('employee_id')->constrained()->cascadeOnDelete();
-            $table->date('date')->nullable();
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->text('notes')->nullable();
             $table->string('file_path')->nullable();
             $table->string('file_url')->nullable();
+            $table->enum('type_absent', ['sakit', 'izin', 'lainnya'])->nullable();
             $table->boolean('is_approved')->default(false);
 
             $table->timestamps();

@@ -16,10 +16,11 @@ return new class extends Migration
             $table->foreignId('employee_id')->constrained()->cascadeOnDelete();
             $table->date('start_date');
             $table->date('end_date');
-            $table->integer('current_total_leave')->unsigned();
             $table->text('notes')->nullable();
+            $table->integer('total_days')->unsigned();
+            $table->integer('current_total_leave')->unsigned();
             $table->integer('total_leave_after_request')->unsigned();
-            $table->boolean('is_approved')->default(false);
+            $table->boolean('is_approved')->default(0);
 
             $table->timestamps();
         });

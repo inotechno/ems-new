@@ -2,33 +2,65 @@
     @livewire('component.page.breadcrumb', ['breadcrumbs' => [['name' => 'Application', 'url' => '/'], ['name' => 'Absent Request', 'url' => route('absent-request.index')], ['name' => 'Detail Absent Request ']]], key('breadcrumb'))
 
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-lg-4">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-3">Recipients</h4>
                     @foreach ($recipientsWithStatus as $item)
                         <p class="{{ $item['bgClass'] }} text-white p-2">
-                            {{ $item['recipient']->employee->user->name }} : {{ ucfirst($item['status']) }} at {{ $item['created_at'] ?? '-' }}
+                            {{ $item['recipient']->employee->user->name }} : {{ ucfirst($item['status']) }} at
+                            {{ $item['created_at'] ?? '-' }}
                         </p>
                     @endforeach
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-lg-4">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-3">Date</h4>
-                        <div id="calendar"></div>
+                    <div id="calendar"></div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-lg-4">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-3">Notes</h4>
-                        <p>{{ $absent_request->notes }}</p>
+                    <p>{{ $leave_request->notes }}</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">Detail</h4>
+                    <div class="row">
+                        <div class="col-lg">
+                            <label for="type_leave" class="mb-3">Leave Period</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" value="{{ $leave_period }}">
+                                <span class="input-group-text bg-primary text-white" id="option-date">Hari</span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg">
+                            <label for="type_leave" class="mb-3">Already Taken</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" wire:model="leave_taken" readonly>
+                                <span class="input-group-text bg-primary text-white" id="option-date">Hari</span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg">
+                            <label for="type_leave" class="mb-3">Remaining</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" wire:model="leave_remaining" readonly>
+                                <span class="input-group-text bg-primary text-white" id="option-date">Hari</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

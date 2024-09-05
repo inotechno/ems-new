@@ -1,16 +1,16 @@
 <div>
-    @livewire('component.page.breadcrumb', ['breadcrumbs' => [['name' => 'Application', 'url' => '/'], ['name' => 'Absent Request', 'url' => route('absent-request.index')], ['name' => $mode == 'Create' ? 'Create' : 'Edit Absent Request ']]], key('breadcrumb'))
+    @livewire('component.page.breadcrumb', ['breadcrumbs' => [['name' => 'Application', 'url' => '/'], ['name' => 'Leave Request', 'url' => route('leave-request.index')], ['name' => $mode == 'Create' ? 'Create' : 'Edit Leave Request ']]], key('breadcrumb'))
 
 
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title mb-4">{{ $mode == 'Create' ? 'Create Absent Request' : 'Edit Absent Request' }}
+                    <h4 class="card-title mb-4">{{ $mode == 'Create' ? 'Create Leave Request' : 'Edit Leave Request' }}
                     </h4>
 
                     <form action="" wire:submit.prevent="save" wire:ignore class="needs-validation"
-                        id="absent-request-form">
+                        id="leave-request-form">
                         <div class="row">
                             <div class="col-md">
                                 <div class="mb-3">
@@ -19,41 +19,6 @@
                                         rows="3"></textarea>
 
                                     @error('notes')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="type_absent" class="mb-3">Type Absent</label>
-
-                                    <div class="d-flex gap-3">
-                                        <div class="form-check mb-3">
-                                            <input class="form-check-input" type="radio" name="type_absent"
-                                                id="type_absent1" checked="" wire:model="type_absent"
-                                                value="sakit">
-                                            <label class="form-check-label" for="type_absent1">
-                                                Sakit
-                                            </label>
-                                        </div>
-
-                                        <div class="form-check mb-3">
-                                            <input class="form-check-input" type="radio" name="type_absent"
-                                                id="type_absent2" wire:model="type_absent" value="izin">
-                                            <label class="form-check-label" for="type_absent2">
-                                                Izin
-                                            </label>
-                                        </div>
-
-                                        <div class="form-check mb-3">
-                                            <input class="form-check-input" type="radio" name="type_absent"
-                                                id="type_absent3" wire:model="type_absent" value="lainnya">
-                                            <label class="form-check-label" for="type_absent3">
-                                                Lainnya
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    @error('type_absent')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -74,6 +39,39 @@
                                         </span>
                                     @enderror
                                 </div>
+
+                                <div class="row">
+                                    <div class="col-md">
+                                        <label for="type_leave" class="mb-3">Leave Period to be Taken</label>
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" wire:model="leave_period"
+                                                readonly>
+                                            <span class="input-group-text bg-primary text-white"
+                                                id="option-date">Hari</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md">
+                                        <label for="type_leave" class="mb-3">Already Taken</label>
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" wire:model="leave_taken"
+                                                readonly>
+                                            <span class="input-group-text bg-primary text-white"
+                                                id="option-date">Hari</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md">
+                                        <label for="type_leave" class="mb-3">Remaining</label>
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" wire:model="leave_remaining"
+                                                readonly>
+                                            <span class="input-group-text bg-primary text-white"
+                                                id="option-date">Hari</span>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
 
                             <div class="col-md-6">
@@ -134,10 +132,8 @@
     @push('js')
         <script src="{{ asset('libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
         <script src="{{ asset('libs/select2/js/select2.min.js') }}"></script>
-
         <script>
             document.addEventListener('livewire:init', function() {
-                let selectElement = $('.select2-multiple');
                 var today = new Date();
                 today.setHours(0, 0, 0, 0); // Menetapkan waktu ke 00:00:00 untuk perbandingan yang akurat
 
@@ -178,6 +174,8 @@
                     }
                 });
 
+                let selectElement = $('.select2-multiple');
+
                 selectElement.select2({
                     width: '100%',
                 }).on('change', function() {
@@ -186,6 +184,9 @@
                 });
 
                 Livewire.on('set-default-form', () => {
+                    var recipients = @json($recipients);
+                    selectElement.val(recipients).trigger('change');
+
                     var start = new Date(@json($start_date));
                     var end = new Date(@json($end_date));
 
@@ -199,9 +200,6 @@
                             $(this).addClass('range-highlight');
                         }
                     });
-
-                    var recipients = @json($recipients);
-                    selectElement.val(recipients).trigger('change');
                 })
             });
         </script>

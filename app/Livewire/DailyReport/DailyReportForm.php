@@ -34,7 +34,7 @@ class DailyReportForm extends Component
             $this->dispatch('contentChanged', $this->description);
         }
 
-        $this->employees = Employee::with('user')->get();
+        $this->employees = Employee::with('user')->whereNot('user_id', Auth::user()->id)->get();
     }
 
     public function save()

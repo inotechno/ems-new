@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('validatable_type');
             $table->unsignedBigInteger('validatable_id');
             $table->foreignId('employee_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+
             $table->timestamps();
         });
     }

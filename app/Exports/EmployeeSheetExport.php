@@ -19,14 +19,12 @@ class EmployeeSheetExport implements FromCollection, WithHeadings, WithMapping, 
      */
     public function collection()
     {
-        return Employee::with(['user.roles', 'positions' => function ($query) {
-            $query->limit(1);
-        }])->get();
+        return Employee::with('user.roles', 'position')->get();
     }
 
     public function map($employee): array
     {
-        $position = $employee->positions->first();
+        $position = $employee->position;
 
         return [
             $employee->id,

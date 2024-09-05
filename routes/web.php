@@ -11,6 +11,11 @@ use App\Livewire\Auth\Login;
 use App\Livewire\DailyReport\DailyReportForm;
 use App\Livewire\DailyReport\DailyReportTeam;
 use App\Livewire\EmailTemplateManager\EmailTemplateManagerIndex;
+use App\Livewire\LeaveRequest\LeaveRequestAll;
+use App\Livewire\LeaveRequest\LeaveRequestDetail;
+use App\Livewire\LeaveRequest\LeaveRequestForm;
+use App\Livewire\LeaveRequest\LeaveRequestIndex;
+use App\Livewire\LeaveRequest\LeaveRequestTeam;
 use App\Livewire\Role\RoleForm;
 use App\Livewire\Role\RoleIndex;
 use App\Livewire\Site\SiteForm;
@@ -116,6 +121,7 @@ Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
 
     Route::get('/daily-report-all', DailyReportAll::class)->name('daily-report.all')->middleware('can:view:daily-report-all');
     Route::get('/absent-request-all', AbsentRequestAll::class)->name('absent-request.all')->middleware('can:view:absent-request-all');
+    Route::get('/leave-request-all', LeaveRequestAll::class)->name('leave-request.all')->middleware('can:view:leave-request-all');
 
     // Route::get('site', 'path.to.view')->name('site.index');
     // Route::get('department', 'path.to.view')->name('department.index');
@@ -131,8 +137,6 @@ Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
         Route::get('create', DailyReportForm::class)->name('daily-report.create')->middleware('can:create:daily-report');
         Route::get('edit/{id}', DailyReportForm::class)->name('daily-report.edit')->middleware('can:update:daily-report');
         Route::get('detail/{id}', DailyReportDetail::class)->name('daily-report.detail')->middleware('can:view:daily-report');
-        // Route::get('/', 'path.to.view')->name('daily-report.index');
-        // Route::get('team', 'path.to.view')->name('team-daily-report.index');
     });
 
     Route::group(['prefix' => 'absent-request'], function () {
@@ -141,9 +145,14 @@ Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
         Route::get('create', AbsentRequestForm::class)->name('absent-request.create')->middleware('can:create:absent-request');
         Route::get('edit/{id}', AbsentRequestForm::class)->name('absent-request.edit')->middleware('can:update:absent-request');
         Route::get('detail/{id}', AbsentRequestDetail::class)->name('absent-request.detail')->middleware('can:view:absent-request');
+    });
 
-        // Route::get('/', 'path.to.view')->name('absence-request.index');
-        // Route::get('team', 'path.to.view')->name('team-absence-request.index');
+    Route::group(['prefix' => 'leave-request'], function () {
+        Route::get('/', LeaveRequestIndex::class)->name('leave-request.index')->middleware('can:view:leave-request');
+        Route::get('team', LeaveRequestTeam::class)->name('team-leave-request.index')->middleware('can:view:leave-request');
+        Route::get('create', LeaveRequestForm::class)->name('leave-request.create')->middleware('can:create:leave-request');
+        Route::get('edit/{id}', LeaveRequestForm::class)->name('leave-request.edit')->middleware('can:update:leave-request');
+        Route::get('detail/{id}', LeaveRequestDetail::class)->name('leave-request.detail')->middleware('can:view:leave-request');
     });
 
     Route::group(['prefix' => 'email-template'], function () {

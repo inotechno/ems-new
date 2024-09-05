@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Livewire\AbsentRequest;
+namespace App\Livewire\LeaveRequest;
 
-use App\Models\AbsentRequest;
+use Livewire\Component;
 use App\Models\Employee;
+use App\Models\LeaveRequest;
+use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\Url;
-use Livewire\Component;
 use Livewire\WithPagination;
 
-class AbsentRequestAll extends Component
+class LeaveRequestIndex extends Component
 {
     use LivewireAlert, WithPagination;
 
@@ -31,7 +32,7 @@ class AbsentRequestAll extends Component
     }
     public function render()
     {
-        $absent_requests = AbsentRequest::with('employee.user', 'recipients.employee.user')->when($this->search, function ($query) {
+        $leave_requests = LeaveRequest::with('employee.user', 'recipients.employee.user')->when($this->search, function ($query) {
             $query->whereHas('employee.user', function ($query) {
                 $query->where('name', 'like', '%' . $this->search . '%');
             })->orWhere('notes', 'like', '%' . $this->search . '%');
@@ -43,8 +44,9 @@ class AbsentRequestAll extends Component
             $query->orWhereDate('end_date', '<=', $this->end_date);
         });
 
-        $absent_requests = $absent_requests->paginate($this->perPage);
+        $leave_requests->where('employee_id', Auth::user()->employee->id);
+        $leave_requests = $leave_requests->paginate($this->perPage);
 
-        return view('livewire.absent-request.absent-request-all', compact('absent_requests'))->layout('layouts.app', ['title' => 'Absent Request All']);
+        return view('livewire.leave-request.leave-request-index', compact('leave_requests'))->layout('layouts.app', ['title' => 'Leave Request']);
     }
 }

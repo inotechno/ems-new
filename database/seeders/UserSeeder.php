@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -18,6 +19,10 @@ class UserSeeder extends Seeder
             'username' => 'superadmin',
             'email' => 'superadmin@imajiwa.id',
             'password' => bcrypt('password'),
+        ]);
+
+        Employee::factory()->create([
+            'user_id' => $administrator->id, // Mengaitkan employee dengan user yang baru dibuat
         ]);
 
         $administrator->assignRole('Administrator');

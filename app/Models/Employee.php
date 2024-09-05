@@ -25,7 +25,8 @@ class Employee extends Model
         'place_of_birth',
         'gender',
         'marital_status',
-        'religion'
+        'religion',
+        'position_id',
     ];
 
     public function user()
@@ -38,9 +39,9 @@ class Employee extends Model
         return $this->hasMany(Department::class, 'supervisor_id');
     }
 
-    public function positions(): BelongsToMany
+    public function position()
     {
-        return $this->belongsToMany(Position::class, 'employees_positions');
+        return $this->belongsTo(Position::class);
     }
 
     public function attendances(): HasMany

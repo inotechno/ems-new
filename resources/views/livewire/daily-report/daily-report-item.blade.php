@@ -41,15 +41,17 @@
                         class="mdi mdi-eye me-1"></i> View</a>
             @endcan
 
-            @can('update:daily-report')
-                <a href="{{ route('daily-report.edit', ['id' => $daily_report->id]) }}" class="btn btn-sm btn-primary"><i
-                        class="mdi mdi-pencil me-1"></i> Edit</a>
-            @endcan
+            @if (!$disableUpdate)
+                @can('update:daily-report')
+                    <a href="{{ route('daily-report.edit', ['id' => $daily_report->id]) }}"
+                        class="btn btn-sm btn-primary"><i class="mdi mdi-pencil me-1"></i> Edit</a>
+                @endcan
 
-            @can('delete:daily-report')
-                <button class="btn btn-sm btn-danger" wire:click="deleteConfirm({{ $daily_report->id }})"><i
-                        class="mdi mdi-delete me-1"></i> Delete</button>
-            @endcan
+                @can('delete:daily-report')
+                    <button class="btn btn-sm btn-danger" wire:click="deleteConfirm({{ $daily_report->id }})"><i
+                            class="mdi mdi-delete me-1"></i> Delete</button>
+                @endcan
+            @endif
         </div>
     </td>
 

@@ -1,5 +1,5 @@
 <div>
-    @livewire('component.page.breadcrumb', ['breadcrumbs' => [['name' => 'Application', 'url' => '/'], ['name' => 'Absent Request All', 'url' => route('absent-request.all')]]], key('breadcrumb'))
+    @livewire('component.page.breadcrumb', ['breadcrumbs' => [['name' => 'Application', 'url' => '/'], ['name' => 'Leave Request', 'url' => route('leave-request.index')]]], key('breadcrumb'))
 
     <div class="row">
         <div class="col-lg-12">
@@ -32,9 +32,9 @@
                         <div class="card-body">
 
                             <label for="form-label">Date</label>
-                            <div class="input-daterange input-group" id="absent-request-inputgroup"
+                            <div class="input-daterange input-group" id="leave-request-inputgroup"
                                 data-provide="datepicker" data-date-format="yyyy-mm-dd"
-                                data-date-container='#absent-request-inputgroup' data-date-autoclose="true">
+                                data-date-container='#leave-request-inputgroup' data-date-autoclose="true">
                                 <input type="text" class="form-control @error('start_date') is-invalid @enderror"
                                     wire:model="start_date" placeholder="Start Date" name="start" />
                                 @error('start_date')
@@ -65,10 +65,10 @@
 
     <div class="row">
         <div class="col-lg-12">
-            @livewire('absent-request.absent-request-list', ['absent_requests' => $absent_requests->getCollection()], key('absent-request-list'))
+            @livewire('leave-request.leave-request-list', ['leave_requests' => $leave_requests->getCollection()], key('leave-request-list'))
         </div>
 
-        {{ $absent_requests->links() }}
+        {{ $leave_requests->links() }}
     </div>
 
     @push('styles')
