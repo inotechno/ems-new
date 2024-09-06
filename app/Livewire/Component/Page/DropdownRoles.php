@@ -2,16 +2,17 @@
 
 namespace App\Livewire\Component\Page;
 
+use App\Livewire\BaseComponent;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
-class DropdownRoles extends Component
+class DropdownRoles extends BaseComponent
 {
     public $roles;
 
     public function render()
     {
-        $this->roles = Auth::user()->roles;
+        $this->roles = $this->authUser->roles;
         return view('livewire.component.page.dropdown-roles');
     }
 }

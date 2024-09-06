@@ -2,10 +2,11 @@
 
 namespace App\Livewire\Component\Page;
 
+use App\Livewire\BaseComponent;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
-class Sidebar extends Component
+class Sidebar extends BaseComponent
 {
     public $menuUsers = [];
     protected $menus = [
@@ -194,35 +195,35 @@ class Sidebar extends Component
                         ],
                     ],
                 ],
-                // [
-                //     'name' => 'Financial Request',
-                //     'url' => '/financial-request',
-                //     'route' => 'financial-request.index',
-                //     'icon' => 'bx bxs-bank',
-                //     'permission' => 'view:financial-request-all'
-                // ],
-                // [
-                //     'name' => 'Financial Request',
-                //     'url' => '/financial-request',
-                //     'icon' => 'bx bxs-bank',
-                //     'permission' => 'view:financial-request',
-                //     'subMenus' => [
-                //         [
-                //             'name' => 'My Financial Request',
-                //             'url' => '/financial-request',
-                //             'route' => 'financial-request.index',
-                //             'icon' => 'bx bxs-bank',
-                //             'permission' => 'view:financial-request'
-                //         ],
-                //         [
-                //             'name' => 'Team Financial Request',
-                //             'url' => '/financial-request/team',
-                //             'route' => 'team-financial-request.index',
-                //             'icon' => 'bx bxs-bank',
-                //             'permission' => 'view:financial-request'
-                //         ],
-                //     ]
-                // ]
+                [
+                    'name' => 'Financial Request All',
+                    'url' => '/financial-request-all',
+                    'route' => 'financial-request.all',
+                    'icon' => 'bx bxs-bank',
+                    'permission' => 'view:financial-request-all'
+                ],
+                [
+                    'name' => 'Financial Request',
+                    'url' => '/financial-request',
+                    'icon' => 'bx bxs-bank',
+                    'permission' => 'view:financial-request',
+                    'subMenus' => [
+                        [
+                            'name' => 'My Financial Request',
+                            'url' => '/financial-request',
+                            'route' => 'financial-request.index',
+                            'icon' => 'bx bxs-bank',
+                            'permission' => 'view:financial-request'
+                        ],
+                        [
+                            'name' => 'Team Financial Request',
+                            'url' => '/financial-request/team',
+                            'route' => 'team-financial-request.index',
+                            'icon' => 'bx bxs-bank',
+                            'permission' => 'view:financial-request'
+                        ],
+                    ]
+                ]
             ]
         ],
         [
@@ -293,7 +294,7 @@ class Sidebar extends Component
 
     public function filterMenus()
     {
-        $user = Auth::user(); // Mendapatkan user yang sedang login
+        $user = $this->authUser; // Mendapatkan user yang sedang login
         $this->menuUsers = [];
 
         foreach ($this->menus as $menu) {

@@ -2,13 +2,14 @@
 
 namespace App\Livewire\Attendance;
 
+use App\Livewire\BaseComponent;
 use App\Models\Attendance;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class AttendanceIndex extends Component
+class AttendanceIndex extends BaseComponent
 {
     use WithPagination;
 
@@ -67,10 +68,10 @@ class AttendanceIndex extends Component
             ->groupBy('employee_id', 'date')
             ->orderBy('date', 'desc');
 
-        if (Auth::user()->can('view:attendance-all')) {
+        if ($this->authUser->can('view:attendance-all')) {
             $attendances = $attendances->paginate($this->perPage);
         } else {
-            $attendances = $attendances->where('employee_id', Auth::user()->employee->id)->paginate($this->perPage);
+            $attendances = $attendances->where('employee_id', $this->authUser->employee->id)->paginate($this->perPage);
         }
 
         // Fetch all check-in and check-out records at once with relations

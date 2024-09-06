@@ -1,49 +1,54 @@
 <?php
 
-use App\Http\Controllers\ImageUploadController;
-use App\Http\Controllers\SendEmailController;
-use App\Livewire\AbsentRequest\AbsentRequestAll;
-use App\Livewire\AbsentRequest\AbsentRequestDetail;
-use App\Livewire\AbsentRequest\AbsentRequestForm;
-use App\Livewire\AbsentRequest\AbsentRequestIndex;
-use App\Livewire\AbsentRequest\AbsentRequestTeam;
 use App\Livewire\Auth\Login;
-use App\Livewire\DailyReport\DailyReportForm;
-use App\Livewire\DailyReport\DailyReportTeam;
-use App\Livewire\EmailTemplateManager\EmailTemplateManagerIndex;
-use App\Livewire\LeaveRequest\LeaveRequestAll;
-use App\Livewire\LeaveRequest\LeaveRequestDetail;
-use App\Livewire\LeaveRequest\LeaveRequestForm;
-use App\Livewire\LeaveRequest\LeaveRequestIndex;
-use App\Livewire\LeaveRequest\LeaveRequestTeam;
 use App\Livewire\Role\RoleForm;
-use App\Livewire\Role\RoleIndex;
 use App\Livewire\Site\SiteForm;
-use App\Livewire\Site\SiteIndex;
 use App\Livewire\TestComponent;
-use App\Livewire\Employee\EmployeeIndex;
-use App\Livewire\Employee\EmployeeForm;
-use App\Livewire\Employee\EmployeeDetail;
-use App\Livewire\Attendance\AttendanceIndex;
-use App\Livewire\Attendance\AttendanceDetail;
-use App\Livewire\Attendance\AttendanceForm;
-use App\Livewire\DailyReport\DailyReportAll;
-use App\Livewire\DailyReport\DailyReportDetail;
-use App\Livewire\DailyReport\DailyReportIndex;
+use App\Livewire\Role\RoleIndex;
+use App\Livewire\Site\SiteIndex;
+use App\Livewire\Site\SiteDetail;
+use App\Livewire\Profile\ProfileForm;
 use App\Livewire\Project\ProjectForm;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Machine\MachineIndex;
-use App\Livewire\Project\ProjectIndex;
-use App\Livewire\Project\ProjectDetail;
-use App\Livewire\Position\PositionIndex;
-use App\Livewire\Dashboard\DashboardIndex;
-use App\Livewire\Department\DepartmentIndex;
-use App\Livewire\Department\DepartmentDetail;
-use App\Livewire\EmailTemplateManager\EmailTemplateManagerForm;
-use App\Livewire\ImportMasterData\ImportMasterDataIndex;
-use App\Livewire\Site\SiteDetail;
 use App\Livewire\Profile\ProfileIndex;
-use App\Livewire\Profile\ProfileForm;
+use App\Livewire\Project\ProjectIndex;
+use App\Livewire\Employee\EmployeeForm;
+use App\Livewire\Project\ProjectDetail;
+use App\Livewire\Employee\EmployeeIndex;
+use App\Livewire\Position\PositionIndex;
+use App\Livewire\Employee\EmployeeDetail;
+use App\Livewire\Dashboard\DashboardIndex;
+use App\Livewire\Attendance\AttendanceForm;
+use App\Livewire\Attendance\AttendanceIndex;
+use App\Livewire\DailyReport\DailyReportAll;
+use App\Livewire\Department\DepartmentIndex;
+use App\Http\Controllers\SendEmailController;
+use App\Livewire\Attendance\AttendanceDetail;
+use App\Livewire\DailyReport\DailyReportForm;
+use App\Livewire\DailyReport\DailyReportTeam;
+use App\Livewire\Department\DepartmentDetail;
+use App\Livewire\DailyReport\DailyReportIndex;
+use App\Livewire\LeaveRequest\LeaveRequestAll;
+use App\Http\Controllers\ImageUploadController;
+use App\Livewire\DailyReport\DailyReportDetail;
+use App\Livewire\LeaveRequest\LeaveRequestForm;
+use App\Livewire\LeaveRequest\LeaveRequestTeam;
+use App\Livewire\AbsentRequest\AbsentRequestAll;
+use App\Livewire\LeaveRequest\LeaveRequestIndex;
+use App\Livewire\AbsentRequest\AbsentRequestForm;
+use App\Livewire\AbsentRequest\AbsentRequestTeam;
+use App\Livewire\LeaveRequest\LeaveRequestDetail;
+use App\Livewire\AbsentRequest\AbsentRequestIndex;
+use App\Livewire\AbsentRequest\AbsentRequestDetail;
+use App\Livewire\FinancialRequest\FinancialRequestForm;
+use App\Livewire\FinancialRequest\FinancialRequestTeam;
+use App\Livewire\FinancialRequest\FinancialRequestIndex;
+use App\Livewire\ImportMasterData\ImportMasterDataIndex;
+use App\Livewire\FinancialRequest\FinancialRequestDetail;
+use App\Livewire\EmailTemplateManager\EmailTemplateManagerForm;
+use App\Livewire\EmailTemplateManager\EmailTemplateManagerIndex;
+use App\Livewire\FinancialRequest\FinancialRequestAll;
 
 /*
 |--------------------------------------------------------------------------
@@ -122,6 +127,7 @@ Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
     Route::get('/daily-report-all', DailyReportAll::class)->name('daily-report.all')->middleware('can:view:daily-report-all');
     Route::get('/absent-request-all', AbsentRequestAll::class)->name('absent-request.all')->middleware('can:view:absent-request-all');
     Route::get('/leave-request-all', LeaveRequestAll::class)->name('leave-request.all')->middleware('can:view:leave-request-all');
+    Route::get('/financial-request-all', FinancialRequestAll::class)->name('financial-request.all')->middleware('can:view:financial-request-all');
 
     // Route::get('site', 'path.to.view')->name('site.index');
     // Route::get('department', 'path.to.view')->name('department.index');
@@ -153,6 +159,14 @@ Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
         Route::get('create', LeaveRequestForm::class)->name('leave-request.create')->middleware('can:create:leave-request');
         Route::get('edit/{id}', LeaveRequestForm::class)->name('leave-request.edit')->middleware('can:update:leave-request');
         Route::get('detail/{id}', LeaveRequestDetail::class)->name('leave-request.detail')->middleware('can:view:leave-request');
+    });
+
+    Route::group(['prefix' => 'financial-request'], function () {
+        Route::get('/', FinancialRequestIndex::class)->name('financial-request.index')->middleware('can:view:financial-request');
+        Route::get('team', FinancialRequestTeam::class)->name('team-financial-request.index')->middleware('can:view:financial-request');
+        Route::get('create', FinancialRequestForm::class)->name('financial-request.create')->middleware('can:create:financial-request');
+        Route::get('edit/{id}', FinancialRequestForm::class)->name('financial-request.edit')->middleware('can:update:financial-request');
+        Route::get('detail/{id}', FinancialRequestDetail::class)->name('financial-request.detail')->middleware('can:view:financial-request');
     });
 
     Route::group(['prefix' => 'email-template'], function () {

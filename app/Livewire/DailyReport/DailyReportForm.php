@@ -2,6 +2,7 @@
 
 namespace App\Livewire\DailyReport;
 
+use App\Livewire\BaseComponent;
 use App\Models\DailyReport;
 use App\Models\Employee;
 use Carbon\Carbon;
@@ -11,7 +12,7 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class DailyReportForm extends Component
+class DailyReportForm extends BaseComponent
 {
     use LivewireAlert;
     public $mode = 'Create';
@@ -34,7 +35,7 @@ class DailyReportForm extends Component
             $this->dispatch('contentChanged', $this->description);
         }
 
-        $this->employees = Employee::with('user')->whereNot('user_id', Auth::user()->id)->get();
+        $this->employees = Employee::with('user')->whereNot('user_id', $this->authUser->id)->get();
     }
 
     public function save()
@@ -71,7 +72,7 @@ class DailyReportForm extends Component
 
         try {
             $daily_report = DailyReport::create([
-                'employee_id' => Auth::user()->employee->id,
+                'employee_id' => $this->authUser->employee->id,
                 'day' => Carbon::parse($this->date)->format('d'),
                 'description' => $this->description,
                 'date' => $this->date,
@@ -111,7 +112,7 @@ class DailyReportForm extends Component
         try {
             // Perbarui Daily Report
             $this->daily_report->update([
-                'employee_id' => Auth::user()->employee->id,
+                'employee_id' => $this->authUser->employee->id,
                 'day' => Carbon::parse($this->date)->format('d'),
                 'description' => $this->description,
                 'date' => $this->date,

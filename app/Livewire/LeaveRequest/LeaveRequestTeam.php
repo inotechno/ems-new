@@ -2,6 +2,7 @@
 
 namespace App\Livewire\LeaveRequest;
 
+use App\Livewire\BaseComponent;
 use App\Models\Employee;
 use App\Models\LeaveRequest;
 use Illuminate\Support\Facades\Auth;
@@ -10,7 +11,7 @@ use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class LeaveRequestTeam extends Component
+class LeaveRequestTeam extends BaseComponent
 {
     use LivewireAlert, WithPagination;
 
@@ -32,7 +33,7 @@ class LeaveRequestTeam extends Component
     }
     public function render()
     {
-        $employeeId = Auth::user()->employee->id;
+        $employeeId = $this->authUser->employee->id;
 
         $leave_requests = LeaveRequest::with('employee.user', 'recipients.employee.user')->when($this->search, function ($query) {
             $query->whereHas('employee.user', function ($query) {

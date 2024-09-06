@@ -10,7 +10,7 @@ class ChangeTheme extends Component
 
     public function mount()
     {
-        $this->theme = session('theme', 'dark');
+        $this->theme = session('theme', 'light');
     }
 
     public function toggleTheme()

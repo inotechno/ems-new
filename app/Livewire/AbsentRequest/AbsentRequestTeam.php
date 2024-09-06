@@ -2,6 +2,7 @@
 
 namespace App\Livewire\AbsentRequest;
 
+use App\Livewire\BaseComponent;
 use Livewire\Component;
 use App\Models\Employee;
 use Livewire\Attributes\Url;
@@ -10,7 +11,7 @@ use App\Models\AbsentRequest;
 use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
-class AbsentRequestTeam extends Component
+class AbsentRequestTeam extends BaseComponent
 {
     use LivewireAlert, WithPagination;
 
@@ -32,7 +33,7 @@ class AbsentRequestTeam extends Component
     }
     public function render()
     {
-        $employeeId = Auth::user()->employee->id;
+        $employeeId = $this->authUser->employee->id;
 
         $absent_requests = AbsentRequest::with('employee.user', 'recipients.employee.user')->when($this->search, function ($query) {
             $query->whereHas('employee.user', function ($query) {

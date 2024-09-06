@@ -2,6 +2,7 @@
 
 namespace App\Livewire\LeaveRequest;
 
+use App\Livewire\BaseComponent;
 use App\Models\Employee;
 use App\Models\LeaveRequest;
 use App\Models\User;
@@ -11,7 +12,7 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class LeaveRequestForm extends Component
+class LeaveRequestForm extends BaseComponent
 {
     use LivewireAlert;
 
@@ -36,7 +37,7 @@ class LeaveRequestForm extends Component
 
             $this->dispatch('set-default-form', param: 'recipients', value: $this->recipients);
         } else {
-            $this->employee = Auth::user()->employee;
+            $this->employee = $this->authUser->employee;
 
             $this->mode = 'Create';
             $this->notes = '';

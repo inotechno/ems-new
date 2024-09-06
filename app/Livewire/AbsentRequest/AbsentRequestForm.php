@@ -2,6 +2,7 @@
 
 namespace App\Livewire\AbsentRequest;
 
+use App\Livewire\BaseComponent;
 use App\Models\AbsentRequest;
 use App\Models\Employee;
 use App\Models\User;
@@ -10,7 +11,7 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class AbsentRequestForm extends Component
+class AbsentRequestForm extends BaseComponent
 {
     use LivewireAlert;
 
@@ -22,7 +23,7 @@ class AbsentRequestForm extends Component
 
     public function mount($id = null)
     {
-        $this->employees = Employee::with('user')->whereNot('user_id', Auth::user()->id)->get();
+        $this->employees = Employee::with('user')->whereNot('user_id',$this->authUser->id)->get();
 
         if ($id) {
             $this->mode = 'Edit';
@@ -37,7 +38,7 @@ class AbsentRequestForm extends Component
 
             $this->dispatch('set-default-form', param: 'recipients', value: $this->recipients);
         } else {
-            $this->employee = Auth::user()->employee;
+            $this->employee =$this->authUser->employee;
 
             $this->mode = 'Create';
             $this->notes = '';

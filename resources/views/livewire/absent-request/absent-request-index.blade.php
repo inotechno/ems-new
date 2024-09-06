@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md">
                     <div class="card">
                         <div class="card-body">
                             <label for="form-label">Search</label>
@@ -13,7 +13,8 @@
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                @can('absent-request-all')
+                <div class="col-md">
                     <div class="card">
                         <div class="card-body" wire:ignore>
                             <label for="employees">Select Employee</label>
@@ -26,8 +27,9 @@
                         </div>
                     </div>
                 </div>
+                @endcan
 
-                <div class="col-md-4">
+                <div class="col-md">
                     <div class="card">
                         <div class="card-body">
 

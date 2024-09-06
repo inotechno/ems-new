@@ -2,6 +2,7 @@
 
 namespace App\Livewire\DailyReport;
 
+use App\Livewire\BaseComponent;
 use App\Models\DailyReport;
 use App\Models\Employee;
 use Illuminate\Support\Facades\Auth;
@@ -9,7 +10,7 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 
-class DailyReportTeam extends Component
+class DailyReportTeam extends BaseComponent
 {
     use LivewireAlert;
 
@@ -41,7 +42,7 @@ class DailyReportTeam extends Component
         })->latest();
 
         $daily_reports = $daily_reports->whereHas('dailyReportRecipients', function ($query) {
-            $query->where('employee_id', Auth::user()->employee->id);
+            $query->where('employee_id', $this->authUser->employee->id);
         })->paginate($this->perPage);
 
         // dd($daily_reports);

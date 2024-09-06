@@ -2,6 +2,7 @@
 
 namespace App\Livewire\DailyReport;
 
+use App\Livewire\BaseComponent;
 use App\Models\DailyReport;
 use App\Models\Employee;
 use Illuminate\Support\Facades\Auth;
@@ -9,7 +10,7 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 
-class DailyReportIndex extends Component
+class DailyReportIndex extends BaseComponent
 {
     use LivewireAlert;
 
@@ -40,7 +41,7 @@ class DailyReportIndex extends Component
             $query->whereDate('date', '<=', $this->end_date);
         })->latest();
 
-        $daily_reports = $daily_reports->where('employee_id', Auth::user()->employee->id)->paginate($this->perPage);
+        $daily_reports = $daily_reports->where('employee_id', $this->authUser->employee->id)->paginate($this->perPage);
 
         // dd($daily_reports);
         return view('livewire.daily-report.daily-report-index', compact('daily_reports'))->layout('layouts.app', ['title' => 'Daily Report']);

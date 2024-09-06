@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Project;
 
+use App\Livewire\BaseComponent;
 use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -9,7 +10,7 @@ use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class ProjectIndex extends Component
+class ProjectIndex extends BaseComponent
 {
     use LivewireAlert, WithPagination;
 
@@ -43,13 +44,13 @@ class ProjectIndex extends Component
             $query->where('status', $this->status);
         })->latest();
 
-        if(Auth::user()->can('view:project-all')) {
+        if($this->authUser->can('view:project-all')) {
             $projects = $projects->paginate($this->perPage);
-        }else if(Auth::user()->hasRole('Project Manager')) {
-            $projects = $projects->where('employee_id', Auth::user()->employee->id)->paginate($this->perPage);
+        }else if($this->authUser->hasRole('Project Manager')) {
+            $projects = $projects->where('employee_id', $this->authUser->employee->id)->paginate($this->perPage);
         }else {
             $projects = $projects->whereHas('employees', function($query) {
-                $query->where('employee_id', Auth::user()->employee->id);
+                $query->where('employee_id', $this->authUser->employee->id);
             })->paginate($this->perPage);
         }
 

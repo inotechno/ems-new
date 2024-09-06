@@ -2,6 +2,7 @@
 
 namespace App\Livewire\LeaveRequest;
 
+use App\Livewire\BaseComponent;
 use Livewire\Component;
 use App\Models\LeaveRequest;
 use App\Models\RequestValidate;
@@ -9,21 +10,20 @@ use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 
-class LeaveRequestItem extends Component
+class LeaveRequestItem extends BaseComponent
 {
     use LivewireAlert;
     public $leave_request;
     public $isApproved = false;
     public $totalDays = 0;
     public $disableUpdate = false;
+    public $disableUpdateApprove = false;
     public $recipientStatus = false;
     public $isApprovedRecipient = false;
-    public $authUser;
 
     public function mount(LeaveRequest $leave_request)
     {
         $this->leave_request = $leave_request;
-        $this->authUser = Auth::user();
 
         if($this->authUser->employee->id != $this->leave_request->employee_id){
             $this->disableUpdate = true;
@@ -77,7 +77,7 @@ class LeaveRequestItem extends Component
     #[On('approve-leave-request')]
     public function approve()
     {
-        $employeeId = $this->user->employee->id;
+        $employeeId = $this->authUser->employee->id;
 
         // Tambahkan validasi untuk recipient
         RequestValidate::updateOrCreate(
@@ -96,7 +96,7 @@ class LeaveRequestItem extends Component
     #[On('reject-absent-request')]
     public function reject()
     {
-        $employeeId = $this->user->employee->id;
+        $employeeId = $this->authUser->employee->id;
 
         // Tambahkan validasi untuk recipient
         RequestValidate::updateOrCreate(
@@ -131,7 +131,7 @@ class LeaveRequestItem extends Component
         $this->recipientStatus = $this->leave_request->hasRecipient($employeeRecipient);
         $this->isApprovedRecipient = $this->leave_request->isApprovedByRecipient($employeeRecipient);
 
-        $this->disableUpdate = $this->isApprovedRecipient;
+        $this->disableUpdateApprove = $this->isApprovedRecipient;
          // Buat array dengan status validasi untuk setiap recipient
          $recipientsWithStatus = $recipients->map(function ($recipient) {
             $status = $this->leave_request->validates()

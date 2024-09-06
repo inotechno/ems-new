@@ -2,6 +2,7 @@
 
 namespace App\Livewire\LeaveRequest;
 
+use App\Livewire\BaseComponent;
 use Livewire\Component;
 use App\Models\Employee;
 use App\Models\LeaveRequest;
@@ -10,7 +11,7 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 
-class LeaveRequestIndex extends Component
+class LeaveRequestIndex extends BaseComponent
 {
     use LivewireAlert, WithPagination;
 
@@ -44,7 +45,7 @@ class LeaveRequestIndex extends Component
             $query->orWhereDate('end_date', '<=', $this->end_date);
         });
 
-        $leave_requests->where('employee_id', Auth::user()->employee->id);
+        $leave_requests->where('employee_id', $this->authUser->employee->id);
         $leave_requests = $leave_requests->paginate($this->perPage);
 
         return view('livewire.leave-request.leave-request-index', compact('leave_requests'))->layout('layouts.app', ['title' => 'Leave Request']);

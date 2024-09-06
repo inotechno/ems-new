@@ -2,6 +2,7 @@
 
 namespace App\Livewire\AbsentRequest;
 
+use App\Livewire\BaseComponent;
 use App\Models\AbsentRequest;
 use App\Models\RequestValidate;
 use Illuminate\Support\Facades\Auth;
@@ -10,13 +11,14 @@ use Livewire\Attributes\On;
 use Livewire\Attributes\Reactive;
 use Livewire\Component;
 
-class AbsentRequestItem extends Component
+class AbsentRequestItem extends BaseComponent
 {
     use LivewireAlert;
     public $absent_request;
     public $isApproved = false;
     public $totalDays = 0;
     public $disableUpdate = false;
+    public $disableUpdateApprove = false;
     public $recipientStatus = false;
     public $isApprovedRecipient = false;
     public $authUser;
@@ -24,8 +26,7 @@ class AbsentRequestItem extends Component
     public function mount(AbsentRequest $absent_request)
     {
         $this->absent_request = $absent_request;
-        $this->authUser = Auth::user();
-
+// dd($this->authUser->employee->id);
         if($this->authUser->employee->id != $this->absent_request->employee_id){
             $this->disableUpdate = true;
         }
@@ -99,7 +100,7 @@ class AbsentRequestItem extends Component
     #[On('approve-absent-request')]
     public function approve()
     {
-        $employeeId = $this->user->employee->id;
+        $employeeId = $this->authUser->employee->id;
 
         // Tambahkan validasi untuk recipient
         RequestValidate::updateOrCreate(
@@ -118,7 +119,7 @@ class AbsentRequestItem extends Component
     #[On('reject-absent-request')]
     public function reject()
     {
-        $employeeId = $this->user->employee->id;
+        $employeeId = $this->authUser->employee->id;
 
         // Tambahkan validasi untuk recipient
         RequestValidate::updateOrCreate(
@@ -154,7 +155,7 @@ class AbsentRequestItem extends Component
         $this->recipientStatus = $this->absent_request->hasRecipient($employeeRecipient);
         $this->isApprovedRecipient = $this->absent_request->isApprovedByRecipient($employeeRecipient);
 
-        $this->disableUpdate = $this->isApprovedRecipient;
+        $this->disableUpdateApprove = $this->isApprovedRecipient;
          // Buat array dengan status validasi untuk setiap recipient
          $recipientsWithStatus = $recipients->map(function ($recipient) {
             $status = $this->absent_request->validates()

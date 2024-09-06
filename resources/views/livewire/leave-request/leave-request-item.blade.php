@@ -49,7 +49,7 @@
                 <a href="{{ route('leave-request.detail', ['id' => $leave_request->id]) }}"
                     class="btn btn-soft-warning btn-sm"><i class="mdi mdi-eye-outline"></i> View</a>
 
-                @if (!$disableUpdate)
+                    @if (!$disableUpdate && !$disableUpdateApprove)
                     <a href="{{ route('leave-request.edit', ['id' => $leave_request->id]) }}"
                         class="btn btn-soft-primary btn-sm"><i class="mdi mdi-pencil-outline"></i> Edit</a>
                     <a href="javascript:void(0)" class="btn btn-soft-danger btn-sm"

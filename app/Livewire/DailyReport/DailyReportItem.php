@@ -2,6 +2,7 @@
 
 namespace App\Livewire\DailyReport;
 
+use App\Livewire\BaseComponent;
 use App\Models\DailyReport;
 use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -9,18 +10,16 @@ use Livewire\Attributes\On;
 use Livewire\Attributes\Reactive;
 use Livewire\Component;
 
-class DailyReportItem extends Component
+class DailyReportItem extends BaseComponent
 {
     use LivewireAlert;
 
     public $daily_report;
     public $disableUpdate = false;
-    public $authUser;
 
     public function mount(DailyReport $daily_report)
     {
         $this->daily_report = $daily_report;
-        $this->authUser = Auth::user();
 
         if($this->authUser->employee->id != $daily_report->employee_id) {
             $this->disableUpdate = true;

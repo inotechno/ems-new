@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Livewire\AbsentRequest;
+
+use App\Livewire\BaseComponent;
 use App\Models\AbsentRequest;
 use App\Models\Employee;
 use Illuminate\Support\Facades\Auth;
@@ -9,7 +11,7 @@ use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class AbsentRequestIndex extends Component
+class AbsentRequestIndex extends BaseComponent
 {
     use LivewireAlert, WithPagination;
 
@@ -44,7 +46,7 @@ class AbsentRequestIndex extends Component
             $query->orWhereDate('end_date', '<=', $this->end_date);
         });
 
-        $absent_requests->where('employee_id', Auth::user()->employee->id);
+        $absent_requests->where('employee_id', $this->authUser->employee->id);
         $absent_requests = $absent_requests->paginate($this->perPage);
 
         return view('livewire.absent-request.absent-request-index', compact('absent_requests'))->layout('layouts.app', ['title' => 'Absent Request']);

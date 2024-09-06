@@ -2,11 +2,12 @@
 
 namespace App\Livewire\Auth;
 
+use App\Livewire\BaseComponent;
 use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
-class Login extends Component
+class Login extends BaseComponent
 {
     use LivewireAlert;
 
@@ -29,7 +30,7 @@ class Login extends Component
             $fieldType = filter_var($this->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
             if (Auth::attempt(array($fieldType => $this->username, 'password' => $this->password), $this->remember)) {
-                $user = Auth::user();
+                $user = $this->authUser; // Get BaseComponent::$authUser
                 // Mencatat aktivitas login
                 activity()
                     ->causedBy($user) // Pengguna yang melakukan login

@@ -2,11 +2,12 @@
 
 namespace App\Livewire\DailyReport;
 
+use App\Livewire\BaseComponent;
 use App\Models\DailyReport;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
-class DailyReportDetail extends Component
+class DailyReportDetail extends BaseComponent
 {
     public $daily_report;
     public $date, $description, $day, $recipients, $employee, $reads;
@@ -25,10 +26,10 @@ class DailyReportDetail extends Component
 
     public function setReadDailyReport()
     {
-        $checkRead = $this->daily_report->dailyReportReads()->where('employee_id', Auth::user()->employee->id)->first();
+        $checkRead = $this->daily_report->dailyReportReads()->where('employee_id', $this->authUser->employee->id)->first();
         if (!$checkRead) {
             $this->daily_report->dailyReportReads()->create([
-                'employee_id' => Auth::user()->employee->id
+                'employee_id' => $this->authUser->employee->id
             ]);
         }
     }

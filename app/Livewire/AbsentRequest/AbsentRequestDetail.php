@@ -2,10 +2,11 @@
 
 namespace App\Livewire\AbsentRequest;
 
+use App\Livewire\BaseComponent;
 use App\Models\AbsentRequest;
 use Livewire\Component;
 
-class AbsentRequestDetail extends Component
+class AbsentRequestDetail extends BaseComponent
 {
     public $absent_request, $notes, $start_date, $end_date, $employee_id, $recipients, $recipientsWithStatus;
 

@@ -2,12 +2,13 @@
 
 namespace App\Livewire\Profile;
 
+use App\Livewire\BaseComponent;
 use App\Models\Employee;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 
-class ProfileIndex extends Component
+class ProfileIndex extends BaseComponent
 {
     use LivewireAlert;
     public $employee;
@@ -26,7 +27,7 @@ class ProfileIndex extends Component
 
     public function mount()
     {
-        $this->user = Auth::user();
+        $this->user = $this->authUser;
         $this->employee = Employee::with('user', 'positions')->where('user_id', $this->user->id)->first();
         if ($this->employee) {
             $this->user = $this->employee->user;
