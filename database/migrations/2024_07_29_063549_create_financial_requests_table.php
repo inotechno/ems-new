@@ -14,13 +14,14 @@ return new class extends Migration
         Schema::create('financial_requests', function (Blueprint $table) {
             $table->id();
             $table->foreignId('employee_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('financial_type_id')->nullable()->nullOnDelete()->cascadeOnUpdate();
             $table->string('title');
             $table->decimal('amount', 10, 2);
             $table->text('notes')->nullable();
             $table->text('receipt_image_path')->nullable();
             $table->text('receipt_image_url')->nullable();
             $table->boolean('is_approved')->default(false);
-            
+
             $table->timestamps();
         });
     }

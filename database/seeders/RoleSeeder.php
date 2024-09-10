@@ -44,7 +44,7 @@ class RoleSeeder extends Seeder
 
         $permissions = [
             // Dashboard
-            'view:dashboard' => ['Commissioner','Employee', 'HR', 'Finance', 'Director', 'Administrator', 'Project Manager'],
+            'view:dashboard' => ['Commissioner', 'Employee', 'HR', 'Finance', 'Director', 'Administrator', 'Project Manager'],
 
             // Import Master Data
             'view:import_master_data' => ['HR', 'Administrator'],
@@ -109,14 +109,14 @@ class RoleSeeder extends Seeder
 
             // Attendance
             'view:attendance-all' => ['Finance', 'Director', 'HR', 'Administrator'],
-            'view:attendance' => ['Employee','Finance', 'Director', 'HR', 'Administrator'],
+            'view:attendance' => ['Employee', 'Finance', 'Director', 'HR', 'Administrator'],
             'create:attendance' => ['Employee', 'Administrator'],
             'update:attendance' => ['Administrator'],
             'delete:attendance' => ['Administrator'],
 
             // Attendance Temp
             'view:attendance-temp-all' => ['HR', 'Administrator'],
-            'view:attendance-temp' => ['Employee','HR', 'Administrator'],
+            'view:attendance-temp' => ['Employee', 'HR', 'Administrator'],
             'create:attendance-temp' => ['Employee', 'Administrator'],
             'update:attendance-temp' => ['Administrator'],
             'delete:attendance-temp' => ['Administrator'],
@@ -156,9 +156,9 @@ class RoleSeeder extends Seeder
             // Financial Request
             'view:financial-request-all' => ['HR', 'Director', 'Finance', 'Administrator'],
             'view:financial-request' => ['Employee'],
-            'create:financial-request' => ['Finance', 'Administrator'],
-            'update:financial-request' => ['Finance', 'Administrator'],
-            'delete:financial-request' => ['Finance', 'Administrator'],
+            'create:financial-request' => ['Employee', 'Finance', 'Administrator'],
+            'update:financial-request' => ['Employee', 'Finance', 'Administrator'],
+            'delete:financial-request' => ['Employee', 'Finance', 'Administrator'],
             'approve:financial-request' => ['Employee', 'Finance', 'Director', 'Administrator'],
 
             // absent Request

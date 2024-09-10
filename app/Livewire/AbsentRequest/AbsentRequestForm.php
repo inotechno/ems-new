@@ -23,7 +23,7 @@ class AbsentRequestForm extends BaseComponent
 
     public function mount($id = null)
     {
-        $this->employees = Employee::with('user')->whereNot('user_id',$this->authUser->id)->get();
+        $this->employees = Employee::with('user')->whereNot('user_id', $this->authUser->id)->get();
 
         if ($id) {
             $this->mode = 'Edit';
@@ -38,7 +38,7 @@ class AbsentRequestForm extends BaseComponent
 
             $this->dispatch('set-default-form', param: 'recipients', value: $this->recipients);
         } else {
-            $this->employee =$this->authUser->employee;
+            $this->employee = $this->authUser->employee;
 
             $this->mode = 'Create';
             $this->notes = '';
@@ -88,8 +88,8 @@ class AbsentRequestForm extends BaseComponent
                 'end_date' => $this->end_date,
                 'type_absent' => $this->type_absent
             ])->recipients()->createMany(
-                    collect($this->recipients)->map(fn($recipient) => ['employee_id' => $recipient])->toArray()
-                );
+                collect($this->recipients)->map(fn($recipient) => ['employee_id' => $recipient])->toArray()
+            );
 
             $this->reset();
             $this->alert('success', 'Absent Request created successfully');

@@ -25,7 +25,7 @@ class FinancialRequestIndex extends BaseComponent
 
     public $employees;
 
-    protected $listeners =['refreshIndex' => '$refresh'];
+    protected $listeners = ['refreshIndex' => '$refresh'];
 
     public function mount()
     {
@@ -34,7 +34,7 @@ class FinancialRequestIndex extends BaseComponent
 
     public function render()
     {
-        $leave_requests = FinancialRequest::with('employee.user', 'recipients.employee.user')->when($this->search, function ($query) {
+        $financial_requests = FinancialRequest::with('employee.user', 'recipients.employee.user')->when($this->search, function ($query) {
             $query->whereHas('employee.user', function ($query) {
                 $query->where('name', 'like', '%' . $this->search . '%');
             })->orWhere('notes', 'like', '%' . $this->search . '%');
@@ -46,9 +46,9 @@ class FinancialRequestIndex extends BaseComponent
             $query->orWhereDate('end_date', '<=', $this->end_date);
         });
 
-        $leave_requests->where('employee_id', $this->authUser->employee->id);
-        $leave_requests = $leave_requests->paginate($this->perPage);
+        $financial_requests->where('employee_id', $this->authUser->employee->id);
+        $financial_requests = $financial_requests->paginate($this->perPage);
 
-        return view('livewire.financial-request.financial-request-index')->layout('layouts.app', ['title' => 'Financial Request']);
+        return view('livewire.financial-request.financial-request-index', compact('financial_requests'))->layout('layouts.app', ['title' => 'Financial Request']);
     }
 }

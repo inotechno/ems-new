@@ -20,6 +20,16 @@ class FinancialRequest extends Model
         'is_approved',
     ];
 
+    /**
+     * Get the financialType that owns the FinancialRequest
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function financialType(): BelongsTo
+    {
+        return $this->belongsTo(Helper::class, 'financial_type_id', 'id');
+    }
+
     public function recipients(): MorphMany
     {
         return $this->morphMany(RequestRecipient::class, 'recipientable');
