@@ -28,8 +28,8 @@ class AttendanceFactory extends Factory
             'longitude' => $this->faker->longitude(),
             'latitude' => $this->faker->latitude(),
             'notes' => $this->faker->sentence,
-            'image_path' => $this->faker->imageUrl(), // Assuming an image path or URL is stored
-            'image_url' => $this->faker->url,
+            'image_path' => 'https://cdn.prod.website-files.com/5d8a2888296e91abbdcb65f0/6368c88cda30aae9cd4eccc5_On%20Time%20-%2001.png', // Assuming an image path or URL is stored
+            'image_url' => 'https://cdn.prod.website-files.com/5d8a2888296e91abbdcb65f0/6368c88cda30aae9cd4eccc5_On%20Time%20-%2001.png',
         ];
     }
 }

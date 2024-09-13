@@ -87,13 +87,13 @@ class Sidebar extends BaseComponent
         [
             'title' => 'Application',
             'menus' => [
-                [
-                    'name' => 'Project',
-                    'url' => '/project',
-                    'route' => 'project.index',
-                    'icon' => 'bx bx-briefcase-alt',
-                    'permission' => 'view:project'
-                ],
+                // [
+                //     'name' => 'Project',
+                //     'url' => '/project',
+                //     'route' => 'project.index',
+                //     'icon' => 'bx bx-briefcase-alt',
+                //     'permission' => 'view:project'
+                // ],
                 [
                     'name' => 'Attendance',
                     'url' => '/attendance',
@@ -101,13 +101,13 @@ class Sidebar extends BaseComponent
                     'icon' => 'bx bx-purchase-tag-alt',
                     'permission' => 'view:attendance'
                 ],
-                // [
-                //     'name' => 'Attendance Temporary',
-                //     'url' => '/attendance-temporary',
-                //     'route' => 'attendance-temporary.index',
-                //     'icon' => 'bx bxs-purchase-tag-alt',
-                //     'permission' => 'view:attendance-temp'
-                // ],
+                [
+                    'name' => 'Attendance Temporary',
+                    'url' => '/attendance-temporary',
+                    'route' => 'attendance-temporary.index',
+                    'icon' => 'bx bxs-purchase-tag-alt',
+                    'permission' => 'view:attendance-temp'
+                ],
                 [
                     'name' => 'Daily Report All',
                     'url' => '/daily-report-all',
@@ -223,7 +223,14 @@ class Sidebar extends BaseComponent
                             'permission' => 'view:financial-request'
                         ],
                     ]
-                ]
+                    ],
+                    [
+                        'name' => 'Visit',
+                        'url' => '/visit',
+                        'route' => 'visit.index',
+                        'icon' => 'bx bx-purchase-tag-alt',
+                        'permission' => 'view:visit'
+                    ],
             ]
         ],
         [

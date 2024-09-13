@@ -114,7 +114,10 @@ class EmployeeSheetImport implements ToCollection, WithHeadingRow, SkipsEmptyRow
                     'password_string' => $password,
                 ]);
 
-                $this->EmailService->sendTemplateEmail($user, 'new-account-register');
+                $send_email = $this->EmailService->sendTemplateEmail($user, 'new-account');
+                if(!$send_email['success']){
+                    \Log::info('Email not sent for user:', $user->toArray());
+                }
 
                 \Log::info('User created:', $user->toArray());
 

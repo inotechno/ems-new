@@ -34,10 +34,10 @@ class UserFactory extends Factory
             'password' => Hash::make($password),
             'password_string' => $password,
             'remember_token' => Str::random(10),
-            'avatar_url' => fake()->imageUrl(640, 480),
-            'avatar_path' => fake()->imageUrl(640, 480),
-            'avatar_thumbnail_url' => fake()->imageUrl(100, 100),
-            'avatar_thumbnail_path' => fake()->imageUrl(100, 100),
+            'avatar_url' => 'https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png',
+            'avatar_path' => 'https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png',
+            'avatar_thumbnail_url' => 'https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png',
+            'avatar_thumbnail_path' => 'https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png',
         ];
     }
 

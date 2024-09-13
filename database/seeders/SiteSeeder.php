@@ -16,13 +16,13 @@ class SiteSeeder extends Seeder
     {
         $uid = Str::uuid();
         Site::create([
-            'uid' => $uid,
-            'name' => 'IMAJIWA',
-            'longitude' => '106.798818',
-            'latitude' => '-6.263122',
-            'address' => 'Jl. Kemang Dalam IV No.K24, RT.3/RW.3, Bangka, Kec. Mampang Prpt., Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12730',
-            'qrcode_url' => 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TPM+Group',
-            'qrcode_path' => 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TPM+Group',
+            'uid' => '6c1cb9c4-42d0-4f96-9730-fbbd02fbc047',
+            'name' => 'TPM GROUP',
+            'longitude' => '106.79883968085',
+            'latitude' => '-6.2631216208642',
+            'address' => 'Kompleks Dutamas Fatmawati Blok B2 No. 26, RT.1/RW.5, Cipete Utara, Kec. Kby. Baru, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12150, Indonesia',
+            'qrcode_url' => 'https://storage.googleapis.com/ems.tpm-facility.com/qrcodes/6c1cb9c4-42d0-4f96-9730-fbbd02fbc047.png',
+            'qrcode_path' => 'qrcodes/6c1cb9c4-42d0-4f96-9730-fbbd02fbc047.png',
         ]);
 
         // Site::factory(10)->create();

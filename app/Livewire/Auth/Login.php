@@ -2,12 +2,11 @@
 
 namespace App\Livewire\Auth;
 
-use App\Livewire\BaseComponent;
 use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
-class Login extends BaseComponent
+class Login extends Component
 {
     use LivewireAlert;
 
@@ -30,7 +29,7 @@ class Login extends BaseComponent
             $fieldType = filter_var($this->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
             if (Auth::attempt(array($fieldType => $this->username, 'password' => $this->password), $this->remember)) {
-                $user = $this->authUser; // Get BaseComponent::$authUser
+                $user = Auth::user(); // Get BaseComponent::$authUser
                 // Mencatat aktivitas login
                 activity()
                     ->causedBy($user) // Pengguna yang melakukan login
@@ -45,7 +44,7 @@ class Login extends BaseComponent
             $this->alert('error', 'Email atau password yang anda gunakan salah, silahkan periksa kembali!');
             return back();
         } catch (\Throwable $th) {
-            $this->alert('error', 'Terjadi kesalahan, silahkan coba lagi!');
+            $this->alert('error', $th->getMessage());
             return back();
         }
 

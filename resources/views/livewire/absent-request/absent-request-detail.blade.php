@@ -5,11 +5,24 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title mb-3">Recipients</h4>
+                    <h4 class="card-title d-flex mb-3">
+                        <span class="flex-grow-1">Recipients</span>
+                        @if($isApproved)
+                            <span class="badge bg-success text-white text-end">Approved</span>
+                        @else
+                            <span class="badge bg-danger text-white text-end">Pending</span>
+                        @endif
+                    </h4>
                     @foreach ($recipientsWithStatus as $item)
-                        <p class="{{ $item['bgClass'] }} text-white p-2">
-                            {{ $item['recipient']->employee->user->name }} : {{ ucfirst($item['status']) }} at {{ $item['created_at'] ?? '-' }}
-                        </p>
+                        <div class="d-flex {{ $item['bgClass'] }} text-white p-2 mb-2 rounded rounded-3 flex-wrap">
+                            <div class="flex-grow-1">
+                                {{ $item['recipient']->employee->user->name }}
+                            </div>
+                            <div class="flex-grow-0 text-end">
+                                {{ ucfirst($item['status']) }} at
+                                {{ $item['created_at'] ?? '-' }}
+                            </div>
+                        </div>
                     @endforeach
                 </div>
             </div>
@@ -19,7 +32,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-3">Date</h4>
-                        <div id="calendar"></div>
+                    <div id="calendar"></div>
                 </div>
             </div>
         </div>
@@ -28,7 +41,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-3">Notes</h4>
-                        <p>{{ $absent_request->notes }}</p>
+                    <p>{{ $absent_request->notes }}</p>
                 </div>
             </div>
         </div>

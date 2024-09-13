@@ -30,6 +30,7 @@ class LeaveRequestItem extends BaseComponent
         }
 
         $this->totalDays = $this->leave_request->end_date->diffInDays($this->leave_request->start_date);
+        $this->isApproved = $this->leave_request->is_approved;
     }
 
     public function deleteConfirm()
@@ -89,6 +90,9 @@ class LeaveRequestItem extends BaseComponent
             ['status' => 'approved']
         );
 
+        // Periksa dan perbarui status isApproved pada AbsentRequest
+        $this->absent_request->checkAndUpdateApprovalStatus();
+
         $this->alert('success', 'Leave Request approved successfully');
         $this->dispatch('refreshIndex');
     }
@@ -107,6 +111,9 @@ class LeaveRequestItem extends BaseComponent
             ],
             ['status' => 'rejected']
         );
+
+        // Periksa dan perbarui status isApproved pada AbsentRequest
+        $this->absent_request->checkAndUpdateApprovalStatus();
 
         $this->alert('success', 'Absent Request rejected successfully');
         $this->dispatch('refreshIndex');
@@ -138,6 +145,10 @@ class LeaveRequestItem extends BaseComponent
                 ->where('employee_id', $recipient->employee_id)
                 ->first()
                 ->status ?? 'pending'; // Default to 'pending' if no status found
+
+            if($status == 'approved') {
+                $this->disableUpdate = true;
+            }
 
             $badgeClass = match ($status) {
                 'approved' => 'badge-soft-info',

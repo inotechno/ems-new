@@ -10,9 +10,16 @@ class EmailTemplate extends Model
     use HasFactory;
 
     protected $fillable = [
+        'category_id',
         'name',
         'slug',
         'subject',
         'body',
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(CategoryEmailTemplate::class, 'category_id');
+    }
+
 }

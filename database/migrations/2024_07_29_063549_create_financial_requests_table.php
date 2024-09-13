@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('employee_id')->constrained()->cascadeOnDelete();
             $table->foreignId('financial_type_id')->nullable()->nullOnDelete()->cascadeOnUpdate();
             $table->string('title');
-            $table->decimal('amount', 10, 2);
+            $table->decimal('amount', 16, 2);
             $table->text('notes')->nullable();
             $table->text('receipt_image_path')->nullable();
             $table->text('receipt_image_url')->nullable();

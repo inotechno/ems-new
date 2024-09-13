@@ -3,7 +3,11 @@
         <div class="card-body">
             <div class="d-flex align-start mb-3">
                 <div class="flex-grow-1">
-                    <span class="badge badge-soft-success">{{ $isApproved ? 'Approved' : 'Pending' }}</span>
+                    @if ($isApproved)
+                        <span class="badge badge-soft-success">Approved</span>
+                    @else
+                        <span class="badge badge-soft-danger">Pending</span>
+                    @endif
                 </div>
                 <div class="flex-shrink-0">
                     <span class="badge badge-soft-danger">{{ $leave_request->created_at->diffForHumans() }}</span>
@@ -25,8 +29,8 @@
             </div>
             <div class="hstack gap-2 justify-content-center flex-wrap">
                 @foreach ($recipientsWithStatus as $item)
-                    <span class="badge {{ $item['badgeClass'] }} font-size-12" data-bs-toggle="tooltip" data-bs-placement="top"
-                        title="{{ ucfirst($item['status']) }}">
+                    <span class="badge {{ $item['badgeClass'] }} font-size-12" data-bs-toggle="tooltip"
+                        data-bs-placement="top" title="{{ ucfirst($item['status']) }}">
                         {{ $item['recipient']->employee->user->name }}
                     </span>
                 @endforeach
@@ -35,13 +39,18 @@
             <div class="d-flex gap-2 justify-content-center flex-wrap mt-3">
                 @if ($recipientStatus && !$isApprovedRecipient)
                     <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
                             Action <i class="mdi mdi-chevron-down"></i>
                         </button>
                         <div class="dropdown-menu">
                             <!-- item-->
-                            <a class="dropdown-item btn btn-soft-danger btn-sm" wire:click="rejectConfirm({{ $leave_request->id }})" href="javascript:void(0);"><i class="mdi mdi-close"></i> Reject</a>
-                            <a class="dropdown-item btn btn-soft-success btn-sm" wire:click="approveConfirm({{ $leave_request->id }})" href="javascript:void(0);"><i class="mdi mdi-check"></i> Approve</a>
+                            <a class="dropdown-item btn btn-soft-danger btn-sm"
+                                wire:click="rejectConfirm({{ $leave_request->id }})" href="javascript:void(0);"><i
+                                    class="mdi mdi-close"></i> Reject</a>
+                            <a class="dropdown-item btn btn-soft-success btn-sm"
+                                wire:click="approveConfirm({{ $leave_request->id }})" href="javascript:void(0);"><i
+                                    class="mdi mdi-check"></i> Approve</a>
                         </div>
                     </div>
                 @endif
@@ -49,7 +58,7 @@
                 <a href="{{ route('leave-request.detail', ['id' => $leave_request->id]) }}"
                     class="btn btn-soft-warning btn-sm"><i class="mdi mdi-eye-outline"></i> View</a>
 
-                    @if (!$disableUpdate && !$disableUpdateApprove)
+                @if (!$disableUpdate && !$disableUpdateApprove)
                     <a href="{{ route('leave-request.edit', ['id' => $leave_request->id]) }}"
                         class="btn btn-soft-primary btn-sm"><i class="mdi mdi-pencil-outline"></i> Edit</a>
                     <a href="javascript:void(0)" class="btn btn-soft-danger btn-sm"

@@ -115,6 +115,7 @@ class AttendanceIndex extends BaseComponent
                 $formattedDuration = sprintf('%d hours, %d minutes, %d seconds', $hours, $minutes, $seconds);
             }
 
+
             return [
                 'id' => $checkInDetail->uid . '-' . $checkOutDetail->uid,
                 'employee' => $checkInDetail ? [
@@ -124,46 +125,52 @@ class AttendanceIndex extends BaseComponent
                     'avatar_url' => $checkInDetail->employee->user->avatar_url,
                 ] : null,
                 'check_in' => $checkInDetail ? [
+                    'id' => $checkInDetail->id,
                     'timestamp' => $checkInDetail->timestamp,
+                    'attendance_method' => $checkInDetail->attendanceMethod ? [
+                        'id' => $checkInDetail->attendanceMethod->id,
+                        'name' => $checkInDetail->attendanceMethod->name,
+                    ] : null,
                     'machine' => $checkInDetail->machine ? [
                         'id' => $checkInDetail->machine->id,
                         'name' => $checkInDetail->machine->name,
-                        // Add more machine details as needed
                     ] : null,
                     'site' => $checkInDetail->site ? [
                         'id' => $checkInDetail->site->id,
                         'name' => $checkInDetail->site->name,
-                        // Add more site details as needed
-                    ] : null,
-                    'attendance_method' => $checkInDetail->attendanceMethod ? [
-                        'id' => $checkInDetail->attendanceMethod->id,
-                        'name' => $checkInDetail->attendanceMethod->name,
-                        // Add more attendance method details as needed
+                        'longitude' => $checkInDetail->site->longitude,
+                        'latitude' => $checkInDetail->site->latitude,
                     ] : null,
                     'uid' => $checkInDetail->uid,
                     'longitude' => $checkInDetail->longitude,
                     'latitude' => $checkInDetail->latitude,
+                    'image_url' => $checkInDetail->image_url ?? null,
+                    'distance' => $checkInDetail->distance,
+                    'notes' => $checkInDetail->notes,
                 ] : null,
                 'check_out' => $checkOutDetail ? [
+                    'id' => $checkOutDetail->id,
                     'timestamp' => $checkOutDetail->timestamp,
+                    'attendance_method' => $checkOutDetail->attendanceMethod ? [
+                        'id' => $checkOutDetail->attendanceMethod->id,
+                        'name' => $checkOutDetail->attendanceMethod->name,
+                    ] : null,
                     'machine' => $checkOutDetail->machine ? [
                         'id' => $checkOutDetail->machine->id,
                         'name' => $checkOutDetail->machine->name,
-                        // Add more machine details as needed
                     ] : null,
                     'site' => $checkOutDetail->site ? [
                         'id' => $checkOutDetail->site->id,
                         'name' => $checkOutDetail->site->name,
-                        // Add more site details as needed
-                    ] : null,
-                    'attendance_method' => $checkOutDetail->attendanceMethod ? [
-                        'id' => $checkOutDetail->attendanceMethod->id,
-                        'name' => $checkOutDetail->attendanceMethod->name,
-                        // Add more attendance method details as needed
+                        'longitude' => $checkOutDetail->site->longitude,
+                        'latitude' => $checkOutDetail->site->latitude,
                     ] : null,
                     'uid' => $checkOutDetail->uid,
                     'longitude' => $checkOutDetail->longitude,
                     'latitude' => $checkOutDetail->latitude,
+                    'image_url' => $checkOutDetail->image_url ?? null,
+                    'distance' => $checkOutDetail->distance,
+                    'notes' => $checkOutDetail->notes,
                 ] : null,
                 'employee_id' => $attendance->employee_id,
                 'date' => $attendance->date,

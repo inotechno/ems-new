@@ -41,6 +41,8 @@ use App\Livewire\AbsentRequest\AbsentRequestTeam;
 use App\Livewire\LeaveRequest\LeaveRequestDetail;
 use App\Livewire\AbsentRequest\AbsentRequestIndex;
 use App\Livewire\AbsentRequest\AbsentRequestDetail;
+use App\Livewire\Attendance\AttendanceCreate;
+use App\Livewire\AttendanceTemp\AttendanceTempIndex;
 use App\Livewire\FinancialRequest\FinancialRequestForm;
 use App\Livewire\FinancialRequest\FinancialRequestTeam;
 use App\Livewire\FinancialRequest\FinancialRequestIndex;
@@ -49,6 +51,8 @@ use App\Livewire\FinancialRequest\FinancialRequestDetail;
 use App\Livewire\EmailTemplateManager\EmailTemplateManagerForm;
 use App\Livewire\EmailTemplateManager\EmailTemplateManagerIndex;
 use App\Livewire\FinancialRequest\FinancialRequestAll;
+use App\Livewire\Visit\VisitCreate;
+use App\Livewire\Visit\VisitIndex;
 
 /*
 |--------------------------------------------------------------------------
@@ -119,9 +123,20 @@ Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
 
     Route::group(['prefix' => 'attendance'], function () {
         Route::get('/', AttendanceIndex::class)->name('attendance.index')->middleware(['can:view:attendance']);
+        Route::get('create', AttendanceCreate::class)->name('attendance.create');
         // Route::get('detail/{id}', AttendanceDetail::class)->name('attendance.detail');
-        // Route::get('create', AttendanceForm::class)->name('attendance.create');
         // Route::get('edit/{id}', AttendanceForm::class)->name('attendance.edit');
+    });
+
+    Route::group(['prefix' => 'attendance-temporary'], function () {
+        Route::get('/', AttendanceTempIndex::class)->name('attendance-temporary.index')->middleware(['can:view:attendance-temp']);
+    });
+
+    Route::group(['prefix' => 'visit'], function () {
+        Route::get('/', VisitIndex::class)->name('visit.index')->middleware(['can:view:visit']);
+        Route::get('create', VisitCreate::class)->name('visit.create');
+        // Route::get('detail/{id}', AttendanceDetail::class)->name('visit.detail');
+        // Route::get('edit/{id}', AttendanceForm::class)->name('visit.edit');
     });
 
     Route::get('/daily-report-all', DailyReportAll::class)->name('daily-report.all')->middleware('can:view:daily-report-all');

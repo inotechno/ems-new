@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('visit_category_id')->constrained()->cascadeOnDelete();
             $table->string('longitude')->nullable();
             $table->string('latitude')->nullable();
+            $table->string('distance')->nullable();
             $table->text('notes')->nullable();
             $table->string('file_path')->nullable();
             $table->string('file_url')->nullable();

@@ -3,7 +3,11 @@
         <div class="card-body">
             <div class="d-flex align-start mb-3">
                 <div class="flex-grow-1">
-                    <span class="badge badge-soft-success">{{ $isApproved ? 'Approved' : 'Pending' }}</span>
+                    @if($isApproved)
+                    <span class="badge badge-soft-success">Approved</span>
+                @else
+                    <span class="badge badge-soft-danger">Pending</span>
+                @endif
                 </div>
                 <div class="flex-shrink-0">
                     <span class="badge badge-soft-danger">{{ $absent_request->created_at->diffForHumans() }}</span>

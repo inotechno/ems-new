@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\CategoryEmailTemplate;
 use Snowfire\Beautymail\Beautymail;
 use App\Models\EmailTemplate;
 use App\Models\User;
@@ -16,13 +17,13 @@ class EmailService
         $this->beautymail = $beautymail;
     }
 
-    public function sendTemplateEmail(?User $user, string $templateSlug): bool
+    public function sendTemplateEmail(?User $user, string $templateSlug): array
     {
         try {
-            $template = EmailTemplate::where('slug', $templateSlug)->first();
+            $template = CategoryEmailTemplate::with('template')->where('slug', $templateSlug)->first()->template;
 
             if (!$template || !$user) {
-                return false;
+                return ['success' => false, 'message' => 'Template or user not found'];
             }
 
             $decodedHtml = htmlspecialchars_decode($template->body);
@@ -34,9 +35,9 @@ class EmailService
                     ->subject($subject);
             });
 
-            return true;
+            return ['success' => true, 'message' => 'Email successfully sent to ' . $user->email];
         } catch (\Exception $e) {
-            return false;
+            return ['success' => false, 'message' => 'Failed to send email: ' . $e->getMessage()];
         }
     }
 }

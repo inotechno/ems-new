@@ -60,8 +60,7 @@ class EmployeeForm extends Component
             $this->gender = $this->employee->gender;
             $this->marital_status = $this->employee->marital_status;
             $this->religion = $this->employee->religion;
-            $this->position_id = $this->employee->positions()->first()->id;
-            // dd($this->employee->positions()->first()->id);
+            $this->position_id = $this->employee->position_id;
 
             $this->dispatch('change-select-form');
         }
@@ -85,9 +84,9 @@ class EmployeeForm extends Component
                 'religion' => 'nullable|string|max:255',
             ]);
 
-            $this->password = Str::random(8);
 
             if ($this->type == 'create') {
+                $this->password = Str::random(8);
                 $this->user = User::create([
                     'username' => $this->username,
                     'name' => $this->name,
@@ -106,12 +105,8 @@ class EmployeeForm extends Component
                     'gender' => $this->gender,
                     'marital_status' => $this->marital_status,
                     'religion' => $this->religion,
+                    'position_id' => $this->position_id,
                 ]);
-
-                $employee = $this->user->employee; // Mengambil instance Employee
-                if ($employee && $this->position_id) {
-                    $employee->positions()->sync([$this->position_id]);
-                }
 
                 $this->user->assignRole($this->role);
             } else {
@@ -131,15 +126,11 @@ class EmployeeForm extends Component
                     'marital_status' => $this->marital_status,
                     'religion' => $this->religion,
                     'leave_remaining' => $this->leave_remaining,
+                    'position_id' => $this->position_id,
                 ]);
-
-                if ($this->position_id) {
-                    $this->employee->positions()->sync([$this->position_id]);
-                }
 
                 $this->user->assignRole($this->role);
             }
-
 
             $this->alert('success', 'Employee ' . $this->type . ' successfully');
             return redirect()->route('employee.index');

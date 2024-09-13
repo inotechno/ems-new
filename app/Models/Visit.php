@@ -15,6 +15,7 @@ class Visit extends Model
         'visit_category_id',
         'longitude',
         'latitude',
+        'distance',
         'notes',
         'file_path',
         'file_url',
@@ -35,5 +36,5 @@ class Visit extends Model
     {
         return $this->belongsTo(VisitCategory::class);
     }
-    
+
 }

@@ -14,19 +14,19 @@
                 </div>
 
                 @can('absent-request-all')
-                <div class="col-md">
-                    <div class="card">
-                        <div class="card-body" wire:ignore>
-                            <label for="employees">Select Employee</label>
-                            <select class="form-control select2-multiple" id="employees"
-                                data-placeholder="Select Employee" wire:model="employee_id" multiple>
-                                @foreach ($employees as $employee)
-                                    <option value="{{ $employee->id }}">{{ $employee->user->name }}</option>
-                                @endforeach
-                            </select>
+                    <div class="col-md">
+                        <div class="card">
+                            <div class="card-body" wire:ignore>
+                                <label for="employees">Select Employee</label>
+                                <select class="form-control select2-multiple" id="employees"
+                                    data-placeholder="Select Employee" wire:model="employee_id" multiple>
+                                    @foreach ($employees as $employee)
+                                        <option value="{{ $employee->id }}">{{ $employee->user->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
-                </div>
                 @endcan
 
                 <div class="col-md">

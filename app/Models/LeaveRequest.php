@@ -62,4 +62,19 @@ class LeaveRequest extends Model
     {
         return $this->validates()->where('employee_id', $employeeId)->where('status', 'approved')->exists();
     }
+
+    public function checkAndUpdateApprovalStatus()
+    {
+        // Jumlah recipients terkait dengan AbsentRequest ini
+        $totalRecipients = $this->recipients()->count();
+
+        // Jumlah recipients yang sudah approve
+        $approvedRecipients = $this->validates()->where('status', 'approved')->count();
+
+        // Jika jumlah recipients yang sudah approve sama dengan total recipients, maka isApproved menjadi true
+        $isApproved = $totalRecipients > 0 && $approvedRecipients === $totalRecipients;
+
+        // Perbarui status isApproved pada AbsentRequest
+        $this->update(['is_approved' => $isApproved]);
+    }
 }

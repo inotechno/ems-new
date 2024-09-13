@@ -21,6 +21,7 @@ class AttendanceTemp extends Model
         'notes',
         'image_path',
         'image_url',
+        'distance'
     ];
 
     public function employee()

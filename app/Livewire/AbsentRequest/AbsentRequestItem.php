@@ -21,7 +21,6 @@ class AbsentRequestItem extends BaseComponent
     public $disableUpdateApprove = false;
     public $recipientStatus = false;
     public $isApprovedRecipient = false;
-    public $authUser;
 
     public function mount(AbsentRequest $absent_request)
     {
@@ -32,6 +31,7 @@ class AbsentRequestItem extends BaseComponent
         }
 
         $this->totalDays = $this->absent_request->end_date->diffInDays($this->absent_request->start_date);
+        $this->isApproved = $this->absent_request->is_approved;
     }
 
     public function deleteConfirm()
@@ -112,6 +112,9 @@ class AbsentRequestItem extends BaseComponent
             ['status' => 'approved']
         );
 
+        // Periksa dan perbarui status isApproved pada AbsentRequest
+        $this->absent_request->checkAndUpdateApprovalStatus();
+
         $this->alert('success', 'Absent Request approved successfully');
         $this->dispatch('refreshIndex');
     }
@@ -130,6 +133,9 @@ class AbsentRequestItem extends BaseComponent
             ],
             ['status' => 'rejected']
         );
+
+        // Periksa dan perbarui status isApproved pada AbsentRequest
+        $this->absent_request->checkAndUpdateApprovalStatus();
 
         $this->alert('success', 'Absent Request rejected successfully');
         $this->dispatch('refreshIndex');
@@ -162,6 +168,10 @@ class AbsentRequestItem extends BaseComponent
                 ->where('employee_id', $recipient->employee_id)
                 ->first()
                 ->status ?? 'pending'; // Default to 'pending' if no status found
+
+            if($status == 'approved') {
+                $this->disableUpdate = true;
+            }
 
             $badgeClass = match ($status) {
                 'approved' => 'badge-soft-info',

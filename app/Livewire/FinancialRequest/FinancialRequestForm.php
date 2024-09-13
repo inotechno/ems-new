@@ -10,6 +10,7 @@ use App\Livewire\BaseComponent;
 use App\Models\FinancialRequest;
 use Illuminate\Support\Facades\Storage;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Livewire\Attributes\On;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 
 class FinancialRequestForm extends BaseComponent
@@ -18,7 +19,7 @@ class FinancialRequestForm extends BaseComponent
 
     public $mode = 'Create';
     public $financial_request;
-    public $employee_id, $financial_type_id, $title, $amount, $notes, $receipt_image_path, $receipt_image_url, $image;
+    public $employee_id, $financial_type_id, $title, $amount, $notes, $receipt_image_path, $receipt_image_url, $image, $uid;
     public $employees;
     public $previewImage = 'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg';
 
@@ -26,10 +27,10 @@ class FinancialRequestForm extends BaseComponent
     public $employee;
     public $financial_types;
 
-
     public function mount($id = null)
     {
-        $this->employees = Employee::with('user')->get();
+        $this->employees = Employee::with('user')->whereNot('user_id', $this->authUser->id)->get();
+
         $this->financial_types = Helper::where('code', 'financial_request_type')->get();
         $this->employee = $this->authUser->employee;
         $this->employee_id = $this->employee->id;
@@ -46,6 +47,7 @@ class FinancialRequestForm extends BaseComponent
             $this->recipients = $this->financial_request->recipients->pluck('employee_id')->toArray();
 
             $this->dispatch('set-default-form', param: 'recipients', value: $this->recipients);
+            $this->dispatch('contentChanged', $this->notes);
         } else {
             $this->mode = 'Create';
             $this->employee = null;
@@ -67,6 +69,7 @@ class FinancialRequestForm extends BaseComponent
     public function changeInputForm($param, $value)
     {
         $this->$param = $value;
+        // dd($this->recipients);
     }
 
     public function save()
@@ -76,7 +79,7 @@ class FinancialRequestForm extends BaseComponent
                 'employee_id' => 'required',
                 'financial_type_id' => 'required',
                 'title' => 'required',
-                'amount' => 'required',
+                'amount' => 'required|numeric|gt:0',
                 'recipients' => 'required',
             ]);
 
@@ -122,7 +125,7 @@ class FinancialRequestForm extends BaseComponent
 
         $this->reset();
         $this->alert('success', 'Financial request created successfully');
-        return redirect()->route('absent-request.index');
+        return redirect()->route('financial-request.index');
     }
 
     public function update()
@@ -161,7 +164,7 @@ class FinancialRequestForm extends BaseComponent
 
             $this->reset();
             $this->alert('success', 'Financial request updated successfully');
-            return redirect()->route('absent-request.index');
+            return redirect()->route('financial-request.index');
         } catch (\Exception $e) {
             $this->alert('error', $e->getMessage());
         }
@@ -169,6 +172,6 @@ class FinancialRequestForm extends BaseComponent
 
     public function render()
     {
-        return view('livewire.financial-request.financial-request-form')->layout('layouts.app', ['title' => 'Absent Request ' . $this->mode]);
+        return view('livewire.financial-request.financial-request-form')->layout('layouts.app', ['title' => 'financial Request ' . $this->mode]);
     }
 }

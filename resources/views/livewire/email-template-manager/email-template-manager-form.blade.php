@@ -6,7 +6,7 @@
         <div class="col-lg-9">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">{{ $type == 'create' ? 'Create Email Template' : 'Edit Email Template' }}</h4>
+                    <h4 class="card-title mb-4">{{ $type == 'create' ? 'Create Email Template' : 'Edit Email Template' }}</h4>
 
                     <form action="" wire:submit.prevent="save" wire:ignore class="needs-validation"
                         id="email-template-form">
@@ -40,6 +40,39 @@
                                 </div>
                             </div>
                         </div>
+
+                        @if($type == 'create')
+                        <div class="row">
+                            <div class="col-md">
+                                <div class="mb-3">
+                                    <label for="category" class="form-label">Category</label>
+                                    <div class="d-flex gap-3">
+                                        @if ($categories->count() > 0)
+                                            @foreach ($categories as $category)
+                                                <div class="form-check mb-3">
+                                                    <input class="form-check-input" type="radio" name="category_id"
+                                                        id="category_id{{ $category->id }}" checked=""
+                                                        wire:model="category_id" value="{{ $category->id }}">
+                                                    <label class="form-check-label"
+                                                        for="category_id{{ $category->id }}">
+                                                        {{ $category->name }}
+                                                    </label>
+                                                </div>
+                                            @endforeach
+                                        @else
+                                            <span>No Category Available</span>
+                                        @endif
+
+                                        @error('category_id')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
 
                         <div class="row">
                             <div class="col-md">
@@ -138,6 +171,24 @@
                     </div>
                 </div>
             </div>
+
+            @if ($type == 'update')
+                <div class="card mt-5">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3">Send Test Email</h4>
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" placeholder="Enter Email"
+                                wire:model.defer="email_test" id="send_test_input" wire:model="send_test"
+                                aria-describedby="send_test" aria-label="Send Test">
+                            <button class="btn btn-primary" type="button" id="send_test"
+                                wire:click="sendTestEmail" wire:loading.attr="disabled"><i wire:loading.class="spinner-border spinner-border-sm" wire:target="send_test"></i> Send</button>
+                        </div>
+
+                        {{-- Email harus data user yang sudah ada di database  --}}
+                        <span class="text-warning">* Email must already exist in the database</span>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 

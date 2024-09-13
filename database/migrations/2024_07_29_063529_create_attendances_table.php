@@ -21,6 +21,7 @@ return new class extends Migration
             $table->timestamp('timestamp');
             $table->string('longitude')->nullable();
             $table->string('latitude')->nullable();
+            $table->string('distance')->nullable();
             $table->string('notes')->nullable();
             $table->string('image_path')->nullable();
             $table->string('image_url')->nullable();

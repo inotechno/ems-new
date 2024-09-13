@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('email_templates', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('category_id')->constrained('category_email_templates')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('slug')->unique();
             $table->string('name');
             $table->string('subject');

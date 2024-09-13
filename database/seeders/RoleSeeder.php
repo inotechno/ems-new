@@ -30,21 +30,13 @@ class RoleSeeder extends Seeder
             'name' => 'HR',
         ]);
 
-        $commissioner = Role::create([
-            'name' => 'Commissioner',
-        ]);
-
         $employee = Role::create([
             'name' => 'Employee',
         ]);
 
-        $project_manager = Role::create([
-            'name' => 'Project Manager',
-        ]);
-
         $permissions = [
             // Dashboard
-            'view:dashboard' => ['Commissioner', 'Employee', 'HR', 'Finance', 'Director', 'Administrator', 'Project Manager'],
+            'view:dashboard' => ['Employee', 'HR', 'Finance', 'Director', 'Administrator'],
 
             // Import Master Data
             'view:import_master_data' => ['HR', 'Administrator'],
@@ -59,13 +51,13 @@ class RoleSeeder extends Seeder
             'delete:user' => ['HR', 'Administrator'],
 
             // Employee
-            'view:employee' => ['HR', 'Director', 'Administrator', 'Project Manager'],
+            'view:employee' => ['HR', 'Director', 'Administrator'],
             'create:employee' => ['HR', 'Administrator'],
             'update:employee' => ['HR', 'Administrator'],
             'delete:employee' => ['HR', 'Administrator'],
 
             // Position
-            'view:position' => ['HR', 'Director', 'Administrator', 'Project Manager'],
+            'view:position' => ['HR', 'Director', 'Administrator'],
             'create:position' => ['HR', 'Administrator'],
             'update:position' => ['HR', 'Administrator'],
             'delete:position' => ['HR', 'Administrator'],
@@ -115,11 +107,8 @@ class RoleSeeder extends Seeder
             'delete:attendance' => ['Administrator'],
 
             // Attendance Temp
-            'view:attendance-temp-all' => ['HR', 'Administrator'],
-            'view:attendance-temp' => ['Employee', 'HR', 'Administrator'],
+            'view:attendance-temp' => ['HR', 'Administrator'],
             'create:attendance-temp' => ['Employee', 'Administrator'],
-            'update:attendance-temp' => ['Administrator'],
-            'delete:attendance-temp' => ['Administrator'],
             'approve:attendance-temp' => ['Administrator', 'HR'],
 
             // Role
@@ -187,14 +176,14 @@ class RoleSeeder extends Seeder
 
             // Project
             'view:project-all' => ['HR', 'Director', 'Administrator'],
-            'view:project' => ['Employee', 'Project Manager'],
-            'create:project' => ['Administrator', 'Project Manager'],
-            'update:project' => ['Administrator', 'Project Manager'],
-            'delete:project' => ['Administrator', 'Project Manager'],
+            'view:project' => ['Employee'],
+            'create:project' => ['Administrator'],
+            'update:project' => ['Administrator'],
+            'delete:project' => ['Administrator'],
 
             // Profile
-            'view:profile' => ['Employee', 'HR', 'Director', 'Project Manager', 'Finance'],
-            'update:profile' => ['Employee', 'HR', 'Director', 'Project Manager', 'Finance'],
+            'view:profile' => ['Employee', 'HR', 'Director', 'Finance'],
+            'update:profile' => ['Employee', 'HR', 'Director', 'Finance'],
         ];
 
         foreach ($permissions as $permissionName => $roles) {
