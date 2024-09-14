@@ -29,13 +29,13 @@
                             </div>
                         </div>
 
-                        <div class="mb-3 text-center" >
+                        <div class="mb-3 text-center">
                             @if ($content)
                                 <div class="alert alert-success" role="alert">
                                     <h3 class="alert-heading">{{ $site_name }}</h3>
                                     <h4>{{ $site_latitude }}, {{ $site_longitude }}</h4>
                                     <button type="button" class="btn btn-primary" wire:click="retryScanner"><i
-                                        class="mdi mdi-qrcode-scan"></i> Retry Scan</button>
+                                            class="mdi mdi-qrcode-scan"></i> Retry Scan</button>
                                 </div>
                             @endif
                             @if ($isScanError)
@@ -47,6 +47,10 @@
                         <div class="mb-3" id="qr-scanner-container" style="display: none;" wire:ignore>
                             <label for="qr-scanner" class="form-label d-block mb-2">{{ __('QR Code Scanner') }}</label>
                             <video id="preview"></video>
+                            <div class="qr-camera-controls">
+                                <button type="button" id="switchQRScannerCamera"
+                                    class="bx bx-transfer-alt bx-sm btn text-white"></button>
+                            </div>
                         </div>
 
                         <div class="mb-3">
@@ -113,9 +117,37 @@
                 /* Adjust based on your layout */
             }
 
+            .qr-scanner-container {
+                position: relative;
+                width: 100%;
+                max-width: 100%;
+                /* Adjust based on your layout */
+            }
+
             #cameraFeed {
                 width: 100%;
                 height: auto;
+            }
+
+            #preview {
+                width: 100%;
+                height: auto;
+            }
+
+            .qr-camera-controls {
+                position: absolute;
+                bottom: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                gap: 10px;
+                background: rgba(0, 0, 0, 0.5);
+                padding: 10px;
+                border-radius: 10px;
+            }
+
+            .qr-camera-controls button {
+                color: white;
             }
 
             .camera-controls {
@@ -132,10 +164,6 @@
 
             .camera-controls button {
                 color: white;
-            }
-
-            #preview {
-                width: 100%;
             }
         </style>
     @endpush
@@ -154,6 +182,9 @@
 
                 function qrScannerStart() {
                     let scanner = null;
+                    let currentQRStream = null;
+                    let currentCameraId = null;
+                    let qrVideoDevices = [];
 
                     Livewire.on('initQRScanner', () => {
                         console.log('initQRScanner event received');
@@ -169,10 +200,15 @@
                             scannerContainer.style.display = 'block';
                             console.log('Scanner container should now be visible');
 
-                            try {
+                            function startQRScanner(deviceId) {
+                                if (scanner) {
+                                    scanner.stop();
+                                }
+
                                 scanner = new Instascan.Scanner({
                                     video: videoElement
                                 });
+
                                 scanner.addListener('scan', function(content) {
                                     console.log('QR Code scanned:', content);
                                     Livewire.dispatch('qr-code-scanned', {
@@ -183,9 +219,13 @@
                                 });
 
                                 Instascan.Camera.getCameras().then(function(cameras) {
-                                    if (cameras.length > 0) {
-                                        scanner.start(cameras[0]);
-                                        console.log('Camera started');
+                                    qrVideoDevices = cameras;
+                                    if (qrVideoDevices.length > 0) {
+                                        currentCameraId = deviceId || qrVideoDevices[0].id;
+                                        scanner.start(qrVideoDevices.find(camera => camera
+                                            .id === currentCameraId));
+                                        console.log('QR Scanner started with camera:',
+                                            currentCameraId);
                                     } else {
                                         console.error('No cameras found.');
                                         alert('No cameras found.');
@@ -194,10 +234,24 @@
                                     console.error('Error getting cameras', e);
                                     alert('Error accessing camera.');
                                 });
-                            } catch (error) {
-                                console.error('Error initializing scanner', error);
-                                alert('Error initializing scanner.');
                             }
+
+                            function switchQRScannerCamera() {
+                                if (qrVideoDevices.length > 1) {
+                                    let currentIndex = qrVideoDevices.findIndex(device => device.id ===
+                                        currentCameraId);
+                                    let nextIndex = (currentIndex + 1) % qrVideoDevices.length;
+                                    currentCameraId = qrVideoDevices[nextIndex].id;
+                                    startQRScanner(currentCameraId);
+                                } else {
+                                    alert('Hanya ada satu kamera yang tersedia.');
+                                }
+                            }
+
+                            document.getElementById('switchQRScannerCamera').addEventListener('click',
+                                switchQRScannerCamera);
+
+                            startQRScanner();
                         }, 100);
                     });
 

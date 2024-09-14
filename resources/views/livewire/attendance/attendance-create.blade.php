@@ -35,7 +35,7 @@
                                     <h3 class="alert-heading">{{ $site_name }}</h3>
                                     <h4>{{ $site_latitude }}, {{ $site_longitude }}</h4>
                                     <button type="button" class="btn btn-primary" wire:click="retryScanner"><i
-                                        class="mdi mdi-qrcode-scan"></i> Retry Scan</button>
+                                            class="mdi mdi-qrcode-scan"></i> Retry Scan</button>
                                 </div>
                             @endif
                             @if ($site_name == null)

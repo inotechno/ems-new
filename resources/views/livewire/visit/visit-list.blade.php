@@ -17,7 +17,7 @@
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="5" class="text-center">No Data</td>
+                        <td colspan="5" class="text-center fw-bold">NO DATA</td>
                     </tr>
                 @endif
             </tbody>

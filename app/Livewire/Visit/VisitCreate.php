@@ -101,6 +101,10 @@ class VisitCreate extends BaseComponent
     {
         $this->visit_categories = \App\Models\VisitCategory::all();
         $this->employee_id = $this->authUser->employee->id;
+        $site = \App\Models\Site::first();
+
+        $this->site_latitude = $site->latitude;
+        $this->site_longitude = $site->longitude;
         $this->dispatch('initQRScanner');
     }
 
