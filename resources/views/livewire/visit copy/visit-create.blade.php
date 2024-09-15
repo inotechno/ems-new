@@ -1,27 +1,27 @@
 <div>
-    @livewire('component.page.breadcrumb', ['breadcrumbs' => [['name' => 'Application', 'url' => '/'], ['name' => 'Attendance', 'url' => route('attendance.index')], ['name' => 'Create Attendance ']]], key('breadcrumb'))
+    @livewire('component.page.breadcrumb', ['breadcrumbs' => [['name' => 'Application', 'url' => '/'], ['name' => 'Visit', 'url' => route('attendance.index')], ['name' => 'Create Visit ']]], key('breadcrumb'))
 
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title mb-4">Attendance</h4>
+                    <h4 class="card-title mb-4">Visit</h4>
                     <form wire:submit.prevent="submit" class="needs-validation form-horizontal">
 
                         <div class="mb-3">
-                            <label for="attendance_method_id" class="form-label">Attendance Method</label>
+                            <label for="visit_category_id" class="form-label">Visit Category</label>
 
                             <div class="btn-group d-grid gap-2 d-md-flex" role="group"
                                 aria-label="Basic radio toggle button group">
-                                @foreach ($attendance_methods as $method)
-                                    <input type="radio" class="btn-check" name="attendance_method_id"
-                                        id="{{ $method->name }}{{ $method->id }}" value="{{ $method->id }}"
-                                        autocomplete="off" wire:model.live="attendance_method_id">
+                                @foreach ($visit_categories as $category)
+                                    <input type="radio" class="btn-check" name="visit_category_id"
+                                        id="{{ $category->name }}{{ $category->id }}" value="{{ $category->id }}"
+                                        autocomplete="off" wire:model.live="visit_category_id">
                                     <label
-                                        class="btn btn-outline-primary  @error('attendance_method_id') btn-outline-danger @enderror"
-                                        for="{{ $method->name }}{{ $method->id }}">
-                                        {{ $method->name }}
-                                        @error('attendance_method_id')
+                                        class="btn btn-outline-primary  @error('visit_category_id') btn-outline-danger @enderror"
+                                        for="{{ $category->name }}{{ $category->id }}">
+                                        {{ $category->name }}
+                                        @error('visit_category_id')
                                             (<strong>{{ $message }}</strong>)
                                         @enderror
                                     </label>
@@ -29,60 +29,31 @@
                             </div>
                         </div>
 
-                        @if ($attendance_method_id == 2)
-                            <section class="mb-3">
-                                @livewire('component.camera', key('selfie-camera'))
-                            </section>
-                        @elseif($attendance_method_id == 3)
-                            <div class="mb-3">
-                                <label for="step" class="form-label">Selesaikan Step</label>
+                        <div class="mb-3 text-center">
+                            @if ($content)
+                                <div class="alert alert-success" role="alert">
+                                    <h3 class="alert-heading">{{ $site_name }}</h3>
+                                    <h4>{{ $site_latitude }}, {{ $site_longitude }}</h4>
+                                    <button type="button" class="btn btn-primary" wire:click="retryScanner"><i
+                                            class="mdi mdi-qrcode-scan"></i> Retry Scan</button>
+                                </div>
+                            @endif
+                            @if ($isScanError)
+                                <button type="button" class="btn btn-primary" wire:click="retryScanner"><i
+                                        class="mdi mdi-qrcode-scan"></i> Retry Scan</button>
+                            @endif
+                        </div>
 
-                                <div class="btn-group d-grid gap-2 d-md-flex" role="group"
-                                    aria-label="Basic radio toggle button group">
-
-                                    <input type="radio" class="btn-check" name="activeCamera" id="activateQRScanner"
-                                        value="qr" autocomplete="off" wire:click="activateQRScanner"
-                                        @if ($activeCamera === 'qr') checked @endif>
-                                    <label class="btn btn-outline-primary" for="activateQRScanner">
-                                        Step 1: Activate QR Scanner
-                                    </label>
-
-                                    <input type="radio" class="btn-check" name="activeCamera"
-                                        id="activateSelfieCamera" value="selfie" autocomplete="off"
-                                        wire:click="activateSelfieCamera"
-                                        @if ($activeCamera === 'selfie') checked @endif>
-                                    <label class="btn btn-outline-primary" for="activateSelfieCamera">
-                                        Step 2: Activate Selfie Camera
-                                    </label>
-
+                        <div class="mb-3" wire:ignore>
+                            <label for="qr-scanner" class="form-label d-block mb-2">{{ __('QR Code Scanner') }}</label>
+                            <div id="qr-scanner-container">
+                                <video id="preview"></video>
+                                <div class="qr-camera-controls">
+                                    <button type="button" id="switchQRScannerCamera"
+                                        class="bx bx-transfer-alt bx-sm btn text-white"></button>
                                 </div>
                             </div>
-
-                            @if ($activeCamera === 'qr')
-                                <section class="mb-3">
-                                    @if ($content)
-                                        <div class="text-center">
-                                            <div class="mb-4">
-                                                <i class="mdi mdi-check-circle-outline text-success display-4"></i>
-                                            </div>
-                                            <div>
-                                                <h3>{{ $site_name }}</h3>
-                                                <h4>{{ $site_longitude }}, {{ $site_latitude }}</h4>
-                                            </div>
-                                        </div>
-                                    @endif
-
-                                    @livewire('component.qr-camera', key('qr-scanner'))
-                                </section>
-
-                            @endif
-
-                            @if ($activeCamera === 'selfie')
-                                <section class="mb-3">
-                                    @livewire('component.camera', key('selfie-camera'))
-                                </section>
-                            @endif
-                        @endif
+                        </div>
 
                         <div class="mb-3">
                             <label for="notes">Notes</label>
@@ -96,15 +67,27 @@
                             @enderror
                         </div>
 
-                        @livewire(
-                            'component.map',
-                            [
-                                'site_name' => $site_name,
-                                'site_latitude' => $site_latitude,
-                                'site_longitude' => $site_longitude,
-                            ],
-                            key('map')
-                        )
+                        <div class="mb-3" wire:ignore>
+                            <label for="map" class="form-label">{{ __('Location') }}</label>
+                            <p>Jika koordinat kurang akurat, silahkan klik tombol Refresh Koordinat pada map</p>
+                            <i wire:loading class="spinner-border" wire:target="updateCoordinates"></i>
+                            <div id="map"></div>
+                        </div>
+
+                        <div class="mb-3" wire:ignore>
+                            <label for="camera" class="form-label">Capture Photo</label>
+                            <p>Izinkan akses kamera untuk mengambil gambar</p>
+                            <div class="camera-container">
+                                <video id="cameraFeed" autoplay></video>
+                                <canvas id="cameraCanvas" style="display: none;"></canvas>
+                                <div class="camera-controls">
+                                    <button type="button" id="switchCamera"
+                                        class="bx bx-transfer-alt bx-sm btn text-white"></button>
+                                    <button type="button" id="capturePhoto"
+                                        class="bx bx-camera bx-sm btn text-white"></button>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="mb-3 d-flex justify-content-end gap-2">
                             <button id="submit" type="submit" class="btn btn-primary w-md col-md"
@@ -136,9 +119,37 @@
                 /* Adjust based on your layout */
             }
 
+            #qr-scanner-container {
+                position: relative;
+                width: 100%;
+                max-width: 100%;
+                /* Adjust based on your layout */
+            }
+
             #cameraFeed {
                 width: 100%;
                 height: auto;
+            }
+
+            #preview {
+                width: 100%;
+                height: auto;
+            }
+
+            .qr-camera-controls {
+                position: absolute;
+                bottom: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                gap: 10px;
+                background: rgba(0, 0, 0, 0.5);
+                padding: 5px;
+                border-radius: 10px;
+            }
+
+            .qr-camera-controls button {
+                color: white;
             }
 
             .camera-controls {
@@ -149,16 +160,12 @@
                 display: flex;
                 gap: 10px;
                 background: rgba(0, 0, 0, 0.5);
-                padding: 10px;
+                padding: 5px;
                 border-radius: 10px;
             }
 
             .camera-controls button {
                 color: white;
-            }
-
-            #preview {
-                width: 100%;
             }
         </style>
     @endpush
@@ -177,60 +184,48 @@
 
                 function qrScannerStart() {
                     let scanner = null;
+                    let currentCameraIndex = 0;
+                    let cameras = [];
 
                     Livewire.on('initQRScanner', () => {
                         console.log('initQRScanner event received');
-                        setTimeout(() => {
-                            const videoElement = document.getElementById('preview');
-                            const scannerContainer = document.getElementById('qr-scanner-container');
+                        const video = document.getElementById('preview');
+                        const switchButton = document.getElementById('switchQRScannerCamera');
 
-                            if (!scannerContainer) {
-                                console.error('Scanner container not found');
-                                return;
+                        function startScanner(cameraIndex) {
+                            if (scanner) {
+                                scanner.stop();
                             }
 
-                            scannerContainer.style.display = 'block';
-                            console.log('Scanner container should now be visible');
-
-                            try {
-                                scanner = new Instascan.Scanner({
-                                    video: videoElement
-                                });
-                                scanner.addListener('scan', function(content) {
-                                    console.log('QR Code scanned:', content);
-                                    Livewire.dispatch('qr-code-scanned', {
-                                        content: content
+                            Instascan.Camera.getCameras().then(function(availableCameras) {
+                                cameras = availableCameras;
+                                if (cameras.length > 0) {
+                                    scanner = new Instascan.Scanner({
+                                        video: video
                                     });
-                                    scanner.stop();
-                                    scannerContainer.style.display = 'none';
-                                });
-
-                                Instascan.Camera.getCameras().then(function(cameras) {
-                                    if (cameras.length > 0) {
-                                        scanner.start(cameras[0]);
-                                        console.log('Camera started');
-                                    } else {
-                                        console.error('No cameras found.');
-                                        alert('No cameras found.');
-                                    }
-                                }).catch(function(e) {
-                                    console.error('Error getting cameras', e);
-                                    alert('Error accessing camera.');
-                                });
-                            } catch (error) {
-                                console.error('Error initializing scanner', error);
-                                alert('Error initializing scanner.');
-                            }
-                        }, 100);
-                    });
-
-                    Livewire.on('stopQRScanner', () => {
-                        console.log('stopQRScanner event received');
-                        if (scanner) {
-                            scanner.stop();
-                            document.getElementById('qr-scanner-container').style.display = 'none';
-                            console.log('Scanner stopped and container hidden');
+                                    scanner.addListener('scan', function(content) {
+                                        console.log('QR Code terdeteksi:', content);
+                                        Livewire.dispatch('qr-code-scanned', {
+                                            content: content
+                                        });
+                                    });
+                                    scanner.start(cameras[cameraIndex]).catch(function(e) {
+                                        console.error('Failed to start scanner:', e);
+                                    });
+                                } else {
+                                    console.error('Tidak ada kamera yang ditemukan.');
+                                }
+                            }).catch(function(e) {
+                                console.error('Error accessing cameras:', e);
+                            });
                         }
+
+                        startScanner(currentCameraIndex);
+
+                        switchButton.addEventListener('click', function() {
+                            currentCameraIndex = (currentCameraIndex + 1) % cameras.length;
+                            startScanner(currentCameraIndex);
+                        });
                     });
                 }
 
@@ -241,28 +236,31 @@
                     const switchButton = document.getElementById('switchCamera');
                     const context = canvas.getContext('2d');
                     let currentStream = null;
-                    let currentCameraId = null;
                     let videoDevices = [];
+                    let currentDeviceIndex = 0;
 
                     function startCamera(deviceId) {
                         if (currentStream) {
                             currentStream.getTracks().forEach(track => track.stop());
                         }
 
-                        navigator.mediaDevices.getUserMedia({
-                            video: {
-                                deviceId: deviceId ? {
+                        const constraints = {
+                            video: deviceId ? {
+                                deviceId: {
                                     exact: deviceId
-                                } : undefined
-                            }
-                        }).then(function(stream) {
-                            currentStream = stream;
-                            video.srcObject = stream;
-                            video.play();
-                        }).catch(function(err) {
-                            console.error("Error accessing camera: " + err.message);
-                            alert("Tidak dapat mengakses kamera: " + err.message);
-                        });
+                                }
+                            } : true
+                        };
+
+                        navigator.mediaDevices.getUserMedia(constraints)
+                            .then(function(stream) {
+                                currentStream = stream;
+                                video.srcObject = stream;
+                                return video.play();
+                            })
+                            .catch(function(err) {
+                                console.error("Error accessing camera:", err);
+                            });
                     }
 
                     function getVideoDevices() {
@@ -270,31 +268,23 @@
                             .then(function(devices) {
                                 videoDevices = devices.filter(device => device.kind === 'videoinput');
                                 if (videoDevices.length > 0) {
-                                    currentCameraId = videoDevices[0].deviceId;
-                                    startCamera(currentCameraId);
+                                    startCamera(videoDevices[currentDeviceIndex].deviceId);
                                 } else {
-                                    throw new Error('No video input devices found.');
+                                    console.error('No video input devices found.');
                                 }
                             })
                             .catch(function(err) {
-                                console.error("Error getting devices: " + err.message);
+                                console.error("Error getting devices:", err);
                             });
                     }
 
                     captureButton.addEventListener('click', function() {
-                        $('#submit').attr('disabled', 'disabled');
-                        $('#cancel').attr('disabled', 'disabled');
-
                         if (video.srcObject) {
-                            // Resize parameters
-                            const MAX_WIDTH = 800; // Contoh lebar maksimal
-                            const MAX_HEIGHT = 600; // Contoh tinggi maksimal
-
-                            // Ambil ukuran asli video
+                            const MAX_WIDTH = 800;
+                            const MAX_HEIGHT = 600;
                             let width = video.videoWidth;
                             let height = video.videoHeight;
 
-                            // Rasio resize
                             if (width > height) {
                                 if (width > MAX_WIDTH) {
                                     height *= MAX_WIDTH / width;
@@ -307,38 +297,26 @@
                                 }
                             }
 
-                            // Set ukuran canvas
                             canvas.width = width;
                             canvas.height = height;
-
-                            // Draw video frame ke canvas dengan ukuran baru
                             context.drawImage(video, 0, 0, width, height);
-
-                            // Konversi canvas ke data URL
                             const dataURL = canvas.toDataURL('image/jpeg');
-
-                            // Dispatch event ke Livewire dengan data URL
                             Livewire.dispatch('image-captured', {
                                 url: dataURL
                             });
 
-                            // Pause video setelah capture
                             video.pause();
-
                         } else {
-                            alert("Tidak ada stream video yang aktif.");
+                            console.error("Tidak ada stream video yang aktif.");
                         }
                     });
 
                     switchButton.addEventListener('click', function() {
                         if (videoDevices.length > 1) {
-                            let currentIndex = videoDevices.findIndex(device => device.deviceId ===
-                                currentCameraId);
-                            let nextIndex = (currentIndex + 1) % videoDevices.length;
-                            currentCameraId = videoDevices[nextIndex].deviceId;
-                            startCamera(currentCameraId);
+                            currentDeviceIndex = (currentDeviceIndex + 1) % videoDevices.length;
+                            startCamera(videoDevices[currentDeviceIndex].deviceId);
                         } else {
-                            alert("Hanya ada satu kamera yang tersedia.");
+                            console.log("Hanya ada satu kamera yang tersedia.");
                         }
                     });
 

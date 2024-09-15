@@ -40,14 +40,12 @@ class VisitItem extends Component
             $this->noteInExcerpt = '<p class="fst-italic">' . $this->checkIn['notes'] . '</p>';
         }
 
-        if ($this->checkOut != null) {
-            // Jika Notes lebih dari 50 karakter
-            if (strlen($this->checkOut['notes']) > 50) {
-                $excerptOut = substr($this->checkOut['notes'], 0, 50);
-                $this->noteOutExcerpt = '<p class="d-inline-block m-0 fst-italic" id="notes-out-' . $this->checkOut['id'] . '">' . $excerptOut . '</p> <a data-id="' . $this->checkOut['id'] . '" data-excerpt="' . $excerptOut . '" data-notes="' . $this->checkOut['notes'] . '" href="javascript: void(0);" class="read-more-out">Read More</a>';
-            } else {
-                $this->noteOutExcerpt = '<p class="fst-italic">' . $this->checkOut['notes'] . '</p>';
-            }
+        // Jika Notes lebih dari 50 karakter
+        if (strlen($this->checkOut['notes']) > 50) {
+            $excerptOut = substr($this->checkOut['notes'], 0, 50);
+            $this->noteOutExcerpt = '<p class="d-inline-block m-0 fst-italic" id="notes-out-' . $this->checkOut['id'] . '">' . $excerptOut . '</p> <a data-id="' . $this->checkOut['id'] . '" data-excerpt="' . $excerptOut . '" data-notes="' . $this->checkOut['notes'] . '" href="javascript: void(0);" class="read-more-out">Read More</a>';
+        } else {
+            $this->noteOutExcerpt = '<p class="fst-italic">' . $this->checkOut['notes'] . '</p>';
         }
     }
 
@@ -61,22 +59,21 @@ class VisitItem extends Component
             } else {
                 $this->distanceInFormatted = '<span class="text-danger">' . $this->checkIn['distance'] . ' Km</span>';
             }
-        } else {
+        }else{
             $this->distanceInFormatted = '<span class="text-secondary">Tidak ada</span>';
         }
 
-        if ($this->checkOut != null) {
-            if ($this->checkOut['distance'] != null) {
-                if ($this->checkOut['distance'] < 1) {
-                    $this->distanceOutFormatted = '<span class="text-success">' . $this->checkOut['distance'] . ' Km</span>';
-                } elseif ($this->checkOut['distance'] >= 1) {
-                    $this->distanceOutFormatted = '<span class="text-warning">' . $this->checkOut['distance'] . ' Km</span>';
-                } else {
-                    $this->distanceOutFormatted = '<span class="text-danger">' . $this->checkOut['distance'] . ' Km</span>';
-                }
+        if($this->checkOut['distance'] != null){
+
+            if ($this->checkOut['distance'] < 1) {
+                $this->distanceOutFormatted = '<span class="text-success">' . $this->checkOut['distance'] . ' Km</span>';
+            } elseif ($this->checkOut['distance'] >= 1) {
+                $this->distanceOutFormatted = '<span class="text-warning">' . $this->checkOut['distance'] . ' Km</span>';
             } else {
-                $this->distanceOutFormatted = '<span class="text-secondary">Tidak ada</span>';
+                $this->distanceOutFormatted = '<span class="text-danger">' . $this->checkOut['distance'] . ' Km</span>';
             }
+        }else{
+            $this->distanceOutFormatted = '<span class="text-secondary">Tidak ada</span>';
         }
     }
 

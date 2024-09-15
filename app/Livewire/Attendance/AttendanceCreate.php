@@ -26,6 +26,8 @@ class AttendanceCreate extends BaseComponent
     public $site_name = 'Office Site';
     public $site_latitude = '-6.2631219';
     public $site_longitude = '106.7988398';
+    public $activeCamera = 'selfie';
+    public $isScanError = false;
 
     protected $rules = [
         'employee_id' => 'required',
@@ -50,17 +52,10 @@ class AttendanceCreate extends BaseComponent
         if ($this->attendance_method_id == 2) {
             $this->site_id = 1;
         } elseif ($this->attendance_method_id == 3) {
-            $this->dispatch('initQRScanner');
+            $this->activateQRScanner();
         } else {
             $this->site_id = null;
         }
-    }
-
-    public function retryScanner()
-    {
-        $this->content = null;
-        $this->resetSite();
-        $this->dispatch('initQRScanner');
     }
 
     #[On('image-captured')]
@@ -80,16 +75,26 @@ class AttendanceCreate extends BaseComponent
 
             $site = \App\Models\Site::where('uid', $content)->first();
 
-            // dd($content);
             $this->site_id = $site->id;
             $this->site_name = $site->name;
             $this->site_latitude = $site->latitude;
             $this->site_longitude = $site->longitude;
 
+            $this->alert('info', 'QR Code Scanned', [
+                'position' => 'center',
+                'showCancelButton' => true,
+                'cancelButtonText' => 'Close',
+                'toast' => false,
+                'timer' => null,
+                'html' => '<h3><strong>' . $site->name . '</strong></h3>' .
+                    '<h4><strong>' . $site->longitude . ', ' . $site->latitude . '</strong></h4>',
+            ]);
+
             $this->dispatch('refresh-map', latitude: $this->latitude, longitude: $this->longitude, site_latitude: $this->site_latitude, site_longitude: $this->site_longitude, site_name: $this->site_name);
         } catch (\Throwable $th) {
             $this->alert('error', 'Invalid QR Code');
             $this->content = null;
+            $this->isScanError = true;
         }
     }
 
@@ -190,6 +195,20 @@ class AttendanceCreate extends BaseComponent
         $image_base64 = base64_decode($image_parts[1]);
 
         return $image_base64;
+    }
+
+    public function activateQRScanner()
+    {
+        $this->dispatch('selfie-camera-stop')->to('component.camera');
+        $this->dispatch('qr-scanner-start')->to('component.qr-camera');
+        $this->activeCamera = 'qr';
+    }
+
+    public function activateSelfieCamera()
+    {
+        $this->dispatch('qr-scanner-stop')->to('component.qr-camera');
+        $this->dispatch('selfie-camera-start')->to('component.camera');
+        $this->activeCamera = 'selfie';
     }
 
     public function render()

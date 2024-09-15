@@ -22,20 +22,22 @@
     <td>
         <div class="d-flex">
             <div class="flex-shrink-0 me-3 align-self-center">
-                <img class="rounded avatar-md" src="{{ $checkIn['file_url'] }}" alt="{{ $checkIn['file_url'] }}">
+                <img class="rounded avatar-md" src="{{ $checkIn['image_url'] }}" alt="{{ $checkIn['image_url'] }}">
             </div>
             <div class="flex-grow-1">
-                <span class="d-block">
-                    <strong>
-                        {{ $checkIn['site']['name'] }} -
-                        <a href="https://www.google.com/maps?q={{ $checkIn['site']['latitude'] }},{{ $checkIn['site']['longitude'] }}"
-                            target="_blank">{{ $checkIn['site']['longitude'] }},{{ $checkIn['site']['latitude'] }}</a>
-                    </strong>
-                </span>
-                <span class="d-block">Timestamp: <strong>{{ $checkIn['created_at'] }}</strong></span>
+                @if ($checkIn['attendance_method']['id'] == 3)
+                    <span class="d-block">
+                        <strong>
+                            {{ $checkIn['site']['name'] }} -
+                            <a href="https://www.google.com/maps?q={{ $checkIn['site']['latitude'] }},{{ $checkIn['site']['longitude'] }}"
+                                target="_blank">{{ $checkIn['site']['longitude'] }},{{ $checkIn['site']['latitude'] }}</a>
+                        </strong>
+                    </span>
+                @endif
+                <span class="d-block">Timestamp: <strong>{{ $checkIn['timestamp'] }}</strong></span>
                 {{-- <span class="d-block">Machine: {{ $checkIn['machine']['name'] }}</span> --}}
-                <span class="d-block">Visit Method:
-                    <strong>{{ $checkIn['visit_category']['name'] }}</strong></span>
+                <span class="d-block">Attendance Method:
+                    <strong>{{ $checkIn['attendance_method']['name'] }}</strong></span>
                 <span class="d-block">Location:
                     <strong>
                         <a href="https://www.google.com/maps?q={{ $checkIn['latitude'] }},{{ $checkIn['longitude'] }}"
@@ -50,13 +52,12 @@
         </div>
     </td>
     <td>
-        @if ($checkOut != null)
-            <div class="d-flex">
-                <div class="flex-shrink-0 me-3 align-self-center">
-                    <img class="rounded avatar-md" src="{{ $checkOut['file_url'] }}"
-                        alt="{{ $checkOut['file_url'] }}">
-                </div>
-                <div class="flex-grow-1">
+        <div class="d-flex">
+            <div class="flex-shrink-0 me-3 align-self-center">
+                <img class="rounded avatar-md" src="{{ $checkOut['image_url'] }}" alt="{{ $checkOut['image_url'] }}">
+            </div>
+            <div class="flex-grow-1">
+                @if ($checkOut['attendance_method']['id'] == 3)
                     <span class="d-block">
                         <strong>
                             {{ $checkIn['site']['name'] }} -
@@ -64,25 +65,23 @@
                                 target="_blank">{{ $checkIn['site']['longitude'] }},{{ $checkIn['site']['latitude'] }}</a>
                         </strong>
                     </span>
-                    <span class="d-block">Timestamp: <strong>{{ $checkOut['created_at'] }}</strong></span>
-                    {{-- <span class="d-block">Machine: {{ $checkOut['machine']['name'] }}</span> --}}
-                    <span class="d-block">Visit Method:
-                        <strong>{{ $checkOut['visit_category']['name'] }}</strong></span>
-                    <span class="d-block">Location:
-                        <strong>
-                            <a href="https://www.google.com/maps?q={{ $checkOut['latitude'] }},{{ $checkOut['longitude'] }}"
-                                target="_blank">{{ $checkOut['longitude'] }}, {{ $checkOut['latitude'] }}</a>
-                            - {!! $distanceOutFormatted !!}
-                        </strong>
-                    </span>
-                    <span class="text-wrap">
-                        {!! $noteOutExcerpt !!}
-                    </span>
-                </div>
+                @endif
+                <span class="d-block">Timestamp: <strong>{{ $checkOut['timestamp'] }}</strong></span>
+                {{-- <span class="d-block">Machine: {{ $checkOut['machine']['name'] }}</span> --}}
+                <span class="d-block">Attendance Method:
+                    <strong>{{ $checkOut['attendance_method']['name'] }}</strong></span>
+                <span class="d-block">Location:
+                    <strong>
+                        <a href="https://www.google.com/maps?q={{ $checkOut['latitude'] }},{{ $checkOut['longitude'] }}"
+                            target="_blank">{{ $checkOut['longitude'] }}, {{ $checkOut['latitude'] }}</a>
+                        - {!! $distanceOutFormatted !!}
+                    </strong>
+                </span>
+                <span class="text-wrap">
+                    {!! $noteOutExcerpt !!}
+                </span>
             </div>
-        @else
-            <span class="text-muted">No check out</span>
-        @endif
+        </div>
     </td>
     <td><span class="badge rounded-pill {{ $badge_color }} font-size-12">{{ $duration_string }}</span></td>
 </tr>

@@ -29,60 +29,25 @@
                             </div>
                         </div>
 
-                        @if ($attendance_method_id == 2)
-                            <section class="mb-3">
-                                @livewire('component.camera', key('selfie-camera'))
-                            </section>
-                        @elseif($attendance_method_id == 3)
-                            <div class="mb-3">
-                                <label for="step" class="form-label">Selesaikan Step</label>
-
-                                <div class="btn-group d-grid gap-2 d-md-flex" role="group"
-                                    aria-label="Basic radio toggle button group">
-
-                                    <input type="radio" class="btn-check" name="activeCamera" id="activateQRScanner"
-                                        value="qr" autocomplete="off" wire:click="activateQRScanner"
-                                        @if ($activeCamera === 'qr') checked @endif>
-                                    <label class="btn btn-outline-primary" for="activateQRScanner">
-                                        Step 1: Activate QR Scanner
-                                    </label>
-
-                                    <input type="radio" class="btn-check" name="activeCamera"
-                                        id="activateSelfieCamera" value="selfie" autocomplete="off"
-                                        wire:click="activateSelfieCamera"
-                                        @if ($activeCamera === 'selfie') checked @endif>
-                                    <label class="btn btn-outline-primary" for="activateSelfieCamera">
-                                        Step 2: Activate Selfie Camera
-                                    </label>
-
+                        <div class="mb-3 text-center">
+                            @if ($content)
+                                <div class="alert alert-success" role="alert">
+                                    <h3 class="alert-heading">{{ $site_name }}</h3>
+                                    <h4>{{ $site_latitude }}, {{ $site_longitude }}</h4>
+                                    <button type="button" class="btn btn-primary" wire:click="retryScanner"><i
+                                            class="mdi mdi-qrcode-scan"></i> Retry Scan</button>
                                 </div>
-                            </div>
-
-                            @if ($activeCamera === 'qr')
-                                <section class="mb-3">
-                                    @if ($content)
-                                        <div class="text-center">
-                                            <div class="mb-4">
-                                                <i class="mdi mdi-check-circle-outline text-success display-4"></i>
-                                            </div>
-                                            <div>
-                                                <h3>{{ $site_name }}</h3>
-                                                <h4>{{ $site_longitude }}, {{ $site_latitude }}</h4>
-                                            </div>
-                                        </div>
-                                    @endif
-
-                                    @livewire('component.qr-camera', key('qr-scanner'))
-                                </section>
-
                             @endif
-
-                            @if ($activeCamera === 'selfie')
-                                <section class="mb-3">
-                                    @livewire('component.camera', key('selfie-camera'))
-                                </section>
+                            @if ($site_name == null)
+                                <button type="button" class="btn btn-primary" wire:click="retryScanner"><i
+                                        class="mdi mdi-qrcode-scan"></i> Retry Scan</button>
                             @endif
-                        @endif
+                        </div>
+
+                        <div class="mb-3" id="qr-scanner-container" style="display: none;">
+                            <label for="qr-scanner" class="form-label d-block mb-2">{{ __('QR Code Scanner') }}</label>
+                            <video id="preview"></video>
+                        </div>
 
                         <div class="mb-3">
                             <label for="notes">Notes</label>
@@ -96,15 +61,27 @@
                             @enderror
                         </div>
 
-                        @livewire(
-                            'component.map',
-                            [
-                                'site_name' => $site_name,
-                                'site_latitude' => $site_latitude,
-                                'site_longitude' => $site_longitude,
-                            ],
-                            key('map')
-                        )
+                        <div class="mb-3" wire:ignore>
+                            <label for="map" class="form-label">{{ __('Location') }}</label>
+                            <p>Jika koordinat kurang akurat, silahkan klik tombol Refresh Koordinat pada map</p>
+                            <i wire:loading class="spinner-border" wire:target="updateCoordinates"></i>
+                            <div id="map"></div>
+                        </div>
+
+                        <div class="mb-3" wire:ignore>
+                            <label for="camera" class="form-label">Capture Photo</label>
+                            <p>Izinkan akses kamera untuk mengambil gambar</p>
+                            <div class="camera-container">
+                                <video id="cameraFeed" autoplay></video>
+                                <canvas id="cameraCanvas" style="display: none;"></canvas>
+                                <div class="camera-controls">
+                                    <button type="button" id="switchCamera"
+                                        class="bx bx-transfer-alt bx-sm btn text-white"></button>
+                                    <button type="button" id="capturePhoto"
+                                        class="bx bx-camera bx-sm btn text-white"></button>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="mb-3 d-flex justify-content-end gap-2">
                             <button id="submit" type="submit" class="btn btn-primary w-md col-md"

@@ -95,7 +95,7 @@ class AttendanceIndex extends BaseComponent
             $checkOutKey = $attendance->employee_id . '-' . $attendance->check_out;
 
             $checkInDetail = $checkInDetails[$checkInKey] ?? null;
-            $checkOutDetail = $checkOutDetails[$checkOutKey] ?? null;
+            $checkOutDetail = ($attendance->check_in === $attendance->check_out) ? null : ($checkOutDetails[$checkOutKey] ?? null);
 
             $checkInTimestamp = $checkInDetail ? new \DateTime($checkInDetail->timestamp) : null;
             $checkOutTimestamp = $checkOutDetail ? new \DateTime($checkOutDetail->timestamp) : null;
@@ -117,7 +117,7 @@ class AttendanceIndex extends BaseComponent
 
 
             return [
-                'id' => $checkInDetail->uid . '-' . $checkOutDetail->uid,
+                'id' => $checkInDetail->uid . '-' . ($checkOutDetail->uid ?? 'null'),
                 'employee' => $checkInDetail ? [
                     'id' => $checkInDetail->employee->id,
                     'name' => $checkInDetail->employee->user->name,

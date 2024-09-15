@@ -16,12 +16,13 @@ use Intervention\Image\Drivers\Gd\Driver;
 class VisitCreate extends BaseComponent
 {
     use LivewireAlert;
-
+    public $visit;
     public $employee_id, $site_id, $visit_category_id, $notes, $distance, $longitude, $latitude, $file_path, $file_url, $image, $content;
+
     public $visit_categories;
+
     public $site_name, $site_longitude, $site_latitude;
     public $isScanError = false;
-    public $activeCamera = 'qr';
 
     protected $rules = [
         'employee_id' => 'required',
@@ -33,15 +34,29 @@ class VisitCreate extends BaseComponent
         'image' => 'required',
     ];
 
-    public function mount()
+    public function resetSite()
     {
-        $this->visit_categories = VisitCategory::all();
-        $this->employee_id = $this->authUser->employee->id;
+        $this->site_id = null;
+        $this->site_name = null;
+        $this->site_latitude = '-6.2631219';
+        $this->site_longitude = '106.7988398';
+    }
 
-        $site = \App\Models\Site::first();
-        $this->site_name = $site->name;
-        $this->site_longitude = $site->longitude;
-        $this->site_latitude = $site->latitude;
+    public function retryScanner()
+    {
+        $this->content = null;
+        $this->resetSite();
+        $this->dispatch('initQRScanner');
+        $this->isScanError = false;
+    }
+
+    #[On('image-captured')]
+    public function imageCaptured($url)
+    {
+        $this->image = $url;
+        if ($this->image) {
+            $this->alert('success', 'Image captured successfully');
+        }
     }
 
     #[On('qr-code-scanned')]
@@ -52,20 +67,11 @@ class VisitCreate extends BaseComponent
 
             $site = \App\Models\Site::where('uid', $content)->first();
 
+            // dd($content);
             $this->site_id = $site->id;
             $this->site_name = $site->name;
             $this->site_latitude = $site->latitude;
             $this->site_longitude = $site->longitude;
-
-            $this->alert('info', 'QR Code Scanned', [
-                'position' => 'center',
-                'showCancelButton' => true,
-                'cancelButtonText' => 'Close',
-                'toast' => false,
-                'timer' => null,
-                'html' => '<h3><strong>' . $site->name . '</strong></h3>' .
-                    '<h4><strong>' . $site->longitude . ', ' . $site->latitude . '</strong></h4>',
-            ]);
 
             $this->dispatch('refresh-map', latitude: $this->latitude, longitude: $this->longitude, site_latitude: $this->site_latitude, site_longitude: $this->site_longitude, site_name: $this->site_name);
         } catch (\Throwable $th) {
@@ -91,21 +97,15 @@ class VisitCreate extends BaseComponent
         $this->dispatch('refresh-map', latitude: $this->latitude, longitude: $this->longitude, site_latitude: $this->site_latitude, site_longitude: $this->site_longitude, site_name: $this->site_name);
     }
 
-    #[On('image-captured')]
-    public function imageCaptured($url)
+    public function mount()
     {
-        $this->image = $url;
-        if ($this->image) {
-            $this->alert('success', 'Image captured successfully');
-        }
-    }
+        $this->visit_categories = \App\Models\VisitCategory::all();
+        $this->employee_id = $this->authUser->employee->id;
+        $site = \App\Models\Site::first();
 
-    public function resetSite()
-    {
-        $this->site_name = null;
-        $this->site_longitude = null;
-        $this->site_latitude = null;
-        $this->site_id = null;
+        $this->site_latitude = $site->latitude;
+        $this->site_longitude = $site->longitude;
+        $this->dispatch('initQRScanner');
     }
 
     public function submit()
@@ -163,21 +163,6 @@ class VisitCreate extends BaseComponent
         $image_base64 = base64_decode($image_parts[1]);
 
         return $image_base64;
-    }
-
-    public function activateQRScanner()
-    {
-        $this->dispatch('selfie-camera-stop')->to('component.camera');
-        $this->dispatch('qr-scanner-start')->to('component.qr-camera');
-        $this->activeCamera = 'qr';
-    }
-
-
-    public function activateSelfieCamera()
-    {
-        $this->dispatch('qr-scanner-stop')->to('component.qr-camera');
-        $this->dispatch('selfie-camera-start')->to('component.camera');
-        $this->activeCamera = 'selfie';
     }
 
     public function render()

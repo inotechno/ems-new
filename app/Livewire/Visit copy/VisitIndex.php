@@ -93,7 +93,7 @@ class VisitIndex extends BaseComponent
             $checkOutKey = $visit->employee_id . '-' . $visit->check_out;
 
             $checkInDetail = $checkInDetails[$checkInKey] ?? null;
-            $checkOutDetail = ($visit->check_in === $visit->check_out) ? null : ($checkOutDetails[$checkOutKey] ?? null);
+            $checkOutDetail = $checkOutDetails[$checkOutKey] ?? null;
 
             $checkInTimestamp = $checkInDetail ? new \DateTime($checkInDetail->created_at) : null;
             $checkOutTimestamp = $checkOutDetail ? new \DateTime($checkOutDetail->created_at) : null;
@@ -115,7 +115,7 @@ class VisitIndex extends BaseComponent
 
 
             return [
-                'id' => $checkInDetail->uid . '-' . ($checkOutDetail->uid ?? 'null'),
+                'id' => $checkInDetail->uid . '-' . $checkOutDetail->uid,
                 'employee' => $checkInDetail ? [
                     'id' => $checkInDetail->employee->id,
                     'name' => $checkInDetail->employee->user->name,
