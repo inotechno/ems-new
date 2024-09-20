@@ -100,4 +100,11 @@ class AbsentRequest extends Model
         // Perbarui status isApproved pada AbsentRequest
         $this->update(['is_approved' => $isApproved]);
     }
+
+    public function isRejectedByRecipients(): bool
+    {
+        $totalRecipients = $this->recipients()->count();
+        $rejectedRecipients = $this->validates()->where('status', 'rejected')->count();
+        return $totalRecipients > 0 && $rejectedRecipients === $totalRecipients;
+    }
 }

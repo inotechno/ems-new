@@ -1,0 +1,35 @@
+<div style="font-family: Arial, sans-serif; font-size: 16px; color: #333">
+    <p>Hai <strong>{{ $recipient->name}}</strong>,</p>
+    <p>
+        Anda menerima pengajuan cuti baru dari
+        <strong>{{ $sender->name}}</strong>. Berikut detailnya:
+    </p>
+    <ul>
+        <li><strong>Nama Karyawan:</strong> {{ $sender->name}}</li>
+        <li>
+            <strong>Tanggal Mulai:</strong> {{
+            $leave_request->start_date->format('d-m-Y')}}
+        </li>
+        <li>
+            <strong>Tanggal Selesai:</strong> {{
+            $leave_request->end_date->format('d-m-Y')}}
+        </li>
+        <li><strong>Jumlah Hari:</strong> {{ $leave_request->total_days}}</li>
+        <li><strong>Catatan:</strong>{{ $leave_request->notes}}</li>
+    </ul>
+    <p>
+        Silakan proses pengajuan ini sesuai prosedur. Jika ada pertanyaan,
+        hubungi pengaju melalui email:
+        <a href="mailto:{{ $sender->email}}" style="color: #1a73e8"
+            >{{ $sender->email}}</a
+        >.
+    </p>
+    <p>Terima kasih.</p>
+    <p>Salam hangat,<br />Tim HR <strong>TPM Group</strong></p>
+    <hr style="border-top: 1px solid #ccc" />
+    <p>
+        <small style="font-style: italic"
+            >* Email ini dibuat secara otomatis, tidak perlu direspon</small
+        >
+    </p>
+</div>

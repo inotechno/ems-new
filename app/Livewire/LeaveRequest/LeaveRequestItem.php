@@ -2,6 +2,7 @@
 
 namespace App\Livewire\LeaveRequest;
 
+use App\Jobs\SendEmailJob;
 use App\Livewire\BaseComponent;
 use Livewire\Component;
 use App\Models\LeaveRequest;
@@ -15,6 +16,7 @@ class LeaveRequestItem extends BaseComponent
     use LivewireAlert;
     public $leave_request;
     public $isApproved = false;
+    public $isRejected = false;
     public $totalDays = 0;
     public $disableUpdate = false;
     public $disableUpdateApprove = false;
@@ -29,7 +31,7 @@ class LeaveRequestItem extends BaseComponent
             $this->disableUpdate = true;
         }
 
-        $this->totalDays = $this->leave_request->end_date->diffInDays($this->leave_request->start_date);
+        $this->totalDays = $this->leave_request->end_date->diffInDays($this->leave_request->start_date) + 1;
         $this->isApproved = $this->leave_request->is_approved;
     }
 
@@ -90,8 +92,10 @@ class LeaveRequestItem extends BaseComponent
             ['status' => 'approved']
         );
 
+        SendEmailJob::dispatch($this->leave_request->employee->user, 'approved-leave-request', ['leave_request' => $this->leave_request], $this->authUser);
+
         // Periksa dan perbarui status isApproved pada AbsentRequest
-        $this->absent_request->checkAndUpdateApprovalStatus();
+        $this->leave_request->checkAndUpdateApprovalStatus();
 
         $this->alert('success', 'Leave Request approved successfully');
         $this->dispatch('refreshIndex');
@@ -112,10 +116,12 @@ class LeaveRequestItem extends BaseComponent
             ['status' => 'rejected']
         );
 
-        // Periksa dan perbarui status isApproved pada AbsentRequest
-        $this->absent_request->checkAndUpdateApprovalStatus();
+        SendEmailJob::dispatch($this->leave_request->employee->user, 'rejected-leave-request', ['leave_request' => $this->leave_request], $this->authUser);
 
-        $this->alert('success', 'Absent Request rejected successfully');
+        // Periksa dan perbarui status isApproved pada AbsentRequest
+        $this->leave_request->checkAndUpdateApprovalStatus();
+
+        $this->alert('success', 'Leave Request rejected successfully');
         $this->dispatch('refreshIndex');
     }
 
@@ -137,6 +143,7 @@ class LeaveRequestItem extends BaseComponent
         $employeeRecipient = $this->authUser->employee->id;
         $this->recipientStatus = $this->leave_request->hasRecipient($employeeRecipient);
         $this->isApprovedRecipient = $this->leave_request->isApprovedByRecipient($employeeRecipient);
+        $this->isRejected = $this->leave_request->isRejectedByRecipients();
 
         $this->disableUpdateApprove = $this->isApprovedRecipient;
          // Buat array dengan status validasi untuk setiap recipient

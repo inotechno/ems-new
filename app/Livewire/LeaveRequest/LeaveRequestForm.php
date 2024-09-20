@@ -2,6 +2,7 @@
 
 namespace App\Livewire\LeaveRequest;
 
+use App\Jobs\SendEmailJob;
 use App\Livewire\BaseComponent;
 use App\Models\Employee;
 use App\Models\LeaveRequest;
@@ -88,7 +89,7 @@ class LeaveRequestForm extends BaseComponent
     {
         try {
             $period = $this->getTotalPeriod();
-            $this->leave_request = LeaveRequest::create([
+            $leave_request = LeaveRequest::create([
                 'notes' => $this->notes,
                 'employee_id' => $this->employee_id,
                 'start_date' => $this->start_date,
@@ -96,9 +97,26 @@ class LeaveRequestForm extends BaseComponent
                 'total_days' => $period,
                 'current_total_leave' => $this->current_total_leave,
                 'total_leave_after_request' => $this->current_total_leave - $period,
-            ])->recipients()->createMany(
+            ]);
+
+             // Buat recipients menggunakan relasi yang ada
+            $leave_request->recipients()->createMany(
                 collect($this->recipients)->map(fn($recipient) => ['employee_id' => $recipient])->toArray()
             );
+
+             // Akses relasi employee setelah AbsentRequest berhasil disimpan
+             $employee = $leave_request->employee;
+
+             // Akses relasi recipients setelah AbsentRequest berhasil disimpan
+             $recipients = $leave_request->recipients;
+
+             // Kirim email ke recipients
+             foreach ($recipients as $recipient) {
+                 SendEmailJob::dispatch($recipient->employee->user, 'recipient-leave-request', ['leave_request' => $leave_request], $employee->user);
+             }
+
+             // Kirim email menggunakan job
+             SendEmailJob::dispatch($employee->user, 'sender-leave-request', ['leave_request' => $leave_request]);
 
             $this->reset();
             $this->alert('success', 'Absent Request created successfully');

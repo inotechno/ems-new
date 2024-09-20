@@ -12,6 +12,7 @@
     "dependencies": {
         "alpinejs": "^3.14.1",
         "quill": "^2.0.2",
+        "quill-html-edit-button": "^3.0.0",
         "vuex": "^4.0.2"
     }
 }

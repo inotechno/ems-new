@@ -4,6 +4,7 @@
             <thead >
                 <tr>
                     <th class="align-middle">ID</th>
+                    <th class="align-middle">UID</th>
                     <th class="align-middle">Name</th>
                     <th class="align-middle">Longitude</th>
                     <th class="align-middle">Latitude</th>

@@ -5,12 +5,15 @@ namespace App\Livewire\EmailTemplateManager;
 use App\Models\EmailTemplate;
 use Livewire\Attributes\Url;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class EmailTemplateManagerIndex extends Component
 {
+    use WithPagination;
+
     #[Url(except:'')]
     public $search = '';
-    public $perPage = 10;
+    public $perPage = 12;
 
     public function render()
     {

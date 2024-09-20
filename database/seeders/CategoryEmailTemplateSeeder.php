@@ -19,47 +19,84 @@ class CategoryEmailTemplateSeeder extends Seeder
             'description' => 'New account created',
         ]);
 
-        // CategoryEmailTemplate::create([
-        //     'name' => 'Password Reset',
-        //     'slug' => 'password-reset',
-        //     'description' => 'Password reset',
-        // ]);
+        // Absent Request
 
-        // CategoryEmailTemplate::create([
-        //     'name' => 'Password Changed',
-        //     'slug' => 'password-changed',
-        //     'description' => 'Password changed',
-        // ]);
+        CategoryEmailTemplate::create([
+            'name' => 'Recipient Absent Request',
+            'slug' => 'recipient-absent-request',
+            'description' => 'Untuk email penerima request absent',
+        ]);
 
-        // CategoryEmailTemplate::create([
-        //     'name' => 'Email Changed',
-        //     'slug' => 'email-changed',
-        //     'description' => 'Email changed',
-        // ]);
+        CategoryEmailTemplate::create([
+            'name' => 'Sender Absent Request',
+            'slug' => 'sender-absent-request',
+            'description' => 'untuk pengirim request absent',
+        ]);
 
-        // CategoryEmailTemplate::create([
-        //     'name' => 'Email Verified',
-        //     'slug' => 'email-verified',
-        //     'description' => 'Email verified',
-        // ]);
+        CategoryEmailTemplate::create([
+            'name' => 'Approved Absent Request',
+            'slug' => 'approved-absent-request',
+            'description' => 'Jika Absent Request Sudah Di Approve maka email ini yang akan di kirimkan kepada user yang mengajukan',
+        ]);
 
-        // CategoryEmailTemplate::create([
-        //     'name' => 'Email Unverified',
-        //     'slug' => 'email-unverified',
-        //     'description' => 'Email unverified',
-        // ]);
+        CategoryEmailTemplate::create([
+            'name' => 'Rejected Absent Request',
+            'slug' => 'rejected-absent-request',
+            'description' => 'Jika Absent Request Di Reject maka email ini yang akan di kirimkan kepada user yang mengajukan',
+        ]);
 
-        // CategoryEmailTemplate::create([
-        //     'name' => 'Account Deleted',
-        //     'slug' => 'account-deleted',
-        //     'description' => 'Account deleted',
-        // ]);
 
-        // CategoryEmailTemplate::create([
-        //     'name' => 'Account Suspended',
-        //     'slug' => 'account-suspended',
-        //     'description' => 'Account suspended',
-        // ]);
+        // Leave Request
 
+        CategoryEmailTemplate::create([
+            'name' => 'Recipient Leave Request',
+            'slug' => 'recipient-leave-request',
+            'description' => 'Untuk email penerima request leave',
+        ]);
+
+        CategoryEmailTemplate::create([
+            'name' => 'Sender Leave Request',
+            'slug' => 'sender-leave-request',
+            'description' => 'untuk pengirim request leave',
+        ]);
+
+        CategoryEmailTemplate::create([
+            'name' => 'Approved Leave Request',
+            'slug' => 'approved-leave-request',
+            'description' => 'Jika Leave Request Sudah Di Approve maka email ini yang akan di kirimkan kepada user yang mengajukan',
+        ]);
+
+        CategoryEmailTemplate::create([
+            'name' => 'Rejected Leave Request',
+            'slug' => 'rejected-leave-request',
+            'description' => 'Jika Leave Request Di Reject maka email ini yang akan di kirimkan kepada user yang mengajukan',
+        ]);
+
+
+        // Financial Request
+
+        CategoryEmailTemplate::create([
+            'name' => 'Recipient Financial Request',
+            'slug' => 'recipient-financial-request',
+            'description' => 'Untuk email penerima request financial',
+        ]);
+
+        CategoryEmailTemplate::create([
+            'name' => 'Sender Financial Request',
+            'slug' => 'sender-financial-request',
+            'description' => 'untuk pengirim request financial',
+        ]);
+
+        CategoryEmailTemplate::create([
+            'name' => 'Approved Financial Request',
+            'slug' => 'approved-financial-request',
+            'description' => 'Jika Financial Request Sudah Di Approve maka email ini yang akan di kirimkan kepada user yang mengajukan',
+        ]);
+
+        CategoryEmailTemplate::create([
+            'name' => 'Rejected Financial Request',
+            'slug' => 'rejected-financial-request',
+            'description' => 'Jika Financial Request Di Reject maka email ini yang akan di kirimkan kepada user yang mengajukan',
+        ]);
     }
 }

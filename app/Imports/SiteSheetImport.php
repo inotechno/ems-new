@@ -20,11 +20,14 @@ class SiteSheetImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         $id = $row['id'];
+        $uid = $row['uid'];
         $name = $row['name'];
         $longitude = $row['longitude'];
         $latitude = $row['latitude'];
 
-        $uid = Str::uuid();
+        if($uid === null) {
+            $uid = Str::uuid();
+        }
 
         $site = Site::updateOrCreate([
             'id' => $id,

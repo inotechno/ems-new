@@ -74,12 +74,29 @@
                                         </span>
                                     @enderror
                                 </div>
+
+                                <div class="row">
+                                    <div class="col-md">
+                                        <div class="mb-3">
+                                            <label for="start_date" class="form-label">Start Date</label>
+                                            <input type="date" class="form-control @error('start_date') is-invalid @enderror" id="start_date" wire:model="start_date" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md">
+                                        <div class="mb-3">
+                                            <label for="end_date" class="form-label">End Date</label>
+                                            <input type="date" class="form-control @error('end_date') is-invalid @enderror" id="end_date" wire:model="end_date" disabled>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <label class="mb-3">Date Range</label>
+                                        <small class="text-warning mb-3">* Jika hanya 1 tanggal, pilih tanggal tersebut saja</small>
                                         <div id="date-range-picker" class="bootstrap-datepicker-inline"></div>
                                     </div>
                                 </div>
@@ -154,7 +171,7 @@
                     if (dates.length > 0) {
                         var date1 = new Date(dates[0].getTime() - dates[0].getTimezoneOffset() * 60000);
                         var date2 = dates[1] ? new Date(dates[1].getTime() - dates[1].getTimezoneOffset() *
-                            60000) : null;
+                            60000) : date1;
 
                         if (date2 && date2 < date1) {
                             [date1, date2] = [date2, date1];

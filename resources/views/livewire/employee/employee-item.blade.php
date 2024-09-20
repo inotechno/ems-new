@@ -50,6 +50,8 @@
                     <a href="{{ route('employee.edit', ['id' => $employee->id]) }}" class="btn btn-soft-warning">Edit
                         Profile</a>
                 @endcan
+
+                <a href="{{route('send-mail', ['email' => $user->email])}}" class="btn btn-soft-success">Send Mail</a>
             </div>
         </div>
     </div>

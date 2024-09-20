@@ -2,6 +2,7 @@
 
 namespace App\Livewire\FinancialRequest;
 
+use App\Jobs\SendEmailJob;
 use App\Models\Helper;
 use Livewire\Component;
 use App\Models\Employee;
@@ -111,7 +112,7 @@ class FinancialRequestForm extends BaseComponent
             $imageUrl = $disk->url($imagePath);
         }
 
-        $this->financial_request = FinancialRequest::create([
+        $financial_request = FinancialRequest::create([
             'employee_id' => $this->employee_id,
             'financial_type_id' => $this->financial_type_id,
             'title' => $this->title,
@@ -119,9 +120,26 @@ class FinancialRequestForm extends BaseComponent
             'notes' => $this->notes,
             'receipt_image_path' => $imagePath,
             'receipt_image_url' => $imageUrl,
-        ])->recipients()->createMany(
+        ]);
+
+         // Buat recipients menggunakan relasi yang ada
+         $financial_request->recipients()->createMany(
             collect($this->recipients)->map(fn($recipient) => ['employee_id' => $recipient])->toArray()
         );
+
+         // Akses relasi employee setelah AbsentRequest berhasil disimpan
+         $employee = $financial_request->employee;
+
+         // Akses relasi recipients setelah AbsentRequest berhasil disimpan
+         $recipients = $financial_request->recipients;
+
+         // Kirim email ke recipients
+         foreach ($recipients as $recipient) {
+             SendEmailJob::dispatch($recipient->employee->user, 'recipient-financial-request', ['financial_request' => $financial_request], $employee->user);
+         }
+
+         // Kirim email menggunakan job
+         SendEmailJob::dispatch($employee->user, 'sender-financial-request', ['financial_request' => $financial_request]);
 
         $this->reset();
         $this->alert('success', 'Financial request created successfully');

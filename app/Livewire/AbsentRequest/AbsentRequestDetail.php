@@ -8,12 +8,13 @@ use Livewire\Component;
 
 class AbsentRequestDetail extends BaseComponent
 {
-    public $absent_request, $notes, $start_date, $end_date, $employee_id, $recipients, $recipientsWithStatus;
+    public $absent_request, $notes, $start_date, $end_date, $employee_id, $recipients, $recipientsWithStatus, $isApproved;
 
     public function mount($id)
     {
         $this->absent_request = AbsentRequest::with('employee.user', 'recipients.employee.user')->find($id);
         $this->notes = $this->absent_request->notes;
+        $this->isApproved = $this->absent_request->is_approved;
         $this->start_date = $this->absent_request->start_date->format('Y-m-d');
         $this->end_date = $this->absent_request->end_date->format('Y-m-d');
         $this->employee_id = $this->absent_request->employee_id;
@@ -24,7 +25,7 @@ class AbsentRequestDetail extends BaseComponent
                 ->where('employee_id', $recipient->employee_id)
                 ->first(); // Default to 'pending' if no status found
 
-            $bgClass = match ($data) {
+            $bgClass = match ($data->status ?? 'pending') {
                 'approved' => 'bg-info',
                 'rejected' => 'bg-danger',
                 default => 'bg-warning', // For 'pending'
@@ -37,6 +38,8 @@ class AbsentRequestDetail extends BaseComponent
                 'created_at' => $data->created_at ?? null,
             ];
         });
+
+        // dd($this->recipientsWithStatus);
     }
 
     public function render()

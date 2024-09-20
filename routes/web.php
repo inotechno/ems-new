@@ -1,5 +1,8 @@
 <?php
 
+use App\Livewire\Announcement\AnnouncementDetail;
+use App\Livewire\Announcement\AnnouncementForm;
+use App\Livewire\Announcement\AnnouncementIndex;
 use App\Livewire\Auth\Login;
 use App\Livewire\Role\RoleForm;
 use App\Livewire\Site\SiteForm;
@@ -182,6 +185,13 @@ Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
         Route::get('create', FinancialRequestForm::class)->name('financial-request.create')->middleware('can:create:financial-request');
         Route::get('edit/{id}', FinancialRequestForm::class)->name('financial-request.edit')->middleware('can:update:financial-request');
         Route::get('detail/{id}', FinancialRequestDetail::class)->name('financial-request.detail')->middleware('can:view:financial-request');
+    });
+
+    Route::group(['prefix' => 'announcement'], function () {
+        Route::get('/', AnnouncementIndex::class)->name('announcement.index')->middleware('can:view:announcement');
+        Route::get('create', AnnouncementForm::class)->name('announcement.create')->middleware('can:create:announcement');
+        Route::get('edit/{id}', AnnouncementForm::class)->name('announcement.edit')->middleware('can:update:announcement');
+        Route::get('detail/{slug}', AnnouncementDetail::class)->name('announcement.detail')->middleware('can:view:announcement');
     });
 
     Route::group(['prefix' => 'email-template'], function () {

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\FinancialRequest;
 
+use App\Jobs\SendEmailJob;
 use App\Livewire\BaseComponent;
 use App\Models\FinancialRequest;
 use App\Models\RequestValidate;
@@ -15,6 +16,7 @@ class FinancialRequestItem extends BaseComponent
 
     public $financial_request;
     public $isApproved = false;
+    public $isRejected = false;
     public $disableUpdate = false;
     public $disableUpdateApprove = false;
     public $recipientStatus = false;
@@ -29,6 +31,7 @@ class FinancialRequestItem extends BaseComponent
         }
 
         $this->isApproved = $this->financial_request->is_approved;
+        $this->isRejected = $this->financial_request->isRejectedByRecipients();
     }
 
     public function deleteConfirm()
@@ -109,6 +112,8 @@ class FinancialRequestItem extends BaseComponent
             ['status' => 'approved']
         );
 
+        SendEmailJob::dispatch($this->financial_request->employee->user, 'approved-financial-request', ['financial_request' => $this->financial_request], $this->authUser);
+
         // Periksa dan perbarui status isApproved pada AbsentRequest
         $this->financial_request->checkAndUpdateApprovalStatus();
 
@@ -130,6 +135,8 @@ class FinancialRequestItem extends BaseComponent
             ],
             ['status' => 'rejected']
         );
+
+        SendEmailJob::dispatch($this->financial_request->employee->user, 'rejected-financial-request', ['financial_request' => $this->financial_request], $this->authUser);
 
         // Periksa dan perbarui status isApproved pada AbsentRequest
         $this->financial_request->checkAndUpdateApprovalStatus();

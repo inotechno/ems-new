@@ -22,6 +22,7 @@ class SiteSheetExport implements FromCollection, WithHeadings, WithMapping, With
     {
         return [
             $site->id,
+            $site->uid,
             $site->name,
             $site->longitude,
             $site->latitude
@@ -32,6 +33,7 @@ class SiteSheetExport implements FromCollection, WithHeadings, WithMapping, With
     {
         return [
             'ID',
+            'UID',
             'Name',
             'Longitude',
             'Latitude',

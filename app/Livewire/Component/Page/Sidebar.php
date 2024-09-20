@@ -223,14 +223,21 @@ class Sidebar extends BaseComponent
                             'permission' => 'view:financial-request'
                         ],
                     ]
-                    ],
-                    [
-                        'name' => 'Visit',
-                        'url' => '/visit',
-                        'route' => 'visit.index',
-                        'icon' => 'bx bx-purchase-tag-alt',
-                        'permission' => 'view:visit'
-                    ],
+                ],
+                [
+                    'name' => 'Visit',
+                    'url' => '/visit',
+                    'route' => 'visit.index',
+                    'icon' => 'bx bx-purchase-tag-alt',
+                    'permission' => 'view:visit'
+                ],
+                [
+                    'name' => 'Announcement',
+                    'url' => '/announcement',
+                    'route' => 'announcement.index',
+                    'icon' => 'bx bx-bell',
+                    'permission' => 'view:announcement'
+                ],
             ]
         ],
         [

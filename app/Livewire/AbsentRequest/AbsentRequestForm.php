@@ -2,6 +2,7 @@
 
 namespace App\Livewire\AbsentRequest;
 
+use App\Jobs\SendEmailJob;
 use App\Livewire\BaseComponent;
 use App\Models\AbsentRequest;
 use App\Models\Employee;
@@ -81,15 +82,33 @@ class AbsentRequestForm extends BaseComponent
     public function store()
     {
         try {
-            $this->absent_request = AbsentRequest::create([
+             // Simpan AbsentRequest terlebih dahulu
+            $absentRequest = AbsentRequest::create([
                 'notes' => $this->notes,
                 'employee_id' => $this->employee_id,
                 'start_date' => $this->start_date,
                 'end_date' => $this->end_date,
                 'type_absent' => $this->type_absent
-            ])->recipients()->createMany(
+            ]);
+
+            // Buat recipients menggunakan relasi yang ada
+            $absentRequest->recipients()->createMany(
                 collect($this->recipients)->map(fn($recipient) => ['employee_id' => $recipient])->toArray()
             );
+
+            // Akses relasi employee setelah AbsentRequest berhasil disimpan
+            $employee = $absentRequest->employee;
+
+            // Akses relasi recipients setelah AbsentRequest berhasil disimpan
+            $recipients = $absentRequest->recipients;
+
+            // Kirim email ke recipients
+            foreach ($recipients as $recipient) {
+                SendEmailJob::dispatch($recipient->employee->user, 'recipient-absent-request', ['absent_request' => $absentRequest], $employee->user);
+            }
+
+            // Kirim email menggunakan job
+            SendEmailJob::dispatch($employee->user, 'sender-absent-request', ['absent_request' => $absentRequest]);
 
             $this->reset();
             $this->alert('success', 'Absent Request created successfully');

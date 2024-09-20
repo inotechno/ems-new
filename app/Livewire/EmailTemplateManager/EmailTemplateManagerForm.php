@@ -27,6 +27,7 @@ class EmailTemplateManagerForm extends Component
     public $slug;
     public $preview;
     protected $EmailService; // Tambahkan properti EmailService
+    public $showCategoryForm = false;
 
     public function __construct()
     {
@@ -51,23 +52,38 @@ class EmailTemplateManagerForm extends Component
         $this->categories = CategoryEmailTemplate::doesntHave('template')->get();
     }
 
-    #[On('previewContent')]
-    public function previewContent($content)
+    public function toggleCategoryForm()
+    {
+        $this->showCategoryForm = !$this->showCategoryForm;
+    }
+
+    #[On('refreshCategories')]
+    public function refreshCategories()
+    {
+        $this->categories = CategoryEmailTemplate::doesntHave('template')->get();
+        $this->showCategoryForm = false;
+    }
+
+    #[On('setContent')]
+    public function setContent($content)
     {
         $content = htmlspecialchars_decode($content);
+        $this->body = $content;
         $this->preview = $content;
     }
 
     public function save()
     {
-        $this->validate([
-            'name' => 'required',
-            'subject' => 'required',
-            'body' => 'required',
-            'category_id' => 'required|exists:category_email_templates,id|unique:email_templates,category_id',
-        ]);
-
         try {
+            $this->validate([
+                'name' => 'required',
+                'subject' => 'required',
+                'body' => 'required',
+                'category_id' => 'required_if:type,create|exists:category_email_templates,id',
+            ]);
+
+            // dd($this->body);
+
             if ($this->type == 'create') {
                 EmailTemplate::create([
                     'category_id' => $this->category_id,
@@ -106,7 +122,7 @@ class EmailTemplateManagerForm extends Component
         $user = User::where('email', $this->email_test)->first();
         $category = CategoryEmailTemplate::find($this->category_id);
 
-        if($user == null) {
+        if ($user == null) {
             $this->alert('error', 'User not found');
             return;
         }
@@ -114,7 +130,7 @@ class EmailTemplateManagerForm extends Component
         try {
             $emailSent = $this->EmailService->sendTemplateEmail($user, $category->slug);
 
-            if(!$emailSent['success']){
+            if (!$emailSent['success']) {
                 $this->alert('error', $emailSent['message']);
                 return;
             }
@@ -128,10 +144,16 @@ class EmailTemplateManagerForm extends Component
 
     public function render()
     {
-        $users = Schema::getColumnListing('users');
-        $placeholders = $users; // Data yang akan digunakan sebagai placeholder
+        $recipient = Schema::getColumnListing('users');
+        $absent_request = Schema::getColumnListing('absent_requests');
+
+        // Tambahkan placeholder untuk setiap kolom
+        $placeholders_absent_request = $absent_request;
+        $placeholders_recipient = $recipient; // Data yang akan digunakan sebagai placeholder
+
         return view('livewire.email-template-manager.email-template-manager-form', [
-            'placeholders' => $placeholders
+            'placeholders_recipient' => $placeholders_recipient,
+            'placeholders_absent_request' => $placeholders_absent_request
         ])->layout('layouts.app', ['title' => 'Email Template Manager']);
     }
 }

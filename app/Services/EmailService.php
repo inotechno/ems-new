@@ -17,26 +17,34 @@ class EmailService
         $this->beautymail = $beautymail;
     }
 
-    public function sendTemplateEmail(?User $user, string $templateSlug): array
+    public function sendTemplateEmail(?User $recipient, string $templateSlug, array $additionalData = [], ?User $sender = null): array
     {
         try {
             $template = CategoryEmailTemplate::with('template')->where('slug', $templateSlug)->first()->template;
 
-            if (!$template || !$user) {
+            if (!$template || !$recipient) {
+                \Log::info('Template or user not found');
                 return ['success' => false, 'message' => 'Template or user not found'];
             }
 
-            $decodedHtml = htmlspecialchars_decode($template->body);
-            $body = Blade::render($decodedHtml, ['user' => $user]);
-            $subject = Blade::render($template->subject, ['user' => $user]);
+            $data = array_merge(['recipient' => $recipient, 'sender' => $sender], $additionalData);
 
-            $this->beautymail->send('email.template', ['body' => $body], function ($message) use ($user, $subject) {
-                $message->to($user->email)
+            $decodedHtml = htmlspecialchars_decode($template->body);
+            $body = Blade::render($decodedHtml, $data);
+            $subject = Blade::render($template->subject, $data);
+
+            // \Log::info($body);
+            \Log::info(json_encode($data));
+
+            $this->beautymail->send('email.template', ['body' => $body], function ($message) use ($recipient, $subject) {
+                $message->to($recipient->email)
                     ->subject($subject);
             });
 
-            return ['success' => true, 'message' => 'Email successfully sent to ' . $user->email];
+            \Log::info('Email sent to ' . $recipient->email);
+            return ['success' => true, 'message' => 'Email successfully sent to ' . $recipient->email];
         } catch (\Exception $e) {
+            \Log::error('Failed to send email: ' . $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine());
             return ['success' => false, 'message' => 'Failed to send email: ' . $e->getMessage()];
         }
     }

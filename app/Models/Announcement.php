@@ -17,7 +17,11 @@ class Announcement extends Model
 
     public function recipients()
     {
-        return $this->belongsToMany(User::class, 'announcements_recipients');
+        return $this->belongsToMany(User::class, 'announcements_recipients')->withTimestamps();
     }
-    
+
+    public function reads()
+    {
+        return $this->belongsToMany(User::class, 'announcements_reads')->withTimestamps();
+    }
 }

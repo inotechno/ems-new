@@ -2,6 +2,7 @@
 
 namespace App\Livewire\AbsentRequest;
 
+use App\Jobs\SendEmailJob;
 use App\Livewire\BaseComponent;
 use App\Models\AbsentRequest;
 use App\Models\RequestValidate;
@@ -16,6 +17,7 @@ class AbsentRequestItem extends BaseComponent
     use LivewireAlert;
     public $absent_request;
     public $isApproved = false;
+    public $isRejected = false;
     public $totalDays = 0;
     public $disableUpdate = false;
     public $disableUpdateApprove = false;
@@ -30,8 +32,9 @@ class AbsentRequestItem extends BaseComponent
             $this->disableUpdate = true;
         }
 
-        $this->totalDays = $this->absent_request->end_date->diffInDays($this->absent_request->start_date);
+        $this->totalDays = $this->absent_request->end_date->diffInDays($this->absent_request->start_date)+1;
         $this->isApproved = $this->absent_request->is_approved;
+        $this->isRejected = $this->absent_request->isRejectedByRecipients();
     }
 
     public function deleteConfirm()
@@ -112,6 +115,8 @@ class AbsentRequestItem extends BaseComponent
             ['status' => 'approved']
         );
 
+        SendEmailJob::dispatch($this->absent_request->employee->user, 'approved-absent-request', ['absent_request' => $this->absent_request], $this->authUser);
+
         // Periksa dan perbarui status isApproved pada AbsentRequest
         $this->absent_request->checkAndUpdateApprovalStatus();
 
@@ -133,6 +138,8 @@ class AbsentRequestItem extends BaseComponent
             ],
             ['status' => 'rejected']
         );
+
+        SendEmailJob::dispatch($this->absent_request->employee->user, 'rejected-absent-request', ['absent_request' => $this->absent_request], $this->authUser);
 
         // Periksa dan perbarui status isApproved pada AbsentRequest
         $this->absent_request->checkAndUpdateApprovalStatus();

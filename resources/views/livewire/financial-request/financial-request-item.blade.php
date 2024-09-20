@@ -1,12 +1,14 @@
-<div class="col-xl-3">
+<div class="col-lg-4 col-xl-3">
     <div class="card">
         <div class="card-body">
             <div class="d-flex align-start mb-3">
                 <div class="flex-grow-1">
                     @if($isApproved)
                         <span class="badge badge-soft-success">Approved</span>
+                    @elseif($isRejected)
+                        <span class="badge badge-soft-danger">Rejected</span>
                     @else
-                        <span class="badge badge-soft-danger">Pending</span>
+                        <span class="badge badge-soft-secondary">Pending</span>
                     @endif
                 </div>
                 <div class="flex-shrink-0">
@@ -37,7 +39,7 @@
                 @endforeach
             </div>
 
-            <div class="d-flex gap-2 justify-content-center flex-wrap mt-3">
+            <div class="d-flex gap-2 justify-content-center flex-wrap my-3">
                 @if ($recipientStatus && !$isApprovedRecipient)
                     <div class="btn-group">
                         <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown"

@@ -33,7 +33,8 @@ class DatabaseSeeder extends Seeder
             ProjectsEmployees::class,
             AttendanceSeeder::class,
             HelperSeeder::class,
-            CategoryEmailTemplateSeeder::class
+            CategoryEmailTemplateSeeder::class,
+            EmailTemplateSeeder::class,
         ]);
     }
 }
