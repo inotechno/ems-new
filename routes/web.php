@@ -190,7 +190,7 @@ Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
     Route::group(['prefix' => 'announcement'], function () {
         Route::get('/', AnnouncementIndex::class)->name('announcement.index')->middleware('can:view:announcement');
         Route::get('create', AnnouncementForm::class)->name('announcement.create')->middleware('can:create:announcement');
-        Route::get('edit/{id}', AnnouncementForm::class)->name('announcement.edit')->middleware('can:update:announcement');
+        Route::get('edit/{slug}', AnnouncementForm::class)->name('announcement.edit')->middleware('can:update:announcement');
         Route::get('detail/{slug}', AnnouncementDetail::class)->name('announcement.detail')->middleware('can:view:announcement');
     });
 

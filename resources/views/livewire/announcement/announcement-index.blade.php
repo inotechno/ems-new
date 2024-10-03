@@ -19,19 +19,19 @@
                         <div class="card-body">
 
                             <label for="form-label">Date</label>
-                            <div class="input-daterange input-group" id="attendance-inputgroup"
+                            <div class="input-daterange input-group" id="announcement-inputgroup"
                                 data-provide="datepicker" data-date-format="yyyy-mm-dd"
-                                data-date-container='#attendance-inputgroup' data-date-autoclose="true">
-                                <input type="text" class="form-control @error('start_date') is-invalid @enderror"
-                                    wire:model="start_date" placeholder="Start Date" name="start" />
-                                @error('start_date')
+                                data-date-container='#announcement-inputgroup' data-date-autoclose="true">
+                                <input type="text" class="form-control @error('startDate') is-invalid @enderror"
+                                    wire:model="startDate" placeholder="Start Date" name="start" />
+                                @error('startDate')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                                <input type="text" class="form-control @error('end_date') is-invalid @enderror"
-                                    wire:model="end_date" placeholder="End Date" name="end" />
-                                @error('end_date')
+                                <input type="text" class="form-control @error('endDate') is-invalid @enderror"
+                                    wire:model="endDate" placeholder="End Date" name="end" />
+                                @error('endDate')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -45,8 +45,8 @@
                 <div class="col-12 text-end mb-3">
                     <button class="btn btn-warning mt-2" wire:click="resetFilter" wire:loading.attr="disabled">Reset
                         Filter</button>
-                        @can('create:attendance')
-                        <a href="{{ route('attendance.create') }}" class="btn btn-primary mt-2">Create</a>
+                        @can('create:announcement')
+                        <a href="{{ route('announcement.create') }}" class="btn btn-primary mt-2">Create</a>
                     @endcan
                 </div>
             </div>
@@ -54,477 +54,42 @@
     </div>
 
     <div class="row">
-        <div class="col-xl-4 col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex">
-                        <div class="flex-shrink-0 me-4">
-                            <div class="avatar-md">
-                                <span class="avatar-title rounded-circle bg-light text-danger font-size-16">
-                                    <img src="assets/images/companies/img-1.png" alt="" height="30">
-                                </span>
-                            </div>
-                        </div>
+        {{ $announcements->links() }}
 
-
-                        <div class="flex-grow-1 overflow-hidden">
-                            <h5 class="text-truncate font-size-15"><a href="javascript: void(0);" class="text-dark">New admin Design</a></h5>
-                            <p class="text-muted mb-4">It will be as simple as Occidental</p>
-                            <div class="avatar-group">
-                                <div class="avatar-group-item">
-                                    <a href="javascript: void(0);" class="d-inline-block">
-                                        <img src="assets/images/users/avatar-4.jpg" alt="" class="rounded-circle avatar-xs">
-                                    </a>
-                                </div>
-                                <div class="avatar-group-item">
-                                    <a href="javascript: void(0);" class="d-inline-block">
-                                        <img src="assets/images/users/avatar-5.jpg" alt="" class="rounded-circle avatar-xs">
-                                    </a>
-                                </div>
-                                <div class="avatar-group-item">
-                                    <a href="javascript: void(0);" class="d-inline-block">
-                                        <div class="avatar-xs">
-                                            <span class="avatar-title rounded-circle bg-success text-white font-size-16">
-                                                A
-                                            </span>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="avatar-group-item">
-                                    <a href="javascript: void(0);" class="d-inline-block">
-                                        <img src="assets/images/users/avatar-2.jpg" alt="" class="rounded-circle avatar-xs">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="px-4 py-3 border-top">
-                    <ul class="list-inline mb-0">
-                        <li class="list-inline-item me-3">
-                            <span class="badge bg-success">Completed</span>
-                        </li>
-                        <li class="list-inline-item me-3">
-                            <i class= "bx bx-calendar me-1"></i> 15 Oct, 19
-                        </li>
-                        <li class="list-inline-item me-3">
-                            <i class= "bx bx-comment-dots me-1"></i> 214
-                        </li>
-                    </ul>
-                </div>
-            </div>
+        <div class="col-lg-12">
+            @livewire('announcement.announcement-list', ['announcements' => $announcements->getCollection()], key('announcement-list'))
         </div>
 
-        <div class="col-xl-4 col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex">
-                        <div class="flex-shrink-0 me-4">
-                            <div class="avatar-md">
-                                <span class="avatar-title rounded-circle bg-light text-danger font-size-16">
-                                    <img src="assets/images/companies/img-2.png" alt="" height="30">
-                                </span>
-                            </div>
-                        </div>
-
-
-                        <div class="flex-grow-1 overflow-hidden">
-                            <h5 class="text-truncate font-size-15"><a href="javascript: void(0);" class="text-dark">Brand logo design</a></h5>
-                            <p class="text-muted mb-4">To achieve it would be necessary</p>
-                            <div class="avatar-group">
-                                <div class="avatar-group-item">
-                                    <a href="javascript: void(0);" class="d-inline-block">
-                                        <img src="assets/images/users/avatar-8.jpg" alt="" class="rounded-circle avatar-xs">
-                                    </a>
-                                </div>
-                                <div class="avatar-group-item">
-                                    <a href="javascript: void(0);" class="d-inline-block">
-                                        <img src="assets/images/users/avatar-2.jpg" alt="" class="rounded-circle avatar-xs">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="px-4 py-3 border-top">
-                    <ul class="list-inline mb-0">
-                        <li class="list-inline-item me-3">
-                            <span class="badge bg-warning">Pending</span>
-                        </li>
-                        <li class="list-inline-item me-3">
-                            <i class= "bx bx-calendar me-1"></i> 22 Oct, 19
-                        </li>
-                        <li class="list-inline-item me-3">
-                            <i class= "bx bx-comment-dots me-1"></i> 183
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-4 col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex">
-                        <div class="flex-shrink-0 me-4">
-                            <div class="avatar-md">
-                                <span class="avatar-title rounded-circle bg-light text-danger font-size-16">
-                                    <img src="assets/images/companies/img-3.png" alt="" height="30">
-                                </span>
-                            </div>
-                        </div>
-
-
-                        <div class="flex-grow-1 overflow-hidden">
-                            <h5 class="text-truncate font-size-15"><a href="javascript: void(0);" class="text-dark">New Landing Design</a></h5>
-                            <p class="text-muted mb-4"> For science, music, sport, etc</p>
-                            <div class="avatar-group">
-                                <div class="avatar-group-item">
-                                    <a href="javascript: void(0);" class="d-inline-block">
-                                        <div class="avatar-xs">
-                                            <span class="avatar-title rounded-circle bg-info text-white font-size-16">
-                                                K
-                                            </span>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="avatar-group-item">
-                                    <a href="javascript: void(0);" class="d-inline-block">
-                                        <img src="assets/images/users/avatar-2.jpg" alt="" class="rounded-circle avatar-xs">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="px-4 py-3 border-top">
-                    <ul class="list-inline mb-0">
-                        <li class="list-inline-item me-3">
-                            <span class="badge bg-danger">Delay</span>
-                        </li>
-                        <li class="list-inline-item me-3">
-                            <i class= "bx bx-calendar me-1"></i> 13 Oct, 19
-                        </li>
-                        <li class="list-inline-item me-3">
-                            <i class= "bx bx-comment-dots me-1"></i> 175
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-4 col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex">
-                        <div class="flex-shrink-0 me-4">
-                            <div class="avatar-md">
-                                <span class="avatar-title rounded-circle bg-light text-danger font-size-16">
-                                    <img src="assets/images/companies/img-4.png" alt="" height="30">
-                                </span>
-                            </div>
-                        </div>
-
-
-                        <div class="flex-grow-1 overflow-hidden">
-                            <h5 class="text-truncate font-size-15"><a href="javascript: void(0);" class="text-dark">Redesign - Landing page</a></h5>
-                            <p class="text-muted mb-4">If several languages coalesce</p>
-                            <div class="avatar-group">
-                                <div class="avatar-group-item">
-                                    <a href="javascript: void(0);" class="d-inline-block">
-                                        <img src="assets/images/users/avatar-1.jpg" alt="" class="rounded-circle avatar-xs">
-                                    </a>
-                                </div>
-                                <div class="avatar-group-item">
-                                    <a href="javascript: void(0);" class="d-inline-block">
-                                        <img src="assets/images/users/avatar-6.jpg" alt="" class="rounded-circle avatar-xs">
-                                    </a>
-                                </div>
-                                <div class="avatar-group-item">
-                                    <a href="javascript: void(0);" class="d-inline-block">
-                                        <img src="assets/images/users/avatar-7.jpg" alt="" class="rounded-circle avatar-xs">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="px-4 py-3 border-top">
-                    <ul class="list-inline mb-0">
-                        <li class="list-inline-item me-3">
-                            <span class="badge bg-success">Completed</span>
-                        </li>
-                        <li class="list-inline-item me-3">
-                            <i class= "bx bx-calendar me-1"></i> 14 Oct, 19
-                        </li>
-                        <li class="list-inline-item me-3">
-                            <i class= "bx bx-comment-dots me-1"></i> 202
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-4 col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex">
-                        <div class="flex-shrink-0 me-4">
-                            <div class="avatar-md">
-                                <span class="avatar-title rounded-circle bg-light text-danger font-size-16">
-                                    <img src="assets/images/companies/img-5.png" alt="" height="30">
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="flex-grow-1 overflow-hidden">
-                            <h5 class="text-truncate font-size-15"><a href="javascript: void(0);" class="text-dark">Skote Dashboard UI</a></h5>
-                            <p class="text-muted mb-4">Separate existence is a myth</p>
-                            <div class="avatar-group">
-                                <div class="avatar-group-item">
-                                    <a href="javascript: void(0);" class="d-inline-block">
-                                        <img src="assets/images/users/avatar-1.jpg" alt="" class="rounded-circle avatar-xs">
-                                    </a>
-                                </div>
-                                <div class="avatar-group-item">
-                                    <a href="javascript: void(0);" class="d-inline-block">
-                                        <img src="assets/images/users/avatar-3.jpg" alt="" class="rounded-circle avatar-xs">
-                                    </a>
-                                </div>
-                                <div class="avatar-group-item">
-                                    <a href="javascript: void(0);" class="d-inline-block">
-                                        <div class="avatar-xs">
-                                            <span class="avatar-title rounded-circle bg-danger text-white font-size-16">
-                                                3+
-                                            </span>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="px-4 py-3 border-top">
-                    <ul class="list-inline mb-0">
-                        <li class="list-inline-item me-3">
-                            <span class="badge bg-success">Completed</span>
-                        </li>
-                        <li class="list-inline-item me-3">
-                            <i class= "bx bx-calendar me-1"></i> 13 Oct, 19
-                        </li>
-                        <li class="list-inline-item me-3">
-                            <i class= "bx bx-comment-dots me-1"></i> 194
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-4 col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex">
-                        <div class="flex-shrink-0 me-4">
-                            <div class="avatar-md">
-                                <span class="avatar-title rounded-circle bg-light text-danger font-size-16">
-                                    <img src="assets/images/companies/img-6.png" alt="" height="30">
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="flex-grow-1 overflow-hidden">
-                            <h5 class="text-truncate font-size-15"><a href="javascript: void(0);" class="text-dark">Blog Template UI</a></h5>
-                            <p class="text-muted mb-4"> For science, music, sport, etc</p>
-                            <div class="avatar-group">
-                                <div class="avatar-group-item">
-                                    <a href="javascript: void(0);" class="d-inline-block">
-                                        <img src="assets/images/users/avatar-4.jpg" alt="" class="rounded-circle avatar-xs">
-                                    </a>
-                                </div>
-                                <div class="avatar-group-item">
-                                    <a href="javascript: void(0);" class="d-inline-block">
-                                        <img src="assets/images/users/avatar-5.jpg" alt="" class="rounded-circle avatar-xs">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="px-4 py-3 border-top">
-                    <ul class="list-inline mb-0">
-                        <li class="list-inline-item me-3">
-                            <span class="badge bg-warning">Pending</span>
-                        </li>
-                        <li class="list-inline-item me-3">
-                            <i class= "bx bx-calendar me-1"></i> 24 Oct, 19
-                        </li>
-                        <li class="list-inline-item me-3">
-                            <i class= "bx bx-comment-dots me-1"></i> 122
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-4 col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex">
-                        <div class="flex-shrink-0 me-4">
-                            <div class="avatar-md">
-                                <span class="avatar-title rounded-circle bg-light text-danger font-size-16">
-                                    <img src="assets/images/companies/img-3.png" alt="" height="30">
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="flex-grow-1 overflow-hidden">
-                            <h5 class="text-truncate font-size-15"><a href="javascript: void(0);" class="text-dark">Multipurpose Landing</a></h5>
-                            <p class="text-muted mb-4">It will be as simple as Occidental</p>
-                            <div class="avatar-group">
-                                <div class="avatar-group-item">
-                                    <a href="javascript: void(0);" class="d-inline-block">
-                                        <img src="assets/images/users/avatar-5.jpg" alt="" class="rounded-circle avatar-xs">
-                                    </a>
-                                </div>
-                                <div class="avatar-group-item">
-                                    <a href="javascript: void(0);" class="d-inline-block">
-                                        <div class="avatar-xs">
-                                            <span class="avatar-title rounded-circle bg-warning text-white font-size-16">
-                                                R
-                                            </span>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="px-4 py-3 border-top">
-                    <ul class="list-inline mb-0">
-                        <li class="list-inline-item me-3">
-                            <span class="badge bg-danger">Delay</span>
-                        </li>
-                        <li class="list-inline-item me-3">
-                            <i class= "bx bx-calendar me-1"></i> 15 Oct, 19
-                        </li>
-                        <li class="list-inline-item me-3">
-                            <i class= "bx bx-comment-dots me-1"></i> 214
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-4 col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex">
-                        <div class="flex-shrink-0 me-4">
-                            <div class="avatar-md">
-                                <span class="avatar-title rounded-circle bg-light text-danger font-size-16">
-                                    <img src="assets/images/companies/img-4.png" alt="" height="30">
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="flex-grow-1 overflow-hidden">
-                            <h5 class="text-truncate font-size-15"><a href="javascript: void(0);" class="text-dark">App Landing UI</a></h5>
-                            <p class="text-muted mb-4">To achieve it would be necessary</p>
-                            <div class="avatar-group">
-                                <div class="avatar-group-item">
-                                    <a href="javascript: void(0);" class="d-inline-block">
-                                        <div class="avatar-xs">
-                                            <span class="avatar-title rounded-circle bg-pink text-white font-size-16">
-                                                L
-                                            </span>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="avatar-group-item">
-                                    <a href="javascript: void(0);" class="d-inline-block">
-                                        <img src="assets/images/users/avatar-2.jpg" alt="" class="rounded-circle avatar-xs">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="px-4 py-3 border-top">
-                    <ul class="list-inline mb-0">
-                        <li class="list-inline-item me-3">
-                            <span class="badge bg-success">Completed</span>
-                        </li>
-                        <li class="list-inline-item me-3">
-                            <i class= "bx bx-calendar me-1"></i> 11 Oct, 19
-                        </li>
-                        <li class="list-inline-item me-3">
-                            <i class= "bx bx-comment-dots me-1"></i> 185
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-4 col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex">
-                        <div class="flex-shrink-0 me-4">
-                            <div class="avatar-md">
-                                <span class="avatar-title rounded-circle bg-light text-danger font-size-16">
-                                    <img src="assets/images/companies/img-2.png" alt="" height="30">
-                                </span>
-                            </div>
-                        </div>
-
-
-                        <div class="flex-grow-1 overflow-hidden">
-                            <h5 class="text-truncate font-size-15"><a href="javascript: void(0);" class="text-dark">New admin Design</a></h5>
-                            <p class="text-muted mb-4"> Their most common words.</p>
-                            <div class="avatar-group">
-                                <div class="avatar-group-item">
-                                    <a href="javascript: void(0);" class="d-inline-block">
-                                        <img src="assets/images/users/avatar-4.jpg" alt="" class="rounded-circle avatar-xs">
-                                    </a>
-                                </div>
-                                <div class="avatar-group-item">
-                                    <a href="javascript: void(0);" class="d-inline-block">
-                                        <img src="assets/images/users/avatar-5.jpg" alt="" class="rounded-circle avatar-xs">
-                                    </a>
-                                </div>
-                                <div class="avatar-group-item">
-                                    <a href="javascript: void(0);" class="d-inline-block">
-                                        <div class="avatar-xs">
-                                            <span class="avatar-title rounded-circle bg-success text-white font-size-16">
-                                                A
-                                            </span>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="avatar-group-item">
-                                    <a href="javascript: void(0);" class="d-inline-block">
-                                        <img src="assets/images/users/avatar-2.jpg" alt="" class="rounded-circle avatar-xs">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="px-4 py-3 border-top">
-                    <ul class="list-inline mb-0">
-                        <li class="list-inline-item me-3">
-                            <span class="badge bg-success">Completed</span>
-                        </li>
-                        <li class="list-inline-item me-3">
-                            <i class= "bx bx-calendar me-1"></i> 12 Oct, 19
-                        </li>
-                        <li class="list-inline-item me-3">
-                            <i class= "bx bx-comment-dots me-1"></i> 106
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        {{ $announcements->links() }}
     </div>
+
+    @push('styles')
+        <link href="{{ asset('libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+         @endpush
+
+    @push('js')
+        <script src="{{ asset('libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+       <script>
+            document.addEventListener('livewire:init', function() {
+                initDatePicker();
+
+                function initDatePicker() {
+                    $('#announcement-inputgroup').datepicker({
+                        format: 'yyyy-mm-dd',
+                        autoclose: true,
+                        todayHighlight: true,
+                        inputs: $('#announcement-inputgroup').find('input')
+                    }).on('changeDate', function(e) {
+                        // Update the Livewire property when date is selected
+                        let startDate = $('#announcement-inputgroup').find('input[name="start"]').val();
+                        let endDate = $('#announcement-inputgroup').find('input[name="end"]').val();
+
+                        @this.set('startDate', startDate);
+                        @this.set('endDate', endDate);
+                    });
+                }
+
+            });
+        </script>
+    @endpush
 </div>
