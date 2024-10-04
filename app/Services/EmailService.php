@@ -48,4 +48,23 @@ class EmailService
             return ['success' => false, 'message' => 'Failed to send email: ' . $e->getMessage()];
         }
     }
+
+    public function sendAnnouncement($announcement, $recipient): array
+    {
+        try {
+            $decodedHtml = htmlspecialchars_decode($announcement->description);
+            $body = Blade::render($decodedHtml, ['user' => $recipient]);
+            $title = Blade::render($announcement->title, ['user' => $recipient]);
+
+            $this->beautymail->send('email.template', ['body' => $body], function ($message) use ($recipient, $title) {
+                $message->to($recipient->email)
+                    ->subject($title);
+            });
+
+            \Log::info('Email sent to ' . $recipient->email);
+            return ['success' => true, 'message' => 'Announcement successfully sent'];
+        } catch (\Exception $e) {
+            return ['success' => false, 'message' => 'Failed to send announcement: ' . $e->getMessage()];
+        }
+    }
 }

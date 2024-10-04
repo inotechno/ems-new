@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Announcement;
 
+use App\Jobs\SendAnnouncement;
 use App\Models\Announcement;
 use App\Models\Employee;
 use App\Models\User;
+use App\Services\EmailService;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -15,6 +17,7 @@ class AnnouncementForm extends Component
 {
     use LivewireAlert;
 
+    public $announcement;
     public $title;
     public $slug;
     public $body;
@@ -27,6 +30,7 @@ class AnnouncementForm extends Component
     {
         if ($slug) {
             $announcement = \App\Models\Announcement::with('recipients')->where('slug', $slug)->first();
+            $this->announcement = $announcement;
             $this->title = $announcement->title;
             $this->description = $announcement->description;
             $this->slug = $announcement->slug;
@@ -86,6 +90,8 @@ class AnnouncementForm extends Component
 
             $announcement->recipients()->sync($this->recipients);
 
+            SendAnnouncement::dispatch($announcement);
+
             $this->alert('success', 'Announcement created successfully.');
             return redirect()->route('announcement.index');
         } catch (\Exception $e) {
@@ -106,7 +112,7 @@ class AnnouncementForm extends Component
             $this->alert('success', 'Announcement updated successfully.');
             return redirect()->route('announcement.index');
         } catch (\Exception $e) {
-            $this->alert('error', 'Announcement update failed.');
+            $this->alert('error', $e->getMessage());
         }
     }
 
