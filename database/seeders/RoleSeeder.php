@@ -137,6 +137,7 @@ class RoleSeeder extends Seeder
             'delete:daily-report' => ['Employee', 'Administrator'],
 
             // Announcement
+            'view:announcement-all' => ['HR', 'Director', 'Administrator'],
             'view:announcement' => ['HR', 'Employee', 'Finance', 'Director', 'Administrator'],
             'create:announcement' => ['HR', 'Administrator'],
             'update:announcement' => ['HR', 'Administrator'],
