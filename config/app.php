@@ -192,6 +192,7 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         App\Providers\EmailServiceProvider::class,
+        App\Providers\SettingServiceProvider::class,
 
         /*
          * Application Service Providers...

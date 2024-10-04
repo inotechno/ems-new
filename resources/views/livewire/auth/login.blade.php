@@ -22,7 +22,7 @@
                                 <div class="auth-logo-light">
                                     <div class="avatar-md profile-user-wid mb-4">
                                         <span class="avatar-title rounded-circle bg-light">
-                                            <img src="{{ asset('images/logo-light.svg') }}" alt=""
+                                            <img src="{{ config('setting.app_logo_small_light') }}" alt=""
                                                 class="rounded-circle" height="34">
                                         </span>
                                     </div>
@@ -31,7 +31,7 @@
                                 <div class="auth-logo-dark">
                                     <div class="avatar-md profile-user-wid mb-4">
                                         <span class="avatar-title rounded-circle bg-light">
-                                            <img src="{{ asset('images/logo.svg') }}" alt=""
+                                            <img src="{{ config('setting.app_logo_small_dark') }}" alt=""
                                                 class="rounded-circle" height="34">
                                         </span>
                                     </div>

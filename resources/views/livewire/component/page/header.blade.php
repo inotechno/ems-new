@@ -4,19 +4,21 @@
         <div class="navbar-brand-box">
             <a href="index.html" class="logo logo-dark">
                 <span class="logo-sm">
-                    <img src="https://imajiwa.id/wp-content/uploads/2018/07/logogram-black.png" alt="" height="42">
+                    <img src="{{ config('setting.app_logo_small_dark') }}" alt="" height="30">
                 </span>
                 <span class="logo-lg">
-                    <img src="https://imajiwa.id/wp-content/uploads/2018/07/logogram-black.png" alt="" height="39">
+                    <img src="{{ config('setting.app_logo_full_dark') }}" alt="" height="25">
                 </span>
             </a>
 
             <a href="index.html" class="logo logo-light">
                 <span class="logo-sm">
-                    <img src="https://imajiwa.id/wp-content/uploads/2018/07/logogram-white.png" alt="" height="32">
+                    <img src="{{config('setting.app_logo_small_light')}}" alt=""
+                        height="30">
                 </span>
                 <span class="logo-lg">
-                    <img src="https://imajiwa.id/wp-content/uploads/2018/07/logogram-white.png" alt="" height="49">
+                    <img src="{{config('setting.app_logo_full_light')}}" alt=""
+                        height="25">
                 </span>
             </a>
         </div>
@@ -291,7 +293,7 @@
         </div> --}}
 
         <div class="dropdown d-lg-inline-block ms-1">
-           @livewire('component.change-theme')
+            @livewire('component.change-theme')
         </div>
 
         <div class="dropdown d-none d-lg-inline-block ms-1">
@@ -408,8 +410,9 @@
             <div class="dropdown-menu dropdown-menu-end">
                 <!-- item-->
                 @can('view:profile')
-                <a class="dropdown-item" href="{{ route('profile.index') }}"><i class="bx bx-user font-size-16 align-middle me-1"></i>
-                    <span key="t-profile">Profile</span></a>
+                    <a class="dropdown-item" href="{{ route('profile.index') }}"><i
+                            class="bx bx-user font-size-16 align-middle me-1"></i>
+                        <span key="t-profile">Profile</span></a>
                 @endcan
                 {{-- <a class="dropdown-item" href="#"><i class="bx bx-wallet font-size-16 align-middle me-1"></i>
                     <span key="t-my-wallet">My
@@ -421,7 +424,7 @@
                         class="bx bx-lock-open font-size-16 align-middle me-1"></i>
                     <span key="t-lock-screen">Lock screen</span></a> --}}
                 <div class="dropdown-divider"></div>
-                @livewire('auth.logout', ['user' => $user], key('logout-'.$user->id))
+                @livewire('auth.logout', ['user' => $user], key('logout-' . $user->id))
             </div>
         </div>
 

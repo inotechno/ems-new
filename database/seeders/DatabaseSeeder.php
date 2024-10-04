@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
             HelperSeeder::class,
             CategoryEmailTemplateSeeder::class,
             EmailTemplateSeeder::class,
+            SettingSeeder::class,
         ]);
     }
 }
