@@ -3,6 +3,7 @@
 namespace App\Livewire\Machine;
 
 use App\Livewire\Forms\MachineForm as FormsMachineForm;
+use App\Models\Helper;
 use App\Models\Machine;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
@@ -12,10 +13,16 @@ class MachineForm extends Component
 {
     use LivewireAlert;
 
-    public $name, $ip_address, $port, $comkey, $password, $is_active = 1;
+    public $name, $ip_address, $port, $comkey, $password, $is_active = 1, $machine_type_id;
     public $machine_id;
     public $machine;
     public $statusForm = 'store';
+public $machineTypes;
+
+    public function mount()
+    {
+        $this->machineTypes = Helper::where('code', 'machine_type')->get();
+    }
 
     public function resetFormFields()
     {
@@ -26,7 +33,10 @@ class MachineForm extends Component
         $this->password = null;
         $this->is_active = 1;
 
+        $this->machine_type_id = null;
+
         $this->statusForm = 'store';
+        $this->dispatch('refreshIndex');
     }
 
     #[On('set-machine')]
@@ -40,6 +50,8 @@ class MachineForm extends Component
         $this->password = $this->machine->password;
         $this->is_active = $this->machine->is_active;
 
+        $this->machine_type_id = $this->machine->machine_type_id;
+
         $this->statusForm = 'update';
         $this->dispatch('change-status-form');
     }
@@ -52,6 +64,7 @@ class MachineForm extends Component
             'port' => 'required',
             'comkey' => 'required',
             'password' => 'required',
+            'machine_type_id' => 'required',
         ]);
 
         try {
@@ -63,6 +76,7 @@ class MachineForm extends Component
                     'comkey' => $this->comkey,
                     'password' => $this->password,
                     'is_active' => $this->is_active,
+                    'machine_type_id' => $this->machine_type_id
                 ]);
 
                 $this->alert('success', 'Machine Created Successfully', [
@@ -81,6 +95,7 @@ class MachineForm extends Component
                     'comkey' => $this->comkey,
                     'password' => $this->password,
                     'is_active' => $this->is_active,
+                    'machine_type_id' => $this->machine_type_id
                 ]);
 
                 $this->alert('success', 'Machine Updated Successfully', [

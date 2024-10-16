@@ -18,6 +18,7 @@ class MachineSeeder extends Seeder
             'ip_address' => '192.168.20.201',
             'port' => 80,
             'is_active' => 1,
+            'machine_type_id' => 5
         ]);
 
         Machine::create([
@@ -25,6 +26,7 @@ class MachineSeeder extends Seeder
             'ip_address' => '192.168.20.202',
             'port' => 80,
             'is_active' => 1,
+            'machine_type_id' => 5
         ]);
 
     }

@@ -4,7 +4,14 @@ use App\Livewire\Announcement\AnnouncementDetail;
 use App\Livewire\Announcement\AnnouncementForm;
 use App\Livewire\Announcement\AnnouncementIndex;
 use App\Livewire\Auth\Login;
+use App\Livewire\Report\AbsentRequest;
+use App\Livewire\Report\Attendance;
+use App\Livewire\Report\DailyReport;
+use App\Livewire\Report\FinancialRequest;
+use App\Livewire\Report\LeaveRequest;
+use App\Livewire\Report\Visit;
 use App\Livewire\Role\RoleForm;
+use App\Livewire\Setting\SettingForm;
 use App\Livewire\Site\SiteForm;
 use App\Livewire\TestComponent;
 use App\Livewire\Role\RoleIndex;
@@ -198,5 +205,18 @@ Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
         Route::get('/', EmailTemplateManagerIndex::class)->name('email-template.index');
         Route::get('create', EmailTemplateManagerForm::class)->name('email-template.create');
         Route::get('edit/{slug}', EmailTemplateManagerForm::class)->name('email-template.edit');
+    });
+
+    Route::group(['prefix' => 'setting'], function () {
+        Route::get('/', SettingForm::class)->name('setting.edit');
+    });
+
+    Route::group(['prefix' => 'report'], function () {
+        Route::get('/attendance', Attendance::class)->name('report.attendance')->middleware('can:view:report-attendance');
+        Route::get('/daily-report', DailyReport::class)->name('report.daily.report')->middleware('can:view:report-daily-report');
+        Route::get('/financial-request', FinancialRequest::class)->name('report.financial.request')->middleware('can:view:report-financial-request');
+        Route::get('/absent-request', AbsentRequest::class)->name('report.absent.request')->middleware('can:view:report-absent-request');
+        Route::get('/leave-request', LeaveRequest::class)->name('report.leave.request')->middleware('can:view:report-leave-request');
+        Route::get('/visit', Visit::class)->name('report.visit')->middleware('can:view:report-visit');
     });
 });

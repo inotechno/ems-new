@@ -16,7 +16,13 @@ class Machine extends Model
         'comkey',
         'is_active',
         'password',
+        'machine_type_id',
     ];
+
+    public function machineType()
+    {
+        return $this->belongsTo(Helper::class, 'machine_type_id', 'id');
+    }
 
     public function attendances()
     {

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('machines', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('machine_type_id')->nullable()->nullOnDelete()->cascadeOnUpdate();
             $table->string('name');
             $table->string('ip_address');
             $table->string('port')->nullable();

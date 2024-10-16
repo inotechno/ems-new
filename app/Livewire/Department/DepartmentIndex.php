@@ -67,7 +67,7 @@ class DepartmentIndex extends Component
 
     public function render()
     {
-        $departments = Department::with('site', 'supervisor', 'positions.employees.user')->when($this->search, function ($query) {
+        $departments = Department::with('site', 'supervisor.user', 'positions.employees.user')->when($this->search, function ($query) {
             $query->where('name', 'like', '%' . $this->search . '%');
         })->when($this->site_id, function ($query) {
             $query->where('site_id', $this->site_id);

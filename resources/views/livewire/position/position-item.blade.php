@@ -7,7 +7,7 @@
                         <a href="{{ route('position.detail', ['id' => $position->id]) }}"
                             class="text-dark">{{ $position->name }}</a>
                     </h5>
-                    <p class="text-muted mb-2">{{ $position->name }}</p>
+                    <p class="text-muted mb-2">{{ $position->department->name }}</p>
                     <div class="avatar-group">
                         @foreach ($employeesLimit as $employee)
                             @if ($employee->user->avatar)

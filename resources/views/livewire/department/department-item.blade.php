@@ -7,6 +7,7 @@
                         <a href="{{ route('department.detail', ['id' => $department->id]) }}"
                             class="text-dark">{{ $department->name }}</a>
                     </h5>
+                    <p class="text-muted mb-0">{{ $department->supervisor?->user->name }}</p>
                     <p class="text-muted mb-2">{{ $site->name }}</p>
                     <div class="avatar-group">
                         @foreach ($employees->take($limitDisplay) as $employee)

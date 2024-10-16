@@ -168,12 +168,12 @@ class RoleSeeder extends Seeder
             'approve:leave-request' => ['Employee', 'HR', 'Director', 'Administrator'],
 
             // Report
-            'view:report-attendance' => ['Employee', 'Finance', 'HR', 'Director', 'Administrator'],
-            'view:report-daily-report' => ['Employee', 'Finance', 'HR', 'Director', 'Administrator'],
-            'view:report-financial-request' => ['Employee', 'Finance', 'Director', 'Administrator'],
-            'view:report-absent-request' => ['Employee', 'HR', 'Director', 'Administrator'],
-            'view:report-leave-request' => ['Employee', 'HR', 'Director', 'Administrator'],
-            'view:report-visit' => ['Employee', 'HR', 'Director', 'Administrator'],
+            'view:report-attendance' => ['Finance', 'HR', 'Director', 'Administrator'],
+            'view:report-daily-report' => ['Finance', 'HR', 'Director', 'Administrator'],
+            'view:report-financial-request' => ['Finance', 'Director', 'Administrator'],
+            'view:report-absent-request' => ['HR', 'Director', 'Administrator'],
+            'view:report-leave-request' => ['HR', 'Director', 'Administrator'],
+            'view:report-visit' => ['HR', 'Director', 'Administrator'],
 
             // Project
             'view:project-all' => ['HR', 'Director', 'Administrator'],

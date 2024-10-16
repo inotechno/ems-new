@@ -30,5 +30,17 @@ class HelperSeeder extends Seeder
             'name' => 'Other',
             'value' => 'other'
         ]);
+
+        Helper::create([
+            'code' => 'machine_type',
+            'name' => 'Fingerprint',
+            'value' => 'fingerprint'
+        ]);
+
+        Helper::create([
+            'code' => 'machine_type',
+            'name' => 'Access Control',
+            'value' => 'access_control'
+        ]);
     }
 }

@@ -241,6 +241,18 @@ class Sidebar extends BaseComponent
             ]
         ],
         [
+            'title' => 'Configuration',
+            'menus' => [
+                [
+                    'name' => 'Setting',
+                    'url' => '/setting',
+                    'route' => 'setting.form',
+                    'icon' => 'bx bx-cog',
+                    'permission' => 'view:setting'
+                ],
+            ]
+        ],
+        [
             'title' => 'Other',
             'menus' => [
                 [
@@ -252,58 +264,46 @@ class Sidebar extends BaseComponent
                 ],
             ]
         ],
-        // [
-        //     'title' => 'Report',
-        //     'menus' => [
-        //         [
-        //             'name' => 'Report Attendance',
-        //             'url' => '/report-attendance',
-        //             'route' => 'report-attendance.index',
-        //             'icon' => 'bx bx-bar-chart-alt-2',
-        //             'permission' => 'view:report-attendance'
-        //         ],
-        //         [
-        //             'name' => 'Report absent',
-        //             'url' => '/report-absent-request',
-        //             'route' => 'report-absent-request.index',
-        //             'icon' => 'bx bx-bar-chart-alt-2',
-        //             'permission' => 'view:report-absent-request'
-        //         ],
-        //         [
-        //             'name' => 'Report Leave',
-        //             'url' => '/report-leave-request',
-        //             'route' => 'report-leave-request.index',
-        //             'icon' => 'bx bx-bar-chart-alt-2',
-        //             'permission' => 'view:report-leave-request'
-        //         ],
-        //         [
-        //             'name' => 'Report Financial',
-        //             'url' => '/report-financial-request',
-        //             'route' => 'report-financial-request.index',
-        //             'icon' => 'bx bx-bar-chart-alt-2',
-        //             'permission' => 'view:report-financial-request'
-        //         ],
-        //         [
-        //             'name' => 'Report Visit',
-        //             'url' => '/report-visit-request',
-        //             'route' => 'report-visit-request.index',
-        //             'icon' => 'bx bx-bar-chart-alt-2',
-        //             'permission' => 'view:report-visit'
-        //         ],
-        //     ]
-        // ],
-        // [
-        //     'title' => 'Setting',
-        //     'menus' => [
-        //         [
-        //             'name' => 'Setting',
-        //             'url' => '/setting',
-        //             'route' => 'setting.index',
-        //             'icon' => 'bx bx-cog',
-        //             'permission' => 'view:setting'
-        //         ],
-        //     ]
-        // ],
+        [
+            'title' => 'Report',
+            'menus' => [
+                [
+                    'name' => 'Report Attendance',
+                    'url' => '/report/attendance',
+                    'route' => 'report.attendance',
+                    'icon' => 'bx bx-bar-chart-alt-2',
+                    'permission' => 'view:report-attendance'
+                ],
+                [
+                    'name' => 'Report Absent',
+                    'url' => '/report/absent-request',
+                    'route' => 'report.absent-request',
+                    'icon' => 'bx bx-bar-chart-alt-2',
+                    'permission' => 'view:report-absent-request'
+                ],
+                [
+                    'name' => 'Report Leave',
+                    'url' => '/report/leave-request',
+                    'route' => 'report.leave-request',
+                    'icon' => 'bx bx-bar-chart-alt-2',
+                    'permission' => 'view:report-leave-request'
+                ],
+                [
+                    'name' => 'Report Financial',
+                    'url' => '/report/financial-request',
+                    'route' => 'report.financial-request',
+                    'icon' => 'bx bx-bar-chart-alt-2',
+                    'permission' => 'view:report-financial-request'
+                ],
+                [
+                    'name' => 'Report Visit',
+                    'url' => '/report/visit',
+                    'route' => 'report.visit',
+                    'icon' => 'bx bx-bar-chart-alt-2',
+                    'permission' => 'view:report-visit'
+                ],
+            ]
+        ],
     ];
 
     public function filterMenus()

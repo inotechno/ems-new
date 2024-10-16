@@ -9,7 +9,7 @@
                                 <div class="col-7">
                                     <div class="text-primary p-4">
                                         <h5 class="text-primary">Welcome Back !</h5>
-                                        <p>Sign in to continue to {{ config('app.name') }}.</p>
+                                        <p>Sign in to continue to {{ config('setting.app_title') }}.</p>
                                     </div>
                                 </div>
                                 <div class="col-5 align-self-end">
@@ -81,8 +81,7 @@
                         <div>
                             <p>Don't have an account ? <a href="auth-register.html" class="fw-medium text-primary">
                                     Signup now </a> </p>
-                            <p>©{{ $year }} EMSv2. Crafted with <i class="mdi mdi-heart text-danger"></i> by
-                                InoTechno
+                            <p>{{ config('setting.app_copyright') }}
                             </p>
                         </div>
                     </div>
