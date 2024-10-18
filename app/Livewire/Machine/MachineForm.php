@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Machine;
 
+use App\Livewire\BaseComponent;
 use App\Livewire\Forms\MachineForm as FormsMachineForm;
 use App\Models\Helper;
 use App\Models\Machine;
@@ -9,7 +10,7 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class MachineForm extends Component
+class MachineForm extends BaseComponent
 {
     use LivewireAlert;
 
@@ -17,7 +18,7 @@ class MachineForm extends Component
     public $machine_id;
     public $machine;
     public $statusForm = 'store';
-public $machineTypes;
+    public $machineTypes;
 
     public function mount()
     {
@@ -85,6 +86,12 @@ public $machineTypes;
                     'toast' => false,
                 ]);
 
+                activity()
+                    ->causedBy(auth()->user())
+                    ->withProperties(['ip' => request()->ip()])
+                    ->event('create machine')
+                    ->log($this->authUser->name . ' telah membuat Email Template');
+
                 $this->dispatch('refreshIndex');
                 $this->resetFormFields();
             } else {
@@ -103,6 +110,12 @@ public $machineTypes;
                     'timer' => 3000,
                     'toast' => false,
                 ]);
+
+                activity()
+                    ->causedBy(auth()->user())
+                    ->withProperties(['ip' => request()->ip()])
+                    ->event('update machine')
+                    ->log($this->authUser->name . ' telah mengubah Email Template');
 
                 $this->dispatch('refreshIndex');
                 $this->resetFormFields();

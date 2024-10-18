@@ -2,13 +2,14 @@
 
 namespace App\Livewire\Machine;
 
+use App\Livewire\BaseComponent;
 use App\Models\Machine;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Reactive;
 use Livewire\Component;
 
-class MachineItem extends Component
+class MachineItem extends BaseComponent
 {
     use LivewireAlert;
 
@@ -43,6 +44,13 @@ class MachineItem extends Component
     {
         $this->machine->delete();
         $this->alert('success', 'Machine deleted successfully');
+
+        activity()
+            ->causedBy($this->authUser) // Pengguna yang melakukan login
+            ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+            ->event('delete machine')
+            ->log("$this->authUser->name telah menghapus machine");
+
         $this->dispatch('refreshIndex');
     }
 

@@ -143,6 +143,13 @@ class FinancialRequestForm extends BaseComponent
 
         $this->reset();
         $this->alert('success', 'Financial request created successfully');
+
+        activity()
+            ->causedBy($this->authUser) // Pengguna yang melakukan login
+            ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+            ->event('create financial request')
+            ->log("$this->authUser->name telah membuat Financial Request");
+
         return redirect()->route('financial-request.index');
     }
 
@@ -182,6 +189,13 @@ class FinancialRequestForm extends BaseComponent
 
             $this->reset();
             $this->alert('success', 'Financial request updated successfully');
+
+            activity()
+                ->causedBy($this->authUser) // Pengguna yang melakukan login
+                ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+                ->event('update financial request')
+                ->log("$this->authUser->name telah mengubah Financial Request");
+
             return redirect()->route('financial-request.index');
         } catch (\Exception $e) {
             $this->alert('error', $e->getMessage());

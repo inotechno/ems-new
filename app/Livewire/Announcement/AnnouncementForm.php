@@ -3,6 +3,7 @@
 namespace App\Livewire\Announcement;
 
 use App\Jobs\SendAnnouncement;
+use App\Livewire\BaseComponent;
 use App\Models\Announcement;
 use App\Models\Employee;
 use App\Models\User;
@@ -13,7 +14,7 @@ use Livewire\Component;
 use Schema;
 use Str;
 
-class AnnouncementForm extends Component
+class AnnouncementForm extends BaseComponent
 {
     use LivewireAlert;
 
@@ -93,6 +94,13 @@ class AnnouncementForm extends Component
             SendAnnouncement::dispatch($announcement);
 
             $this->alert('success', 'Announcement created successfully.');
+
+            activity()
+                ->causedBy($this->authUser) // Pengguna yang melakukan login
+                ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+                ->event('create announcement')
+                ->log("$this->authUser->name telah membuat Announcement");
+
             return redirect()->route('announcement.index');
         } catch (\Exception $e) {
             $this->alert('error', $e->getMessage());
@@ -110,6 +118,13 @@ class AnnouncementForm extends Component
 
             $this->announcement->recipients()->sync($this->recipients);
             $this->alert('success', 'Announcement updated successfully.');
+
+            activity()
+                ->causedBy($this->authUser) // Pengguna yang melakukan login
+                ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+                ->event('update announcement')
+                ->log("$this->authUser->name telah mengubah Announcement");
+
             return redirect()->route('announcement.index');
         } catch (\Exception $e) {
             $this->alert('error', $e->getMessage());

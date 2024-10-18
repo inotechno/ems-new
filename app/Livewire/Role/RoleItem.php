@@ -2,12 +2,13 @@
 
 namespace App\Livewire\Role;
 
+use App\Livewire\BaseComponent;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Reactive;
 use Livewire\Component;
 
-class RoleItem extends Component
+class RoleItem extends BaseComponent
 {
     use LivewireAlert;
 
@@ -42,6 +43,13 @@ class RoleItem extends Component
     {
         $this->role->delete();
         $this->alert('success', 'Role deleted successfully');
+
+        activity()
+            ->causedBy($this->authUser) // Pengguna yang melakukan login
+            ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+            ->event('delete role')
+            ->log("$this->authUser->name telah menghapus role");
+
         $this->dispatch('refreshIndex');
     }
 

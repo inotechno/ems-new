@@ -2,12 +2,13 @@
 
 namespace App\Livewire\Site;
 
+use App\Livewire\BaseComponent;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Reactive;
 use Livewire\Component;
 
-class SiteItem extends Component
+class SiteItem extends BaseComponent
 {
     use LivewireAlert;
 
@@ -41,6 +42,13 @@ class SiteItem extends Component
     {
         $this->site->delete();
         $this->alert('success', 'Site deleted successfully');
+
+        activity()
+            ->causedBy($this->authUser) // Pengguna yang melakukan login
+            ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+            ->event('delete site')
+            ->log("$this->authUser->name telah menghapus site");
+
         $this->dispatch('refreshIndex');
     }
 

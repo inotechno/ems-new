@@ -9,6 +9,43 @@
                         {{ $type == 'create' ? 'Create Employee' : 'Edit Employee ' . $employee->name }}</h4>
                     <form wire:submit.prevent="save" class="needs-validation" wire:ignore.self>
                         <div class="row mb-4">
+                            <label for="avatar" class="col-form-label col-lg-2">Avatar</label>
+                            <div class="col-lg-10">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0 me-3">
+                                        <!-- Loading indicator -->
+                                        <div wire:loading wire:target="avatar" class="spinner-border text-primary"
+                                            role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+
+                                        @if ($avatar)
+                                            <img class="rounded avatar-sm w-100" src="{{ $avatar->temporaryUrl() }}"
+                                                alt="New Avatar">
+                                        @elseif($avatar_path)
+                                            <!-- Image preview (only show when not loading) -->
+                                            <img wire:loading.remove wire:target="avatar"
+                                                class="rounded avatar-sm w-100" src="{{ $avatar_url }}"
+                                                alt="Current Avatar">
+                                        @else
+                                            <img wire:loading.remove wire:target="avatar"
+                                                class="rounded avatar-sm w-100" src="{{ $previewAvatar }}"
+                                                alt="Current Avatar">
+                                        @endif
+                                    </div>
+
+                                    <div class="flex-grow-1">
+                                        <input type="file" class="form-control" wire:model.live="avatar">
+
+                                        @error('uploaded_avatar')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
                             <label for="citizen_id" class="col-form-label col-lg-2"> Citizen ID</label>
                             <div class="col-lg-10">
                                 <input id="citizen_id" name="citizen_id" wire:model="citizen_id" type="text"
@@ -170,48 +207,48 @@
                         </div>
 
                         @can('update:employee')
-                        {{-- select-role --}}
-                        <div class="row mb-4" wire:ignore>
-                            <label for="role" class="col-form-label col-lg-2">Select Role</label>
-                            <div class="col-lg-10">
-                                <select class="form-control select2 @error('role') is-invalid @enderror select-role"
-                                    id="role" wire:model="role" data-placeholder="Select Role">
-                                    <option value="">Select Role</option>
-                                    @foreach ($roles as $rl)
-                                        <option value="{{ $rl->name }}">{{ $rl->name }}</option>
-                                    @endforeach
-                                </select>
+                            {{-- select-role --}}
+                            <div class="row mb-4" wire:ignore>
+                                <label for="role" class="col-form-label col-lg-2">Select Role</label>
+                                <div class="col-lg-10">
+                                    <select class="form-control select2 @error('role') is-invalid @enderror select-role"
+                                        id="role" wire:model="role" data-placeholder="Select Role">
+                                        <option value="">Select Role</option>
+                                        @foreach ($roles as $rl)
+                                            <option value="{{ $rl->name }}">{{ $rl->name }}</option>
+                                        @endforeach
+                                    </select>
 
-                                @error('status')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                    @error('status')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
 
-                        {{-- select-position --}}
-                        <div class="row mb-4" wire:ignore>
-                            <label for="position_id" class="col-form-label col-lg-2">Select Position</label>
-                            <div class="col-lg-10">
-                                <select
-                                    class="form-control select2 @error('position_id') is-invalid @enderror select-position_id"
-                                    id="position_id" wire:model="position_id" data-placeholder="Select Position">
-                                    <option value="">Select Position</option>
-                                    @foreach ($positions as $position)
-                                        <option value="{{ $position->id }}">{{ $position->name }} |
-                                            {{ $position->department->name }} |
-                                            {{ $position->department->site->name }}</option>
-                                    @endforeach
-                                </select>
+                            {{-- select-position --}}
+                            <div class="row mb-4" wire:ignore>
+                                <label for="position_id" class="col-form-label col-lg-2">Select Position</label>
+                                <div class="col-lg-10">
+                                    <select
+                                        class="form-control select2 @error('position_id') is-invalid @enderror select-position_id"
+                                        id="position_id" wire:model="position_id" data-placeholder="Select Position">
+                                        <option value="">Select Position</option>
+                                        @foreach ($positions as $position)
+                                            <option value="{{ $position->id }}">{{ $position->name }} |
+                                                {{ $position->department->name }} |
+                                                {{ $position->department->site->name }}</option>
+                                        @endforeach
+                                    </select>
 
-                                @error('position_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                    @error('position_id')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
                         @endcan
 
                         <div class="row justify-content-end">

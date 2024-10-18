@@ -54,6 +54,12 @@ class DailyReportItem extends BaseComponent
         $this->daily_report->delete();
         $this->alert('success', 'Daily Report deleted successfully');
 
+        activity()
+            ->causedBy($this->authUser) // Pengguna yang melakukan login
+            ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+            ->event('delete daily report')
+            ->log("$this->authUser->name telah menghapus Daily Report");
+
         return redirect()->route('daily-report.index');
     }
 

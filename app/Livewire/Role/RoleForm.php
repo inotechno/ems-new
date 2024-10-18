@@ -2,13 +2,14 @@
 
 namespace App\Livewire\Role;
 
+use App\Livewire\BaseComponent;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class RoleForm extends Component
+class RoleForm extends BaseComponent
 {
     use LivewireAlert;
 
@@ -67,6 +68,13 @@ class RoleForm extends Component
             $role->syncPermissions($this->selectedPermissions);
 
             $this->alert('success', 'role created successfully');
+
+            activity()
+                ->causedBy($this->authUser) // Pengguna yang melakukan login
+                ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+                ->event('create role')
+                ->log("$this->authUser->name telah membuat role");
+
             return redirect()->route('role.index');
         } catch (\Exception $e) {
             $this->alert('error', $e->getMessage());
@@ -83,6 +91,13 @@ class RoleForm extends Component
             $this->role->syncPermissions($this->selectedPermissions);
 
             $this->alert('success', 'role updated successfully');
+
+            activity()
+                ->causedBy($this->authUser) // Pengguna yang melakukan login
+                ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+                ->event('update role')
+                ->log("$this->authUser->name telah mengubah role");
+
             return redirect()->route('role.index');
         } catch (\Exception $e) {
             $this->alert('error', $e->getMessage());

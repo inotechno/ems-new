@@ -17,7 +17,8 @@
                                     <input type="radio" class="btn-check" name="activeCamera" id="activateQRScanner"
                                         value="qr" autocomplete="off" wire:click="activateQRScanner"
                                         @if ($activeCamera === 'qr') checked @endif>
-                                    <label class="btn btn-outline-primary" for="activateQRScanner">
+                                    <label class="btn btn-outline-primary" for="activateQRScanner"
+                                        data-tg-tour="Scan QR yang ada pada site" data-tg-group="visit-create" data-tg-title="Step Create Visit">
                                         Step 1: Activate QR Scanner
                                     </label>
 
@@ -25,7 +26,8 @@
                                         id="activateSelfieCamera" value="selfie" autocomplete="off"
                                         wire:click="activateSelfieCamera"
                                         @if ($activeCamera === 'selfie') checked @endif>
-                                    <label class="btn btn-outline-primary" for="activateSelfieCamera">
+                                    <label class="btn btn-outline-primary" for="activateSelfieCamera"
+                                        data-tg-tour="Ambil gambar dari kamera" data-tg-group="visit-create" data-tg-title="Step Create Visit">
                                         Step 2: Activate Selfie Camera
                                     </label>
 
@@ -33,7 +35,7 @@
                             </div>
 
                             @if ($activeCamera === 'qr')
-                                <section class="mb-3">
+                                <section class="mb-3" data-tg-group="visit-create" data-tg-title="Step Create Visit" data-tg-tour="Tampilan Kamera untuk scan QR">
                                     @if ($content)
                                         <div class="text-center">
                                             <div class="mb-4">
@@ -52,13 +54,13 @@
                             @endif
 
                             @if ($activeCamera === 'selfie')
-                                <section class="mb-3">
+                                <section class="mb-3" data-tg-group="visit-create" data-tg-title="Step Create Visit" data-tg-tour="Tampilan Kamera untuk mengambil gambar dari kamera">
                                     @livewire('component.camera', key('selfie-camera'))
                                 </section>
                             @endif
 
                             <section class="mb-3">
-                                <div class="mb-3">
+                                <div class="mb-3" data-tg-group="visit-create" data-tg-title="Step Create Visit" data-tg-tour="Pilih Kategori Visit">
                                     <label for="visit_category_id">Visit Category</label>
                                     <div class="btn-group d-grid gap-2 d-md-flex" role="group"
                                         aria-label="Basic radio toggle button group">
@@ -79,7 +81,7 @@
                                     </div>
                                 </div>
 
-                                <div class="mb-3">
+                                <div class="mb-3" data-tg-group="visit-create" data-tg-title="Step Create Visit" data-tg-tour="Catatan Visit">
                                     <label for="notes">Notes</label>
                                     <textarea wire:model="notes" id="notes" class="form-control" rows="3"></textarea>
                                     @error('notes')
@@ -99,21 +101,40 @@
                             </section>
                         </div>
 
-                        <div class="mb-3 d-flex justify-content-end gap-2">
-                            <button id="submit" type="submit" class="btn btn-primary w-md col-md"
-                                wire:submit.prevent="submit" wire:loading.attr="disabled" wire:target="submit">
-                                <i wire:loading.class="spinner-border spinner-border-sm" wire:target="submit"></i>
-                                {{ __('Save') }}
-                            </button>
+                        @if ($activeCamera === 'selfie')
+                            <div class="mb-3 d-flex justify-content-end gap-2">
+                                <button id="submit" type="submit" class="btn btn-primary w-md col-md"
+                                    wire:submit.prevent="submit" wire:loading.attr="disabled" wire:target="submit">
+                                    <i wire:loading.class="spinner-border spinner-border-sm" wire:target="submit"></i>
+                                    {{ __('Save') }}
+                                </button>
 
-                            <button id="cancel" type="button" class="btn btn-light w-md col-md"
-                                wire:click="$dispatch('close-modal')" wire:loading.attr="disabled"
-                                wire:target="submit">{{ __('Cancel') }}</button>
-                        </div>
+                                <button id="cancel" type="button" class="btn btn-light w-md col-md"
+                                    wire:click="$dispatch('close-modal')" wire:loading.attr="disabled"
+                                    wire:target="submit">{{ __('Cancel') }}</button>
+                            </div>
+                        @endif
                     </form>
                 </div>
             </div>
         </div>
+
     </div>
+
+    @push('js')
+        <script>
+            document.addEventListener('livewire:init', function() {
+                const tg = new TourGuideClient({
+                    group: 'visit-create', // opsional: tentukan grup jika tur terkait dengan halaman tertentu
+                    autoplay: false, // agar pengguna bisa mengontrol kapan tur dimulai
+                    steps: [] // opsional jika menggunakan data attribute
+                });
+
+                $('#start-tour').on('click', function() {
+                    tg.start();
+                });
+            });
+        </script>
+    @endpush
 
 </div>

@@ -9,12 +9,12 @@
                         <div class="col-lg-6">
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
-                                    <img src="{{ asset('images/users/avatar-1.jpg') }}" alt=""
+                                    <img src="{{ $avatar_url ?? asset('images/users/avatar-1.jpg') }}" alt=""
                                         class="avatar-lg rounded-circle img-thumbnail">
                                 </div>
                                 <div class="flex-grow-1 align-self-center">
                                     <div class="text-muted">
-                                        <p class="mb-2">Welcome to {{ config('app.name') }}</p>
+                                        <p class="mb-2">Welcome to {{ config('setting.app_name') }}</p>
                                         <h5 class="mb-1">{{ $name }}</h5>
                                         <p class="mb-0">UI / UX Designer</p>
                                     </div>

@@ -67,13 +67,6 @@ class Sidebar extends BaseComponent
                     'icon' => 'bx bxs-key',
                     'permission' => 'view:role'
                 ],
-                // [
-                //     'name' => 'User',
-                //     'url' => '/user',
-                //     'route' => 'user.index',
-                //     'icon' => 'bx bx-user-circle',
-                //     'permission' => 'view:user'
-                // ],
                 [
                     'name' => 'Employee',
                     'url' => '/employee',
@@ -109,18 +102,18 @@ class Sidebar extends BaseComponent
                     'permission' => 'view:attendance-temp'
                 ],
                 [
-                    'name' => 'Daily Report All',
-                    'url' => '/daily-report-all',
-                    'route' => 'daily-report.index',
-                    'icon' => 'bx bxs-report',
-                    'permission' => 'view:daily-report-all'
-                ],
-                [
                     'name' => 'Daily Report',
                     'icon' => 'bx bxs-report',
                     'url' => '/daily-report',
                     'permission' => 'view:daily-report',
                     'subMenus' => [
+                        [
+                            'name' => 'All Daily Report',
+                            'url' => '/daily-report-all',
+                            'route' => 'daily-report.index',
+                            'icon' => 'bx bxs-report',
+                            'permission' => 'view:daily-report-all'
+                        ],
                         [
                             'name' => 'My Daily Report',
                             'url' => '/daily-report',
@@ -138,18 +131,18 @@ class Sidebar extends BaseComponent
                     ],
                 ],
                 [
-                    'name' => 'Absent Request All',
-                    'url' => '/absent-request-all',
-                    'route' => 'absent-request.index',
-                    'icon' => 'bx bxs-tired',
-                    'permission' => 'view:absent-request-all',
-                ],
-                [
                     'name' => 'Absent Request',
                     'icon' => 'bx bxs-tired',
                     'url' => '/absent-request',
                     'permission' => 'view:absent-request',
                     'subMenus' => [
+                        [
+                            'name' => 'All Absent Request',
+                            'url' => '/absent-request-all',
+                            'route' => 'absent-request.index',
+                            'icon' => 'bx bxs-tired',
+                            'permission' => 'view:absent-request-all',
+                        ],
                         [
                             'name' => 'My Absent Request',
                             'url' => '/absent-request',
@@ -167,18 +160,18 @@ class Sidebar extends BaseComponent
                     ],
                 ],
                 [
-                    'name' => 'Leave Request All',
-                    'url' => '/leave-request-all',
-                    'route' => 'leave-request.all',
-                    'icon' => 'bx bx-log-out-circle',
-                    'permission' => 'view:leave-request-all',
-                ],
-                [
                     'name' => 'Leave Request',
                     'url' => '/leave-request',
                     'icon' => 'bx bx-log-out-circle',
                     'permission' => 'view:leave-request',
                     'subMenus' => [
+                        [
+                            'name' => 'All Leave Request',
+                            'url' => '/leave-request-all',
+                            'route' => 'leave-request.all',
+                            'icon' => 'bx bx-log-out-circle',
+                            'permission' => 'view:leave-request-all',
+                        ],
                         [
                             'name' => 'My Leave Request',
                             'url' => '/leave-request',
@@ -196,18 +189,18 @@ class Sidebar extends BaseComponent
                     ],
                 ],
                 [
-                    'name' => 'Financial Request All',
-                    'url' => '/financial-request-all',
-                    'route' => 'financial-request.all',
-                    'icon' => 'bx bxs-bank',
-                    'permission' => 'view:financial-request-all'
-                ],
-                [
                     'name' => 'Financial Request',
                     'url' => '/financial-request',
                     'icon' => 'bx bxs-bank',
                     'permission' => 'view:financial-request',
                     'subMenus' => [
+                        [
+                            'name' => 'All Financial Request',
+                            'url' => '/financial-request-all',
+                            'route' => 'financial-request.all',
+                            'icon' => 'bx bxs-bank',
+                            'permission' => 'view:financial-request-all'
+                        ],
                         [
                             'name' => 'My Financial Request',
                             'url' => '/financial-request',

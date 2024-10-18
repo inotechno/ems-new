@@ -2,13 +2,14 @@
 
 namespace App\Livewire\Department;
 
+use App\Livewire\BaseComponent;
 use App\Models\Department;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Reactive;
 use Livewire\Component;
 
-class DepartmentItem extends Component
+class DepartmentItem extends BaseComponent
 {
     use LivewireAlert;
 
@@ -58,6 +59,13 @@ class DepartmentItem extends Component
     {
         $this->department->delete();
         $this->alert('success', 'Department deleted successfully');
+
+        activity()
+            ->causedBy(Auth::user()) // Pengguna yang melakukan login
+            ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+            ->event('delete department')
+            ->log("{$this->authUser->name} telah menghapus department");
+
         $this->dispatch('refreshIndex');
     }
 

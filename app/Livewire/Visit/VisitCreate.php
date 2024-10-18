@@ -148,6 +148,12 @@ class VisitCreate extends BaseComponent
                 'is_approved' => 1,
             ]);
 
+            activity()
+                ->causedBy($this->authUser) // Pengguna yang melakukan login
+                ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+                ->event('create visit')
+                ->log("$this->authUser->name telah membuat visit");
+
             $this->alert('success', 'Visit created successfully');
 
             $this->reset();

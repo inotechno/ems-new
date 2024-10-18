@@ -10,11 +10,13 @@ class Header extends BaseComponent
 {
     public $user;
     public $name;
+    public $avatar;
 
     public function mount()
     {
         $this->user = $this->authUser;
         $this->name = $this->user->name;
+        $this->avatar = $this->user->avatar_url;
     }
 
     public function render()

@@ -2,12 +2,13 @@
 
 namespace App\Livewire\EmailTemplateManager;
 
+use App\Livewire\BaseComponent;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Reactive;
 use Livewire\Component;
 
-class EmailTemplateManagerItem extends Component
+class EmailTemplateManagerItem extends BaseComponent
 {
     use LivewireAlert;
 
@@ -41,6 +42,13 @@ class EmailTemplateManagerItem extends Component
     {
         $this->template->delete();
         $this->alert('success', 'Template deleted successfully');
+
+        activity()
+            ->causedBy($this->authUser) // Pengguna yang melakukan login
+            ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+            ->event('delete email template')
+            ->log("$this->authUser->name telah menghapus Email Template");
+
         $this->dispatch('refreshIndex');
     }
 

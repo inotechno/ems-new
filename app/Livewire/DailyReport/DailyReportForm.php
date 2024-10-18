@@ -89,6 +89,12 @@ class DailyReportForm extends BaseComponent
             $daily_report->dailyReportRecipients()->createMany($recipientsData);
             $this->alert('success', 'Daily Report Stored Successfully');
 
+            activity()
+                ->causedBy($this->authUser) // Pengguna yang melakukan login
+                ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+                ->event('create daily report')
+                ->log("$this->authUser->name telah membuat Daily Report");
+
             DB::commit();
             return redirect()->route('daily-report.index');
         } catch (\Exception $e) {
@@ -134,6 +140,12 @@ class DailyReportForm extends BaseComponent
 
             // Commit transaksi jika semuanya berhasil
             DB::commit();
+
+            activity()
+                ->causedBy($this->authUser) // Pengguna yang melakukan login
+                ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+                ->event('update daily report')
+                ->log("$this->authUser->name telah mengubah Daily Report");
 
             // Tampilkan pesan sukses
             $this->alert('success', 'Daily Report Updated Successfully');

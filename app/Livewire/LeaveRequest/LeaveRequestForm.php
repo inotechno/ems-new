@@ -58,7 +58,7 @@ class LeaveRequestForm extends BaseComponent
     public function changeInputForm($param, $value)
     {
         $this->$param = $value;
-        if($param != 'recipients') {
+        if ($param != 'recipients') {
             $this->getTotalPeriod();
         }
     }
@@ -99,27 +99,33 @@ class LeaveRequestForm extends BaseComponent
                 'total_leave_after_request' => $this->current_total_leave - $period,
             ]);
 
-             // Buat recipients menggunakan relasi yang ada
+            // Buat recipients menggunakan relasi yang ada
             $leave_request->recipients()->createMany(
                 collect($this->recipients)->map(fn($recipient) => ['employee_id' => $recipient])->toArray()
             );
 
-             // Akses relasi employee setelah AbsentRequest berhasil disimpan
-             $employee = $leave_request->employee;
+            // Akses relasi employee setelah AbsentRequest berhasil disimpan
+            $employee = $leave_request->employee;
 
-             // Akses relasi recipients setelah AbsentRequest berhasil disimpan
-             $recipients = $leave_request->recipients;
+            // Akses relasi recipients setelah AbsentRequest berhasil disimpan
+            $recipients = $leave_request->recipients;
 
-             // Kirim email ke recipients
-             foreach ($recipients as $recipient) {
-                 SendEmailJob::dispatch($recipient->employee->user, 'recipient-leave-request', ['leave_request' => $leave_request], $employee->user);
-             }
+            // Kirim email ke recipients
+            foreach ($recipients as $recipient) {
+                SendEmailJob::dispatch($recipient->employee->user, 'recipient-leave-request', ['leave_request' => $leave_request], $employee->user);
+            }
 
-             // Kirim email menggunakan job
-             SendEmailJob::dispatch($employee->user, 'sender-leave-request', ['leave_request' => $leave_request]);
+            // Kirim email menggunakan job
+            SendEmailJob::dispatch($employee->user, 'sender-leave-request', ['leave_request' => $leave_request]);
 
             $this->reset();
             $this->alert('success', 'Absent Request created successfully');
+
+            activity()
+                ->causedBy($this->authUser) // Pengguna yang melakukan login
+                ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+                ->event('create leave request')
+                ->log("$this->authUser->name telah membuat Absent Request");
 
             return redirect()->route('leave-request.index');
         } catch (\Exception $e) {
@@ -142,13 +148,19 @@ class LeaveRequestForm extends BaseComponent
                 'current_total_leave' => $this->current_total_leave,
             ]);
 
-             // Hapus semua recipients yang ada
-             $this->leave_request->recipients()->delete();
+            // Hapus semua recipients yang ada
+            $this->leave_request->recipients()->delete();
 
-             // Tambahkan recipients yang baru
-             $this->leave_request->recipients()->createMany(
-                 collect($this->recipients)->map(fn($recipient) => ['employee_id' => $recipient])->toArray()
-             );
+            // Tambahkan recipients yang baru
+            $this->leave_request->recipients()->createMany(
+                collect($this->recipients)->map(fn($recipient) => ['employee_id' => $recipient])->toArray()
+            );
+
+            activity()
+                ->causedBy($this->authUser) // Pengguna yang melakukan login
+                ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+                ->event('update leave request')
+                ->log("$this->authUser->name telah mengubah Absent Request");
 
             $this->reset();
             $this->alert('success', 'Absent Request updated successfully');

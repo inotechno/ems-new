@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Site;
 
+use App\Livewire\BaseComponent;
 use App\Models\Site;
 use Livewire\Component;
 use Illuminate\Support\Str;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 
-class SiteForm extends Component
+class SiteForm extends BaseComponent
 {
     use LivewireAlert, WithFileUploads;
 
@@ -107,9 +108,9 @@ class SiteForm extends Component
             ]);
 
             activity()
-                ->causedBy(auth()->user())
+                ->causedBy($this->authUser)
                 ->withProperties(['uid' => $this->uid])
-                ->event('site.updated')
+                ->event('update site')
                 ->log("Site updated successfully with UID: {$this->uid}, name: {$this->name}");
 
             $this->reset();
@@ -157,7 +158,7 @@ class SiteForm extends Component
             activity()
                 ->causedBy(auth()->user())
                 ->withProperties(['uid' => $this->uid])
-                ->event('site.created')
+                ->event('create site')
                 ->log("Site created successfully with UID: {$this->uid}, name: {$this->name}");
 
             if ($this->saveMode == 'save') {

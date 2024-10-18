@@ -1,5 +1,5 @@
 <div>
-    <div class="mb-3" wire:ignore>
+    <div class="mb-3" wire:ignore data-tg-group="visit-create" data-tg-title="Step Create Visit" data-tg-tour="Tampilan map otomatis mendeteksi lokasi">
         <label for="map" class="form-label">{{ __('Location') }}</label>
         <p>Jika koordinat kurang akurat, silahkan klik tombol Refresh Koordinat pada map</p>
         <i wire:loading class="spinner-border" wire:target="updateCoordinates"></i>

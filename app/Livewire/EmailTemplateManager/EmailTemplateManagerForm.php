@@ -2,6 +2,7 @@
 
 namespace App\Livewire\EmailTemplateManager;
 
+use App\Livewire\BaseComponent;
 use App\Models\CategoryEmailTemplate;
 use Livewire\Component;
 use Illuminate\Support\Str;
@@ -12,7 +13,7 @@ use App\Services\EmailService;
 use Illuminate\Support\Facades\Schema;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
-class EmailTemplateManagerForm extends Component
+class EmailTemplateManagerForm extends BaseComponent
 {
     use LivewireAlert;
     public $type = 'create';
@@ -92,6 +93,12 @@ class EmailTemplateManagerForm extends Component
                     'subject' => $this->subject,
                     'body' => $this->body,
                 ]);
+
+                activity()
+                    ->causedBy(auth()->user())
+                    ->withProperties(['ip' => request()->ip()])
+                    ->event('create email template')
+                    ->log($this->authUser->name . ' telah membuat Email Template');
             } else {
                 $template = EmailTemplate::find($this->template_id);
                 $template->update([
@@ -101,6 +108,12 @@ class EmailTemplateManagerForm extends Component
                     'subject' => $this->subject,
                     'body' => $this->body,
                 ]);
+
+                activity()
+                    ->causedBy(auth()->user())
+                    ->withProperties(['ip' => request()->ip()])
+                    ->event('update email template')
+                    ->log($this->authUser->name . ' telah mengubah Email Template');
             }
 
             $this->alert('success', 'Email Template has been saved');

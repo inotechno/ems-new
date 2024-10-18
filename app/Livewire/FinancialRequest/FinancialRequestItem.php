@@ -117,6 +117,12 @@ class FinancialRequestItem extends BaseComponent
         // Periksa dan perbarui status isApproved pada AbsentRequest
         $this->financial_request->checkAndUpdateApprovalStatus();
 
+        activity()
+            ->causedBy($this->authUser) // Pengguna yang melakukan login
+            ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+            ->event('approve financial request')
+            ->log("$this->authUser->name telah approve Financial Request");
+
         $this->alert('success', 'Financial Request approved successfully');
         $this->dispatch('refreshIndex');
     }
@@ -141,6 +147,12 @@ class FinancialRequestItem extends BaseComponent
         // Periksa dan perbarui status isApproved pada AbsentRequest
         $this->financial_request->checkAndUpdateApprovalStatus();
 
+        activity()
+            ->causedBy($this->authUser) // Pengguna yang melakukan login
+            ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+            ->event('reject financial request')
+            ->log("$this->authUser->name telah reject Financial Request");
+
         $this->alert('success', 'Financial Request rejected successfully');
         $this->dispatch('refreshIndex');
     }
@@ -151,6 +163,12 @@ class FinancialRequestItem extends BaseComponent
         // dd($this->financial_request);
         $this->financial_request->delete();
         $this->alert('success', 'Financial Request deleted successfully');
+
+        activity()
+            ->causedBy($this->authUser) // Pengguna yang melakukan login
+            ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+            ->event('delete financial request')
+            ->log("$this->authUser->name telah delete Financial Request");
 
         return redirect()->route('financial-request.index');
     }

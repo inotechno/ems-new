@@ -27,12 +27,12 @@ class AbsentRequestItem extends BaseComponent
     public function mount(AbsentRequest $absent_request)
     {
         $this->absent_request = $absent_request;
-// dd($this->authUser->employee->id);
-        if($this->authUser->employee->id != $this->absent_request->employee_id){
+        // dd($this->authUser->employee->id);
+        if ($this->authUser->employee->id != $this->absent_request->employee_id) {
             $this->disableUpdate = true;
         }
 
-        $this->totalDays = $this->absent_request->end_date->diffInDays($this->absent_request->start_date)+1;
+        $this->totalDays = $this->absent_request->end_date->diffInDays($this->absent_request->start_date) + 1;
         $this->isApproved = $this->absent_request->is_approved;
         $this->isRejected = $this->absent_request->isRejectedByRecipients();
     }
@@ -120,6 +120,12 @@ class AbsentRequestItem extends BaseComponent
         // Periksa dan perbarui status isApproved pada AbsentRequest
         $this->absent_request->checkAndUpdateApprovalStatus();
 
+        activity()
+            ->causedBy($this->authUser) // Pengguna yang melakukan login
+            ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+            ->event('approve absent request')
+            ->log("$this->authUser->name telah approve Absent Request");
+
         $this->alert('success', 'Absent Request approved successfully');
         $this->dispatch('refreshIndex');
     }
@@ -144,6 +150,12 @@ class AbsentRequestItem extends BaseComponent
         // Periksa dan perbarui status isApproved pada AbsentRequest
         $this->absent_request->checkAndUpdateApprovalStatus();
 
+        activity()
+            ->causedBy($this->authUser) // Pengguna yang melakukan login
+            ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+            ->event('reject absent request')
+            ->log("$this->authUser->name telah reject Absent Request");
+
         $this->alert('success', 'Absent Request rejected successfully');
         $this->dispatch('refreshIndex');
     }
@@ -154,6 +166,12 @@ class AbsentRequestItem extends BaseComponent
         // dd($this->absent_request);
         $this->absent_request->delete();
         $this->alert('success', 'Absent Request deleted successfully');
+
+        activity()
+            ->causedBy($this->authUser) // Pengguna yang melakukan login
+            ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+            ->event('delete absent request')
+            ->log("$this->authUser->name telah menghapus Absent Request");
 
         return redirect()->route('absent-request.index');
     }
@@ -169,14 +187,14 @@ class AbsentRequestItem extends BaseComponent
         $this->isApprovedRecipient = $this->absent_request->isApprovedByRecipient($employeeRecipient);
 
         $this->disableUpdateApprove = $this->isApprovedRecipient;
-         // Buat array dengan status validasi untuk setiap recipient
-         $recipientsWithStatus = $recipients->map(function ($recipient) {
+        // Buat array dengan status validasi untuk setiap recipient
+        $recipientsWithStatus = $recipients->map(function ($recipient) {
             $status = $this->absent_request->validates()
                 ->where('employee_id', $recipient->employee_id)
                 ->first()
                 ->status ?? 'pending'; // Default to 'pending' if no status found
 
-            if($status == 'approved') {
+            if ($status == 'approved') {
                 $this->disableUpdate = true;
             }
 

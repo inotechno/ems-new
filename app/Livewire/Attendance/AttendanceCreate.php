@@ -162,6 +162,13 @@ class AttendanceCreate extends BaseComponent
                 ]);
 
                 $this->alert('success', 'Attendance created successfully');
+
+                activity()
+                    ->causedBy($this->authUser) // Pengguna yang melakukan login
+                    ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+                    ->event('create attendance')
+                    ->log("$this->authUser->name telah membuat Attendance");
+
             } elseif ($this->attendance_method_id == 2) {
                 AttendanceTemp::create([
                     'employee_id' => $this->employee_id,
@@ -177,6 +184,12 @@ class AttendanceCreate extends BaseComponent
                 ]);
 
                 $this->alert('success', 'Attendance created successfully, please contact your HRD for approval');
+
+                activity()
+                    ->causedBy($this->authUser) // Pengguna yang melakukan login
+                    ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+                    ->event('create attendance temp')
+                    ->log("$this->authUser->name telah membuat Attendance Temp");
             } else {
                 $this->alert('warning', 'Attendance method not found');
             }

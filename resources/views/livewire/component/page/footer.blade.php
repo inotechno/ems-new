@@ -11,4 +11,7 @@
             </div>
         </div>
     </div>
+
+    @livewire('component.button-tour-guide', key('button-tour-guide'))
+
 </div>

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Setting;
 
+use App\Livewire\BaseComponent;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Cache;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -10,7 +11,7 @@ use Livewire\WithFileUploads;
 use Storage;
 use Illuminate\Support\Str;
 
-class SettingForm extends Component
+class SettingForm extends BaseComponent
 {
     use WithFileUploads, LivewireAlert;
 
@@ -107,6 +108,12 @@ class SettingForm extends Component
             // Hapus cache global agar pengaturan diperbarui
             Cache::forget('settings');
             $this->alert('success', 'Setting saved successfully!');
+
+            activity()
+                ->causedBy($this->authUser) // Pengguna yang melakukan login
+                ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+                ->event('update setting')
+                ->log("$this->authUser->name telah mengubah setting");
 
             return redirect()->route('setting.edit');
         } catch (\Exception $e) {

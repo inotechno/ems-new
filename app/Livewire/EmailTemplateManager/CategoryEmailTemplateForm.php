@@ -2,11 +2,12 @@
 
 namespace App\Livewire\EmailTemplateManager;
 
+use App\Livewire\BaseComponent;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use App\Models\CategoryEmailTemplate;
 
-class CategoryEmailTemplateForm extends Component
+class CategoryEmailTemplateForm extends BaseComponent
 {
     public $slug, $name, $description;
 
@@ -22,6 +23,12 @@ class CategoryEmailTemplateForm extends Component
             'name' => $this->name,
             'description' => $this->description,
         ]);
+
+        activity()
+            ->causedBy($this->authUser) // Pengguna yang melakukan login
+            ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+            ->event('create category email template')
+            ->log("$this->authUser->name telah membuat category email template");
 
         $this->dispatch('refreshCategories');
     }

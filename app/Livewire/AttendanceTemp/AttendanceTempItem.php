@@ -2,13 +2,14 @@
 
 namespace App\Livewire\AttendanceTemp;
 
+use App\Livewire\BaseComponent;
 use Illuminate\Support\Facades\Storage;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Reactive;
 use Livewire\Component;
 
-class AttendanceTempItem extends Component
+class AttendanceTempItem extends BaseComponent
 {
     use LivewireAlert;
 
@@ -117,6 +118,12 @@ class AttendanceTempItem extends Component
             $attendanceTemp->delete();
             $this->alert('success', 'Attendance approved successfully');
 
+            activity()
+                    ->causedBy($this->authUser) // Pengguna yang melakukan login
+                    ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+                    ->event('approve attendance temporary')
+                    ->log("$this->authUser->name telah menyetujui Attendance Temporary");
+
             return redirect()->route('attendance-temporary.index');
         } catch (\Throwable $th) {
             $this->alert('error', $th->getMessage());
@@ -132,6 +139,13 @@ class AttendanceTempItem extends Component
             // Delete image from gcs
             Storage::disk('gcs')->delete($this->image_path);
             $this->alert('success', 'Attendance rejected successfully');
+
+            activity()
+                    ->causedBy($this->authUser) // Pengguna yang melakukan login
+                    ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+                    ->event('reject attendance temporary')
+                    ->log("$this->authUser->name telah menolak Attendance Temporary");
+
             return redirect()->route('attendance-temporary.index');
         } catch (\Throwable $th) {
             $this->alert('error', $th->getMessage());

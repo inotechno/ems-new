@@ -2,13 +2,14 @@
 
 namespace App\Livewire\Department;
 
+use App\Livewire\BaseComponent;
 use App\Models\Department;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Reactive;
 use Livewire\Component;
 
-class DepartmentForm extends Component
+class DepartmentForm extends BaseComponent
 {
     use LivewireAlert;
     public $sites;
@@ -45,7 +46,7 @@ class DepartmentForm extends Component
 
     public function save()
     {
-        if($this->site_id == '' || $this->supervisor_id == '') {
+        if ($this->site_id == '' || $this->supervisor_id == '') {
             $this->alert('error', 'Please select site and supervisor');
             return;
         }
@@ -74,6 +75,12 @@ class DepartmentForm extends Component
 
             $this->alert('success', 'Department created successfully');
 
+            activity()
+                ->causedBy($this->authUser) // Pengguna yang melakukan login
+                ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+                ->event('create department')
+                ->log("$this->authUser->name telah membuat department");
+
             $this->resetFormFields();
             $this->dispatch('refreshIndex');
         } catch (\Exception $e) {
@@ -91,6 +98,13 @@ class DepartmentForm extends Component
             ]);
 
             $this->alert('success', 'Department updated successfully');
+
+            activity()
+                ->causedBy($this->authUser) // Pengguna yang melakukan login
+                ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+                ->event('update department')
+                ->log("$this->authUser->name telah mengubah department");
+
             $this->dispatch('refreshIndex');
             $this->resetFormFields();
         } catch (\Exception $e) {

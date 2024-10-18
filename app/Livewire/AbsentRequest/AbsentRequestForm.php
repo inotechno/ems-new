@@ -113,6 +113,12 @@ class AbsentRequestForm extends BaseComponent
             $this->reset();
             $this->alert('success', 'Absent Request created successfully');
 
+            activity()
+                    ->causedBy($this->authUser) // Pengguna yang melakukan login
+                    ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+                    ->event('create absent request')
+                    ->log("$this->authUser->name telah membuat Absent Request");
+
             return redirect()->route('absent-request.index');
         } catch (\Exception $e) {
             $this->alert('error', $e->getMessage());
@@ -140,6 +146,12 @@ class AbsentRequestForm extends BaseComponent
 
             $this->reset();
             $this->alert('success', 'Absent Request updated successfully');
+
+            activity()
+                    ->causedBy($this->authUser) // Pengguna yang melakukan login
+                    ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+                    ->event('update absent request')
+                    ->log("$this->authUser->name telah mengubah Absent Request");
 
             return redirect()->route('absent-request.index');
         } catch (\Exception $e) {

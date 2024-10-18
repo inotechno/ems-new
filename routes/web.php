@@ -134,8 +134,6 @@ Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
     Route::group(['prefix' => 'attendance'], function () {
         Route::get('/', AttendanceIndex::class)->name('attendance.index')->middleware(['can:view:attendance']);
         Route::get('create', AttendanceCreate::class)->name('attendance.create');
-        // Route::get('detail/{id}', AttendanceDetail::class)->name('attendance.detail');
-        // Route::get('edit/{id}', AttendanceForm::class)->name('attendance.edit');
     });
 
     Route::group(['prefix' => 'attendance-temporary'], function () {
@@ -145,22 +143,12 @@ Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
     Route::group(['prefix' => 'visit'], function () {
         Route::get('/', VisitIndex::class)->name('visit.index')->middleware(['can:view:visit']);
         Route::get('create', VisitCreate::class)->name('visit.create');
-        // Route::get('detail/{id}', AttendanceDetail::class)->name('visit.detail');
-        // Route::get('edit/{id}', AttendanceForm::class)->name('visit.edit');
     });
 
     Route::get('/daily-report-all', DailyReportAll::class)->name('daily-report.all')->middleware('can:view:daily-report-all');
     Route::get('/absent-request-all', AbsentRequestAll::class)->name('absent-request.all')->middleware('can:view:absent-request-all');
     Route::get('/leave-request-all', LeaveRequestAll::class)->name('leave-request.all')->middleware('can:view:leave-request-all');
     Route::get('/financial-request-all', FinancialRequestAll::class)->name('financial-request.all')->middleware('can:view:financial-request-all');
-
-    // Route::get('site', 'path.to.view')->name('site.index');
-    // Route::get('department', 'path.to.view')->name('department.index');
-    // Route::get('role', 'path.to.view')->name('role.index');
-    // Route::get('user', 'path.to.view')->name('user.index');
-    // Route::get('employee', 'path.to.view')->name('employee.index');
-    // Route::get('attendance', 'path.to.view')->name('attendance.index');
-    // Route::get('attendance-temporary', 'path.to.view')->name('attendance-temporary.index');
 
     Route::group(['prefix' => 'daily-report'], function () {
         Route::get('/', DailyReportIndex::class)->name('daily-report.index')->middleware('can:view:daily-report');

@@ -97,6 +97,12 @@ class LeaveRequestItem extends BaseComponent
         // Periksa dan perbarui status isApproved pada AbsentRequest
         $this->leave_request->checkAndUpdateApprovalStatus();
 
+        activity()
+            ->causedBy($this->authUser) // Pengguna yang melakukan login
+            ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+            ->event('approve leave request')
+            ->log("$this->authUser->name telah approve Leave Request");
+
         $this->alert('success', 'Leave Request approved successfully');
         $this->dispatch('refreshIndex');
     }
@@ -121,6 +127,12 @@ class LeaveRequestItem extends BaseComponent
         // Periksa dan perbarui status isApproved pada AbsentRequest
         $this->leave_request->checkAndUpdateApprovalStatus();
 
+        activity()
+            ->causedBy($this->authUser) // Pengguna yang melakukan login
+            ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+            ->event('reject leave request')
+            ->log("$this->authUser->name telah reject Leave Request");
+
         $this->alert('success', 'Leave Request rejected successfully');
         $this->dispatch('refreshIndex');
     }
@@ -131,6 +143,13 @@ class LeaveRequestItem extends BaseComponent
         // dd($this->leave_request);
         $this->leave_request->delete();
         $this->alert('success', 'Leave Request deleted successfully');
+
+        activity()
+            ->causedBy($this->authUser) // Pengguna yang melakukan login
+            ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+            ->event('delete leave request')
+            ->log("$this->authUser->name telah delete Leave Request");
+
         $this->dispatch('refreshIndex');
     }
 

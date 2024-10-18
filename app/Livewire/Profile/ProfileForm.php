@@ -2,17 +2,22 @@
 
 namespace App\Livewire\Profile;
 
+use App\Livewire\BaseComponent;
 use App\Models\Employee;
 use Hash;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManager;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
-use Str;
+use Illuminate\Support\Str;
 use App\Models\User;
 use Livewire\Attributes\On;
+use Livewire\WithFileUploads;
+use Intervention\Image\Drivers\Gd\Driver;
 
-class ProfileForm extends Component
+class ProfileForm extends BaseComponent
 {
-    use LivewireAlert;
+    use LivewireAlert, WithFileUploads;
     public $employee;
 
     public $name,
@@ -26,9 +31,12 @@ class ProfileForm extends Component
     $place_of_birth,
     $gender,
     $marital_status,
-    $old_password, $new_password, $confirm_password,$password_string,
-    $religion;
-
+    $old_password, $new_password, $confirm_password, $password_string,
+    $religion,
+    $avatar,
+    $previewAvatar = "https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg",
+    $avatar_url,
+    $avatar_path;
 
     public $user;
 
@@ -48,9 +56,14 @@ class ProfileForm extends Component
             $this->gender = $this->employee->gender;
             $this->marital_status = $this->employee->marital_status;
             $this->religion = $this->employee->religion;
+            $this->avatar_url = $this->employee->user->avatar_url;
+            $this->avatar_path = $this->employee->user->avatar_path;
 
+            // dd($this->avatar_url);
             $this->dispatch('change-select-form');
         }
+
+        $this->authorize('view', $this->employee);
     }
 
     public function save()
@@ -67,6 +80,7 @@ class ProfileForm extends Component
                 'gender' => 'nullable|in:male,female',
                 'marital_status' => 'nullable|string|max:255',
                 'religion' => 'nullable|string|max:255',
+                'avatar' => 'nullable|image|max:2048',
             ]);
 
             if ($this->new_password || $this->confirm_password || $this->old_password) {
@@ -88,6 +102,37 @@ class ProfileForm extends Component
                 $this->user->password = Hash::make($this->new_password);
             }
 
+            $uid = (string) Str::uuid();
+            $avatarPath = null;
+            $avatarUrl = null;
+
+            if ($this->avatar) {
+                // Generate nama file random menggunakan UUID
+                $imageName = $uid . '.' . $this->avatar->getClientOriginalExtension();
+                // Store avatar in GCS using Laravel Storage
+                $disk = Storage::disk('gcs');
+                $avatarPath = $disk->putFileAs('avatars', $this->avatar, $imageName);
+
+                // Get the full public URL of the uploaded image
+                $avatarUrl = $disk->url($avatarPath);
+
+                $manager = new ImageManager(new Driver());
+
+                // Buat thumbnail
+                $thumbnailImage = $manager->read($this->avatar->getRealPath())
+                    ->scale(150, 150); // ukuran thumbnail
+
+                // Simpan thumbnail ke GCS
+                $thumbnailPath = 'avatars/thumbnails/' . $imageName;
+                $disk->put($thumbnailPath, (string) $thumbnailImage->toPng());
+
+                // URL untuk thumbnail
+                $thumbnailUrl = $disk->url($thumbnailPath);
+
+                if ($this->avatar_path) {
+                    $disk->delete($this->avatar_path);
+                }
+            }
 
             $this->user->update([
                 'username' => $this->username,
@@ -95,6 +140,10 @@ class ProfileForm extends Component
                 'email' => $this->email,
                 'password_string' => $this->user->password_string,
                 'password' => $this->user->password,
+                'avatar_path' => $avatarPath,
+                'avatar_url' => $avatarUrl,
+                'avatar_thumbnail_path' => $thumbnailPath,
+                'avatar_thumbnail_url' => $thumbnailUrl,
             ]);
 
             $this->employee->update([
@@ -108,7 +157,11 @@ class ProfileForm extends Component
                 'leave_remaining' => $this->leave_remaining,
             ]);
 
-
+            activity()
+                ->causedBy($this->authUser) // Pengguna yang melakukan login
+                ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+                ->event('update profile')
+                ->log("$this->authUser->name telah mengupdate profile");
 
             $this->alert('success', 'Update Profile successfully');
             return redirect()->route('profile.index');
