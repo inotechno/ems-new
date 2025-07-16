@@ -41,7 +41,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-8" wire:ignore.self>
+            <div class="col-lg-8" wire:ignore>
                 <div id="line-chart" class="apex-charts" wire:key="chart-{{ $chartKey }}"></div>
             </div>
 
