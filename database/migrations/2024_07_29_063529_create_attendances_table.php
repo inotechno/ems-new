@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('uid')->nullable();
+            $table->string('uid')->nullable();
             $table->foreignId('employee_id')->constrained()->cascadeOnDelete();
             $table->foreignId('machine_id')->nullable()->constrained()->nullOnDelete()->cascadeOnUpdate();
             $table->foreignId('attendance_method_id')->nullable()->constrained()->nullOnDelete()->cascadeOnUpdate();
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('longitude')->nullable();
             $table->string('latitude')->nullable();
             $table->string('distance')->nullable();
-            $table->string('notes')->nullable();
+            $table->text('notes')->nullable();
             $table->string('image_path')->nullable();
             $table->string('image_url')->nullable();
 

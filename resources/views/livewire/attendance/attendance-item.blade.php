@@ -23,7 +23,7 @@
         @if ($checkIn != null)
             <div class="d-flex">
                 <div class="flex-shrink-0 me-3 align-self-center">
-                    <img class="rounded avatar-md" src="{{ $checkIn['image_url'] }}" alt="{{ $checkIn['image_url'] }}">
+                    <img class="rounded avatar-md" src="{{ $checkIn['image_url'] ?? asset('images/users/avatar-1.jpg') }}" alt="{{ $checkIn['image_url'] ?? asset('images/users/avatar-1.jpg') }}">
                 </div>
                 <div class="flex-grow-1">
                     @if ($checkIn['attendance_method']['id'] == 3)
