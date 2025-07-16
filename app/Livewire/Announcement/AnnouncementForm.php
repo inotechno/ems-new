@@ -98,8 +98,8 @@ class AnnouncementForm extends BaseComponent
             activity()
                 ->causedBy($this->authUser) // Pengguna yang melakukan login
                 ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-                ->event('create announcement')
-                ->log("$this->authUser->name telah membuat Announcement");
+                ->event('create')
+                ->log("{$this->authUser->name} telah membuat Announcement");
 
             return redirect()->route('announcement.index');
         } catch (\Exception $e) {
@@ -122,8 +122,8 @@ class AnnouncementForm extends BaseComponent
             activity()
                 ->causedBy($this->authUser) // Pengguna yang melakukan login
                 ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-                ->event('update announcement')
-                ->log("$this->authUser->name telah mengubah Announcement");
+                ->event('update')
+                ->log("{$this->authUser->name} telah mengubah Announcement");
 
             return redirect()->route('announcement.index');
         } catch (\Exception $e) {

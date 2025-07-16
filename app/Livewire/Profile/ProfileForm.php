@@ -105,6 +105,8 @@ class ProfileForm extends BaseComponent
             $uid = (string) Str::uuid();
             $avatarPath = null;
             $avatarUrl = null;
+            $thumbnailPath = null;
+            $thumbnailUrl = null;
 
             if ($this->avatar) {
                 // Generate nama file random menggunakan UUID
@@ -160,8 +162,8 @@ class ProfileForm extends BaseComponent
             activity()
                 ->causedBy($this->authUser) // Pengguna yang melakukan login
                 ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-                ->event('update profile')
-                ->log("$this->authUser->name telah mengupdate profile");
+                ->event('update')
+                ->log("{$this->authUser->name} telah mengupdate profile");
 
             $this->alert('success', 'Update Profile successfully');
             return redirect()->route('profile.index');

@@ -11,7 +11,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
-use Livewire\Component;
 
 class LeaveRequestForm extends BaseComponent
 {
@@ -112,20 +111,38 @@ class LeaveRequestForm extends BaseComponent
 
             // Kirim email ke recipients
             foreach ($recipients as $recipient) {
+                $employee = $recipient->employee;
+                createNotification(
+                    $employee->user_id,
+                    $this->authUser->name . ' make Leave Request',
+                    $this->authUser->name . 'make-leave-request',
+                    'Leave Request',
+                    $this->authUser->name . ' telah membuat pengajuan cuti dari tanggal ' . $this->start_date . ' sampai ' . $this->end_date . ', jumlah hari ' . $period . ', catatan ' . $this->notes,
+                    route('leave-request.detail', $leave_request->id)
+                );
+
                 SendEmailJob::dispatch($recipient->employee->user, 'recipient-leave-request', ['leave_request' => $leave_request], $employee->user);
             }
 
             // Kirim email menggunakan job
             SendEmailJob::dispatch($employee->user, 'sender-leave-request', ['leave_request' => $leave_request]);
 
-            $this->reset();
             $this->alert('success', 'Absent Request created successfully');
+
+            createNotification(
+                $this->authUser->id,
+                'You have Created Leave Request',
+                'you-have-create-leave-request',
+                'Leave Request',
+                'Anda telah membuat pengajuan cuti dari tanggal ' . $this->start_date . ' sampai ' . $this->end_date . ', jumlah hari ' . $period . ', catatan ' . $this->notes,
+                route('leave-request.detail', $leave_request->id)
+            );
 
             activity()
                 ->causedBy($this->authUser) // Pengguna yang melakukan login
                 ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-                ->event('create leave request')
-                ->log("$this->authUser->name telah membuat Absent Request");
+                ->event('create')
+                ->log("{$this->authUser->name} telah membuat Absent Request");
 
             return redirect()->route('leave-request.index');
         } catch (\Exception $e) {
@@ -159,10 +176,9 @@ class LeaveRequestForm extends BaseComponent
             activity()
                 ->causedBy($this->authUser) // Pengguna yang melakukan login
                 ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-                ->event('update leave request')
-                ->log("$this->authUser->name telah mengubah Absent Request");
+                ->event('update')
+                ->log("{$this->authUser->name} telah mengubah Absent Request");
 
-            $this->reset();
             $this->alert('success', 'Absent Request updated successfully');
 
             return redirect()->route('leave-request.index');

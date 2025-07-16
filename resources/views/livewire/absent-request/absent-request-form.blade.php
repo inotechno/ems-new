@@ -89,6 +89,13 @@
                                             <input type="date" class="form-control @error('end_date') is-invalid @enderror" id="end_date" wire:model="end_date" disabled>
                                         </div>
                                     </div>
+
+                                    <div class="col-md">
+                                        <div class="mb-3">
+                                            <label for="total_days" class="form-label">Total Day</label>
+                                            <input type="number" class="form-control @error('total_days') is-invalid @enderror" id="total_days" wire:model="total_days" disabled>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 

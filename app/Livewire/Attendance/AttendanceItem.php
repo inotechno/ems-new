@@ -9,6 +9,7 @@ class AttendanceItem extends Component
 {
     #[Reactive]
     public $attendance;
+    public $day;
     public $employee;
     public $checkIn;
     public $checkOut;
@@ -24,6 +25,7 @@ class AttendanceItem extends Component
      * This method is called when the component is first initialized.
      * It sets the following properties:
      * - $this->employee
+     * - $this->day
      * - $this->checkIn
      * - $this->checkOut
      * - $this->duration_string
@@ -37,6 +39,7 @@ class AttendanceItem extends Component
     public function mount()
     {
         $this->employee = $this->attendance['employee'];
+        $this->day = date('d/m', strtotime($this->attendance['date']));
         $this->checkIn = $this->attendance['check_in'];
         $this->checkOut = $this->attendance['check_out'];
         $this->duration_string = $this->attendance['duration_string'];

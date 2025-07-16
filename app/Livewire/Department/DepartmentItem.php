@@ -61,9 +61,9 @@ class DepartmentItem extends BaseComponent
         $this->alert('success', 'Department deleted successfully');
 
         activity()
-            ->causedBy(Auth::user()) // Pengguna yang melakukan login
+            ->causedBy($this->authUser) // Pengguna yang melakukan login
             ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-            ->event('delete department')
+            ->event('delete')
             ->log("{$this->authUser->name} telah menghapus department");
 
         $this->dispatch('refreshIndex');

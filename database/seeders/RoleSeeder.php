@@ -185,6 +185,19 @@ class RoleSeeder extends Seeder
             // Profile
             'view:profile' => ['Employee', 'HR', 'Director', 'Finance'],
             'update:profile' => ['Employee', 'HR', 'Director', 'Finance'],
+
+            // Payroll
+            'view:payroll' => ['Finance', 'Director', 'Administrator'],
+            'create:payroll' => ['Finance', 'Administrator'],
+            'update:payroll' => ['Finance', 'Administrator'],
+            'delete:payroll' => ['Finance', 'Administrator'],
+
+            // Slip Gaji
+            'view:slip-gaji' => ['Employee', 'Finance', 'Director', 'Administrator'],
+
+            // Activity
+            'view:activity' => ['Administrator', 'HR', 'Director', 'Finance', 'Employee'],
+            'view:activity-all' => ['Administrator', 'HR', 'Director', 'Finance'],
         ];
 
         foreach ($permissions as $permissionName => $roles) {

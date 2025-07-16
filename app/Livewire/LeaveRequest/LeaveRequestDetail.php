@@ -14,6 +14,11 @@ class LeaveRequestDetail extends Component
     public function mount($id)
     {
         $this->leave_request = LeaveRequest::with('employee.user', 'recipients.employee.user')->find($id);
+
+        if (!$this->leave_request) {
+            return redirect()->route('leave-request.index');
+        }
+
         $this->notes = $this->leave_request->notes;
         $this->isApproved = $this->leave_request->is_approved;
         $this->start_date = $this->leave_request->start_date->format('Y-m-d');

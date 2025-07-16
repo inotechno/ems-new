@@ -20,6 +20,7 @@ class MachineSheetImport implements ToModel, WithHeadingRow
         // dd($row);
         $id = $row['id'];
         $name = $row['name'];
+        $site_id = $row['site_id'];
         $ip_address = $row['ip_address'];
         $port = $row['port'];
         $comkey = $row['comkey'];
@@ -30,6 +31,7 @@ class MachineSheetImport implements ToModel, WithHeadingRow
             'id' => $id,
         ], [
             'name' => $name,
+            'site_id' => $site_id,
             'ip_address' => $ip_address,
             'port' => $port,
             'comkey' => $comkey,

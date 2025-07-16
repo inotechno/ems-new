@@ -6,6 +6,7 @@ use App\Livewire\BaseComponent;
 use App\Livewire\Forms\MachineForm as FormsMachineForm;
 use App\Models\Helper;
 use App\Models\Machine;
+use App\Models\Site;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -14,14 +15,16 @@ class MachineForm extends BaseComponent
 {
     use LivewireAlert;
 
-    public $name, $ip_address, $port, $comkey, $password, $is_active = 1, $machine_type_id;
+    public $name, $ip_address, $port, $site_id, $comkey, $password, $is_active = 1, $machine_type_id;
     public $machine_id;
     public $machine;
     public $statusForm = 'store';
     public $machineTypes;
+    public $sites;
 
     public function mount()
     {
+        $this->sites = Site::select('id', 'name')->get();
         $this->machineTypes = Helper::where('code', 'machine_type')->get();
     }
 
@@ -31,6 +34,7 @@ class MachineForm extends BaseComponent
         $this->ip_address = null;
         $this->port = null;
         $this->comkey = null;
+        $this->site_id = null;
         $this->password = null;
         $this->is_active = 1;
 
@@ -46,6 +50,7 @@ class MachineForm extends BaseComponent
         $this->machine = Machine::find($machine_id);
         $this->name = $this->machine->name;
         $this->ip_address = $this->machine->ip_address;
+        $this->site_id = $this->machine->site_id;
         $this->port = $this->machine->port;
         $this->comkey = $this->machine->comkey;
         $this->password = $this->machine->password;
@@ -61,10 +66,11 @@ class MachineForm extends BaseComponent
     {
         $this->validate([
             'name' => 'required',
+            'site_id' => 'required',
             'ip_address' => 'required|ip',
-            'port' => 'required',
-            'comkey' => 'required',
-            'password' => 'required',
+            'port' => 'nullable|numeric',
+            'comkey' => 'nullable|numeric',
+            'password' => 'nullable',
             'machine_type_id' => 'required',
         ]);
 
@@ -73,6 +79,7 @@ class MachineForm extends BaseComponent
                 $machine = Machine::create([
                     'name' => $this->name,
                     'ip_address' => $this->ip_address,
+                    'site_id' => $this->site_id,
                     'port' => $this->port,
                     'comkey' => $this->comkey,
                     'password' => $this->password,
@@ -89,14 +96,15 @@ class MachineForm extends BaseComponent
                 activity()
                     ->causedBy(auth()->user())
                     ->withProperties(['ip' => request()->ip()])
-                    ->event('create machine')
-                    ->log($this->authUser->name . ' telah membuat Email Template');
+                    ->event('create')
+                    ->log($this->authUser->name . ' telah membuat data machine');
 
                 $this->dispatch('refreshIndex');
                 $this->resetFormFields();
             } else {
                 $this->machine->update([
                     'name' => $this->name,
+                    'site_id' => $this->site_id,
                     'ip_address' => $this->ip_address,
                     'port' => $this->port,
                     'comkey' => $this->comkey,
@@ -114,8 +122,8 @@ class MachineForm extends BaseComponent
                 activity()
                     ->causedBy(auth()->user())
                     ->withProperties(['ip' => request()->ip()])
-                    ->event('update machine')
-                    ->log($this->authUser->name . ' telah mengubah Email Template');
+                    ->event('update')
+                    ->log($this->authUser->name . ' telah mengubah data machine');
 
                 $this->dispatch('refreshIndex');
                 $this->resetFormFields();

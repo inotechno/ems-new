@@ -32,7 +32,7 @@
                                     <div class="col-6">
                                         <div>
                                             <p class="text-muted text-truncate mb-2">Supervisor</p>
-                                            <h5 class="mb-0">{{ $supervisor->user->name }}</h5>
+                                            <h5 class="mb-0">{{ $supervisor->user->name ?? '-' }}</h5>
                                         </div>
                                     </div>
 

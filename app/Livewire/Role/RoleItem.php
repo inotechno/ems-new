@@ -47,8 +47,8 @@ class RoleItem extends BaseComponent
         activity()
             ->causedBy($this->authUser) // Pengguna yang melakukan login
             ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-            ->event('delete role')
-            ->log("$this->authUser->name telah menghapus role");
+            ->event('delete')
+            ->log("{$this->authUser->name} telah menghapus role");
 
         $this->dispatch('refreshIndex');
     }

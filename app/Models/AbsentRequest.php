@@ -21,7 +21,8 @@ class AbsentRequest extends Model
         'file_path',
         'file_url',
         'is_approved',
-        'type_absent'
+        'type_absent',
+        'total_days',
     ];
 
     protected $casts = [

@@ -2,73 +2,160 @@
     @livewire('component.page.breadcrumb', ['breadcrumbs' => [['name' => 'Dashboard', 'url' => '/']]])
 
     <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="d-flex">
-                                <div class="flex-shrink-0 me-3">
-                                    <img src="{{ $avatar_url ?? asset('images/users/avatar-1.jpg') }}" alt=""
-                                        class="avatar-lg rounded-circle img-thumbnail">
-                                </div>
-                                <div class="flex-grow-1 align-self-center">
-                                    <div class="text-muted">
-                                        <p class="mb-2">Welcome to {{ config('setting.app_name') }}</p>
-                                        <h5 class="mb-1">{{ $name }}</h5>
-                                        <p class="mb-0">UI / UX Designer</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6 align-self-center">
-                            <div class="text-lg-center mt-4 mt-lg-0">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <div>
-                                            <p class="text-muted text-truncate mb-2">Total Projects</p>
-                                            <h5 class="mb-0">48</h5>
-                                        </div>
-                                    </div>
-                                    <div class="col-4">
-                                        <div>
-                                            <p class="text-muted text-truncate mb-2">Projects</p>
-                                            <h5 class="mb-0">40</h5>
-                                        </div>
-                                    </div>
-                                    <div class="col-4">
-                                        <div>
-                                            <p class="text-muted text-truncate mb-2">Clients</p>
-                                            <h5 class="mb-0">18</h5>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- <div class="col-lg-4 d-none d-lg-block">
-                            <div class="clearfix mt-4 mt-lg-0">
-                                <div class="dropdown float-end">
-                                    <button class="btn btn-primary" type="button" data-bs-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        <i class="bx bxs-cog align-middle me-1"></i> Setting
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="#">Action</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
-                                        <a class="dropdown-item" href="#">Something else</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
-                    </div>
-                    <!-- end row -->
-                </div>
-            </div>
+        <div class="col-md-12">
+            @livewire('component.widget.dashboard-profile')
         </div>
     </div>
+
+    @unlessrole('Director')
+        <div class="row">
+            <div class="col-md-3">
+                @livewire(
+                    'component.card-mini',
+                    [
+                        'title' => 'Total Daily Report',
+                        'value' => $totalDailyReport,
+                        'badge' => 'Monthly',
+                    ],
+                    'total-daily-report'
+                )
+            </div>
+
+            <div class="col-md-3">
+                @livewire(
+                    'component.card-mini',
+                    [
+                        'title' => 'Total Day Leave',
+                        'value' => $totalDayLeaveRequest,
+                        'badge' => 'Monthly',
+                    ],
+                    'total-day-leave-request'
+                )
+            </div>
+
+            <div class="col-md-3">
+                @livewire(
+                    'component.card-mini',
+                    [
+                        'title' => 'Total Day Present',
+                        'value' => $totalDayPresent,
+                        'badge' => 'Monthly',
+                    ],
+                    'total-day-present'
+                )
+            </div>
+
+            <div class="col-md-3">
+                @livewire(
+                    'component.card-mini',
+                    [
+                        'title' => 'Total Amount Financial Request',
+                        'value' => $totalAmountFinancialRequest,
+                        'badge' => 'Monthly',
+                    ],
+                    'total-amount-financial-request'
+                )
+            </div>
+        </div>
+    @else
+        <div class="row">
+            <div class="col-md-2">
+                @livewire(
+                    'component.card-mini',
+                    [
+                        'title' => 'Total Daily Report',
+                        'value' => $totalDailyReportYesterday,
+                        'badge' => 'Yesterday',
+                    ],
+                    'total-daily-report-yesterday'
+                )
+            </div>
+
+            <div class="col-md-2">
+                @livewire(
+                    'component.card-mini',
+                    [
+                        'title' => 'Total Leave',
+                        'value' => $totalLeaveRequestYesterday,
+                        'badge' => 'Yesterday',
+                    ],
+                    'total-day-leave-request-yesterday'
+                )
+            </div>
+
+            <div class="col-md-2">
+                @livewire(
+                    'component.card-mini',
+                    [
+                        'title' => 'Total Present',
+                        'value' => $totalPresentYesterday,
+                        'badge' => 'Yesterday',
+                    ],
+                    'total-day-present-yesterday'
+                )
+            </div>
+
+            <div class="col-md-2">
+                @livewire(
+                    'component.card-mini',
+                    [
+                        'title' => 'Total Absent',
+                        'value' => $totalAbsentRequestYesterday,
+                        'badge' => 'Yesterday',
+                    ],
+                    'total-day-absent-request-yesterday'
+                )
+            </div>
+             <div class="col-md-2">
+                @livewire(
+                    'component.card-mini',
+                    [
+                        'title' => 'Total Sick',
+                        'value' => $totalSickAsbentRequestYesterday,
+                        'badge' => 'Yesterday',
+                    ],
+                    'total-day-absent-request-yesterday'
+                )
+            </div>
+            <div class="col-md-2">
+                @livewire(
+                    'component.card-mini',
+                    [
+                        'title' => 'Total Visit',
+                        'value' => $totalVisitYesterday,
+                        'badge' => 'Yesterday',
+                    ],
+                    'total-visit-yesterday'
+                )
+            </div>
+        </div>
+    @endunlessrole
+
+    @hasrole('Employee')
+        <div class="row">
+            <div class="col-md-12">
+                @livewire('component.widget.working-hours-analytic', ['user' => $authUser])
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md">
+                @livewire('component.widget.working-day-analytic')
+            </div>
+
+            <div class="col-md">
+                @livewire('component.widget.activity-card')
+            </div>
+        </div>
+    @endhasrole
+
+    @can('view:attendance-all')
+        <div class="row">
+            <div class="col-md-6">
+                @livewire('component.widget.table.working-hours-analytics')
+            </div>
+        </div>
+    @endcan
 
     {{-- <div class="row">
         <div class="col-xl-4">
@@ -280,11 +367,17 @@
     </div> --}}
     <!-- end row -->
 
-    @push('js')
+    @push('styles')
         <!-- apexcharts -->
         <script src="{{ asset('libs/apexcharts/apexcharts.min.js') }}"></script>
+        <link href="{{ asset('libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
 
         <!-- dashboard init -->
-        <script src="{{ asset('js/pages/dashboard.init.js') }}"></script>
+        {{-- <script src="{{ asset('js/pages/dashboard.init.js') }}"></script> --}}
+    @endpush
+
+    @push('js')
+        <script src="{{ asset('libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     @endpush
 </div>

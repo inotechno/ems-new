@@ -4,10 +4,8 @@ namespace App\Livewire\LeaveRequest;
 
 use App\Jobs\SendEmailJob;
 use App\Livewire\BaseComponent;
-use Livewire\Component;
 use App\Models\LeaveRequest;
 use App\Models\RequestValidate;
-use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 
@@ -94,14 +92,24 @@ class LeaveRequestItem extends BaseComponent
 
         SendEmailJob::dispatch($this->leave_request->employee->user, 'approved-leave-request', ['leave_request' => $this->leave_request], $this->authUser);
 
+
         // Periksa dan perbarui status isApproved pada AbsentRequest
         $this->leave_request->checkAndUpdateApprovalStatus();
+
+        createNotification(
+            $this->leave_request->employee->user->id,
+            'Approved Leave Request',
+            'approved-leave-request',
+            'Leave Request',
+            'Leave Request has been approved',
+            route('leave-request.detail', $this->leave_request->id)
+        );
 
         activity()
             ->causedBy($this->authUser) // Pengguna yang melakukan login
             ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-            ->event('approve leave request')
-            ->log("$this->authUser->name telah approve Leave Request");
+            ->event('approve')
+            ->log("{$this->authUser->name} telah approve Leave Request");
 
         $this->alert('success', 'Leave Request approved successfully');
         $this->dispatch('refreshIndex');
@@ -126,12 +134,20 @@ class LeaveRequestItem extends BaseComponent
 
         // Periksa dan perbarui status isApproved pada AbsentRequest
         $this->leave_request->checkAndUpdateApprovalStatus();
+        createNotification(
+            $this->leave_request->employee->user->id,
+            'Rejected Leave Request',
+            'rejected-leave-request',
+            'Leave Request',
+            'Leave Request has been rejected',
+            route('leave-request.detail', $this->leave_request->id)
+        );
 
         activity()
             ->causedBy($this->authUser) // Pengguna yang melakukan login
             ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
             ->event('reject leave request')
-            ->log("$this->authUser->name telah reject Leave Request");
+            ->log("{$this->authUser->name} telah reject Leave Request");
 
         $this->alert('success', 'Leave Request rejected successfully');
         $this->dispatch('refreshIndex');
@@ -147,8 +163,8 @@ class LeaveRequestItem extends BaseComponent
         activity()
             ->causedBy($this->authUser) // Pengguna yang melakukan login
             ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-            ->event('delete leave request')
-            ->log("$this->authUser->name telah delete Leave Request");
+            ->event('delete')
+            ->log("{$this->authUser->name} telah delete Leave Request");
 
         $this->dispatch('refreshIndex');
     }

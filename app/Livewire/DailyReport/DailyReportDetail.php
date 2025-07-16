@@ -15,13 +15,24 @@ class DailyReportDetail extends BaseComponent
     public function mount($id)
     {
         $this->daily_report = DailyReport::find($id);
+
+        if(!$this->daily_report) {
+            return redirect()->route('daily-report.index');
+        }
+
         $this->setReadDailyReport();
-        $this->date = $this->daily_report->date->format('d, M Y');
+        $this->date = $this->daily_report->date->format('d M Y');
         $this->employee = $this->daily_report->employee;
         $this->description = $this->daily_report->description;
         $this->day = $this->daily_report->day;
         $this->recipients = $this->daily_report->dailyReportRecipients;
         $this->reads = $this->daily_report->dailyReportReads;
+
+        activity()
+            ->causedBy($this->authUser) // Pengguna yang melakukan login
+            ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+            ->event('read')
+            ->log("{$this->authUser->name} telah melihat daily report");
     }
 
     public function setReadDailyReport()

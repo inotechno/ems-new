@@ -7,7 +7,7 @@
                 <div class="card-body">
                     <h4 class="card-title d-flex mb-3">
                         <span class="flex-grow-1">Recipients</span>
-                        @if($isApproved)
+                        @if ($isApproved)
                             <span class="badge bg-success text-white text-end">Approved</span>
                         @else
                             <span class="badge bg-danger text-white text-end">Pending</span>
@@ -48,31 +48,26 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-3">Detail</h4>
-                    <div class="row">
-                        <div class="col-lg">
-                            <label for="type_leave" class="mb-3">Leave Period</label>
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" value="{{ $leave_period }}">
-                                <span class="input-group-text bg-primary text-white" id="option-date">Hari</span>
-                            </div>
-                        </div>
 
-                        <div class="col-lg">
-                            <label for="type_leave" class="mb-3">Already Taken</label>
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" wire:model="leave_taken" readonly>
-                                <span class="input-group-text bg-primary text-white" id="option-date">Hari</span>
-                            </div>
-                        </div>
-
-                        <div class="col-lg">
-                            <label for="type_leave" class="mb-3">Remaining</label>
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" wire:model="leave_remaining" readonly>
-                                <span class="input-group-text bg-primary text-white" id="option-date">Hari</span>
-                            </div>
-                        </div>
+                    <div class="table-responsive">
+                        <table class="table mb-0">
+                            <tbody>
+                                <tr>
+                                    <td>Remaining Leave :</td>
+                                    <td>{{ $leave_remaining }} Hari</td>
+                                </tr>
+                                <tr>
+                                    <td>Leave Period :</td>
+                                    <td>{{ $leave_period }} Hari</td>
+                                </tr>
+                                <tr>
+                                    <td>Balance After Request : </td>
+                                    <td>{{ $leave_taken }} Hari</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
+
                 </div>
             </div>
         </div>

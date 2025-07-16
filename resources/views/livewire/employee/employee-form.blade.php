@@ -1,13 +1,13 @@
 <div>
     @livewire('component.page.breadcrumb', ['breadcrumbs' => [['name' => 'Application', 'url' => '/'], ['name' => 'Employee', 'url' => route('employee.index')], ['name' => $type == 'create' ? 'Create' : 'Edit employee ' . $employee->user->name]]], key('breadcrumb'))
 
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title mb-4">
-                        {{ $type == 'create' ? 'Create Employee' : 'Edit Employee ' . $employee->name }}</h4>
-                    <form wire:submit.prevent="save" class="needs-validation" wire:ignore.self>
+    <form wire:submit.prevent="save" class="needs-validation" wire:ignore.self>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">
+                            {{ $type == 'create' ? 'Create Employee' : 'Edit Employee ' . $employee->name }}</h4>
                         <div class="row mb-4">
                             <label for="avatar" class="col-form-label col-lg-2">Avatar</label>
                             <div class="col-lg-10">
@@ -46,7 +46,8 @@
                         </div>
 
                         <div class="row mb-4">
-                            <label for="citizen_id" class="col-form-label col-lg-2"> Citizen ID</label>
+                            <label for="citizen_id" class="col-form-label col-lg-2"> Citizen ID <span
+                                    class="text-danger">*</span></label>
                             <div class="col-lg-10">
                                 <input id="citizen_id" name="citizen_id" wire:model="citizen_id" type="text"
                                     class="form-control @error('citizen_id') is-invalid @enderror"
@@ -58,8 +59,10 @@
                                 @enderror
                             </div>
                         </div>
+
                         <div class="row mb-4">
-                            <label for="name" class="col-form-label col-lg-2"> Name</label>
+                            <label for="name" class="col-form-label col-lg-2"> Name <span
+                                    class="text-danger">*</span></label>
                             <div class="col-lg-10">
                                 <input id="name" name="name" wire:model="name" type="text"
                                     class="form-control @error('name') is-invalid @enderror"
@@ -85,7 +88,8 @@
                             </div>
                         </div>
                         <div class="row mb-4">
-                            <label for="email" class="col-form-label col-lg-2"> Email</label>
+                            <label for="email" class="col-form-label col-lg-2"> Email <span
+                                    class="text-danger">*</span></label>
                             <div class="col-lg-10">
                                 <input id="email" name="email" wire:model="email" type="email"
                                     class="form-control @error('email') is-invalid @enderror"
@@ -143,7 +147,8 @@
 
                         {{-- select-gender --}}
                         <div class="row mb-4" wire:ignore>
-                            <label for="gender" class="col-form-label col-lg-2">Select Gender</label>
+                            <label for="gender" class="col-form-label col-lg-2">Select Gender <span
+                                    class="text-danger">*</span></label>
                             <div class="col-lg-10">
                                 <select
                                     class="form-control select2 @error('gender') is-invalid @enderror select-gender"
@@ -209,17 +214,20 @@
                         @can('update:employee')
                             {{-- select-role --}}
                             <div class="row mb-4" wire:ignore>
-                                <label for="role" class="col-form-label col-lg-2">Select Role</label>
+                                <label for="selectedRoles" class="col-form-label col-lg-2">Select Roles <span
+                                        class="text-danger">*</span></label>
                                 <div class="col-lg-10">
-                                    <select class="form-control select2 @error('role') is-invalid @enderror select-role"
-                                        id="role" wire:model="role" data-placeholder="Select Role">
-                                        <option value="">Select Role</option>
+                                    <select
+                                        class="form-control select2 @error('selectedRoles') is-invalid @enderror select-role"
+                                        multiple id="selectedRoles" wire:model="selectedRoles"
+                                        data-placeholder="Select Roles">
+                                        <option value="">Select Roles</option>
                                         @foreach ($roles as $rl)
                                             <option value="{{ $rl->name }}">{{ $rl->name }}</option>
                                         @endforeach
                                     </select>
 
-                                    @error('status')
+                                    @error('selectedRoles')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -229,7 +237,8 @@
 
                             {{-- select-position --}}
                             <div class="row mb-4" wire:ignore>
-                                <label for="position_id" class="col-form-label col-lg-2">Select Position</label>
+                                <label for="position_id" class="col-form-label col-lg-2">Select Position <span
+                                        class="text-danger">*</span></label>
                                 <div class="col-lg-10">
                                     <select
                                         class="form-control select2 @error('position_id') is-invalid @enderror select-position_id"
@@ -251,18 +260,133 @@
                             </div>
                         @endcan
 
-                        <div class="row justify-content-end">
-                            <div class="col-lg-10">
-                                <button type="submit" class="btn btn-primary" wire:loading.attr="disabled"
-                                    wire:target="save">{{ ucfirst($type) }} Employee</button>
-                            </div>
-                        </div>
-                    </form>
-
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+
+        {{-- <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">Sallary Component</h4>
+                        <div class="row mb-4">
+                            <label for="basic_salary" class="col-form-label col-lg-4">Basic Salary</label>
+                            <div class="col-lg-8">
+                                <input id="basic_salary" name="basic_salary" wire:model="basic_salary"
+                                    type="number" class="form-control @error('basic_salary') is-invalid @enderror"
+                                    placeholder="Enter Basic Salary...">
+                                @error('basic_salary')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <label for="allowance_transport" class="col-form-label col-lg-4">Transportation
+                                Allowance</label>
+                            <div class="col-lg-8">
+                                <input id="allowance_transport" name="allowance_transport"
+                                    wire:model="allowance_transport" type="number"
+                                    class="form-control @error('allowance_transport') is-invalid @enderror"
+                                    placeholder="Enter Transportation Allowance...">
+                                @error('allowance_transport')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <label for="allowance_meal" class="col-form-label col-lg-4">Meal Allowance</label>
+                            <div class="col-lg-8">
+                                <input id="allowance_meal" name="allowance_meal" wire:model="allowance_meal"
+                                    type="number" class="form-control @error('allowance_meal') is-invalid @enderror"
+                                    placeholder="Enter Meal Allowance...">
+                                @error('allowance_meal')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <label for="allowance_position" class="col-form-label col-lg-4">Position Allowance</label>
+                            <div class="col-lg-8">
+                                <input id="allowance_position" name="allowance_position"
+                                    wire:model="allowance_position" type="number"
+                                    class="form-control @error('allowance_position') is-invalid @enderror"
+                                    placeholder="Enter Other Allowance...">
+                                @error('allowance_position')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <label for="allowance_overtime" class="col-form-label col-lg-4">Overtime Allowance</label>
+                            <div class="col-lg-8">
+                                <input id="allowance_overtime" name="allowance_overtime"
+                                    wire:model="allowance_overtime" type="number"
+                                    class="form-control @error('allowance_overtime') is-invalid @enderror"
+                                    placeholder="Enter Overtime Allowance...">
+                                @error('allowance_overtime')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <label for="allowance_other" class="col-form-label col-lg-4">Other Allowance</label>
+                            <div class="col-lg-8">
+                                <input id="allowance_other" name="allowance_other" wire:model="allowance_other"
+                                    type="number"
+                                    class="form-control @error('allowance_other') is-invalid @enderror"
+                                    placeholder="Enter Other Allowance...">
+                                @error('allowance_other')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <label for="salary_per_day" class="col-form-label col-lg-4">Salary Per Day</label>
+                            <div class="col-lg-8">
+                                <input id="salary_per_day" name="salary_per_day" wire:model="salary_per_day"
+                                    type="number" class="form-control @error('salary_per_day') is-invalid @enderror"
+                                    placeholder="Enter Salary Per Day...">
+                                @error('salary_per_day')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
+
+        <div class="row justify-content-end mb-3">
+            <div class="col-lg-12">
+                @can(['create:employee', 'update:employee'])
+                    <button type="submit" class="btn btn-primary" wire:loading.attr="disabled"
+                        wire:target="save">{{ ucfirst($type) }} Employee</button>
+                @endcan
+            </div>
+        </div>
+
+    </form>
 
     @push('styles')
         <link href="{{ asset('libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
@@ -288,7 +412,11 @@
                 });
 
                 $('.select-role').on('change', function() {
-                    Livewire.dispatch('changeSelectForm', ['role', this.value]);
+                    const selected = $(this).val(); // Ambil array dari multiple select
+                    Livewire.dispatch('changeSelectForm', {
+                        param: 'selectedRoles',
+                        value: selected
+                    });
                 });
 
                 $('.select-gender').on('change', function() {
@@ -299,16 +427,16 @@
                     var position_id = @json($position_id);
                     var religion = @json($religion);
                     var marital_status = @json($marital_status);
-                    var role = @json($role);
+                    var selectedRoles = @json($selectedRoles);
                     var gender = @json($gender);
 
-                    console.log(@json($role));
+                    console.log(@json($selectedRoles));
 
                     // console.log(@this.position_id); // Debugging output
                     $('.select-position_id').val(position_id).trigger('change');
                     $('.select-religion').val(religion).trigger('change');
                     $('.select-marital-status').val(marital_status).trigger('change');
-                    $('.select-role').val(role).trigger('change');
+                    $('.select-role').val(selectedRoles).trigger('change');
                     $('.select-gender').val(gender).trigger('change');
                 });
 

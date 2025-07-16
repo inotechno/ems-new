@@ -16,7 +16,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="title">Title</label>
+                                            <label for="title">Title <span class="text-danger">*</span></label>
                                             <input type="text"
                                                 class="form-control @error('title') is-invalid @enderror" id="title"
                                                 name="title" wire:model="title">
@@ -29,7 +29,7 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="amount">Amount</label>
+                                            <label for="amount">Amount <span class="text-danger">*</span></label>
                                             <input type="number"
                                                 class="form-control @error('amount') is-invalid @enderror"
                                                 id="amount" name="amount" wire:model="amount">
@@ -42,7 +42,8 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="financial_type_id" class="mb-3">Request Type</label>
+                                    <label for="financial_type_id" class="mb-3">Request Type <span
+                                            class="text-danger">*</span></label>
 
                                     <div class="d-flex gap-3">
                                         @foreach ($financial_types as $type)
@@ -128,7 +129,7 @@
                             <div class="col-md-6">
 
                                 <div class="mb-3" wire:ignore>
-                                    <label for="recipients" class="form-label">To Recipients</label>
+                                    <label for="recipients" class="form-label">To Recipients <span class="text-danger">*</span></label>
                                     <select name="recipients" wire:model="recipients"
                                         class="form-select select2-multiple" id="" multiple
                                         data-placeholder="Select recipients">

@@ -17,7 +17,13 @@ class Machine extends Model
         'is_active',
         'password',
         'machine_type_id',
+        'site_id',
     ];
+
+    public function site()
+    {
+        return $this->belongsTo(Site::class);
+    }
 
     public function machineType()
     {
@@ -32,5 +38,10 @@ class Machine extends Model
     public function attendanceTemps()
     {
         return $this->hasMany(AttendanceTemp::class);
+    }
+
+    public function logs()
+    {
+        return $this->hasMany(MachineLog::class);
     }
 }

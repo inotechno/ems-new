@@ -102,15 +102,15 @@
                 }
 
                 function initDatePicker() {
-                    $('#attendance-inputgroup').datepicker({
+                    $('#financial-request-inputgroup').datepicker({
                         format: 'yyyy-mm-dd',
                         autoclose: true,
                         todayHighlight: true,
-                        inputs: $('#attendance-inputgroup').find('input')
+                        inputs: $('#financial-request-inputgroup').find('input')
                     }).on('changeDate', function(e) {
                         // Update the Livewire property when date is selected
-                        let startDate = $('#attendance-inputgroup').find('input[name="start"]').val();
-                        let endDate = $('#attendance-inputgroup').find('input[name="end"]').val();
+                        let startDate = $('#financial-request-inputgroup').find('input[name="start"]').val();
+                        let endDate = $('#financial-request-inputgroup').find('input[name="end"]').val();
 
                         @this.set('start_date', startDate);
                         @this.set('end_date', endDate);

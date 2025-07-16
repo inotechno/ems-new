@@ -46,8 +46,8 @@ class EmailTemplateManagerItem extends BaseComponent
         activity()
             ->causedBy($this->authUser) // Pengguna yang melakukan login
             ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-            ->event('delete email template')
-            ->log("$this->authUser->name telah menghapus Email Template");
+            ->event('delete')
+            ->log("{$this->authUser->name} telah menghapus Email Template");
 
         $this->dispatch('refreshIndex');
     }

@@ -97,7 +97,7 @@ class EmailTemplateManagerForm extends BaseComponent
                 activity()
                     ->causedBy(auth()->user())
                     ->withProperties(['ip' => request()->ip()])
-                    ->event('create email template')
+                    ->event('create')
                     ->log($this->authUser->name . ' telah membuat Email Template');
             } else {
                 $template = EmailTemplate::find($this->template_id);
@@ -112,7 +112,7 @@ class EmailTemplateManagerForm extends BaseComponent
                 activity()
                     ->causedBy(auth()->user())
                     ->withProperties(['ip' => request()->ip()])
-                    ->event('update email template')
+                    ->event('update')
                     ->log($this->authUser->name . ' telah mengubah Email Template');
             }
 

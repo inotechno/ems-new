@@ -2,7 +2,7 @@
     @livewire('component.page.breadcrumb', ['breadcrumbs' => [['name' => 'Master Data', 'url' => '/'], ['name' => 'Employee', 'url' => route('employee.index')], ['name' => 'Employee Detail ' . $user->name, 'url' => route('employee.detail', $employee->id)]]], key('breadcrumb'))
 
     <div class="row">
-        <div class="col-xl-6">
+        <div class="col-xl-5">
             <div class="card overflow-hidden">
                 <div class="bg-primary bg-soft">
                     <div class="row">
@@ -25,7 +25,7 @@
                                     <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}"
                                         class="img-thumbnail rounded-circle">
                                 @else
-                                    <span class="avatar-title rounded-circle bg-success text-white font-size-24x">
+                                    <span class="avatar-title rounded-circle bg-success text-white font-size-24">
                                         {{ strtoupper(substr($user->name, 0, 1)) }}
                                     </span>
                                 @endif
@@ -58,8 +58,6 @@
                 <div class="card-body">
                     <h4 class="card-title mb-4">Personal Information</h4>
 
-                    <p class="text-muted mb-4">Hi I'm Cynthia Price,has been the industry's standard dummy text To an
-                        English person, it will seem like simplified English, as a skeptical Cambridge.</p>
                     <div class="table-responsive">
                         <table class="table table-nowrap mb-0">
                             <tbody>
@@ -100,9 +98,10 @@
 
         </div>
 
-        <div class="col-xl-6">
+        <div class="col-xl">
 
-            <div class="row">
+            <!-- Mini Project Stats-->
+            {{-- <div class="row">
                 @foreach ($project_status as $key => $value)
                     <div class="col-md-6">
                         <div class="card mini-stats-wid">
@@ -125,9 +124,62 @@
                         </div>
                     </div>
                 @endforeach
+            </div> --}}
+            <!-- end row -->
+
+            <div class="row">
+                <div class="col-md-6">
+                    @livewire(
+                        'component.card-mini',
+                        [
+                            'title' => 'Total Daily Report',
+                            'value' => $totalDailyReport,
+                            'badge' => 'Monthly',
+                        ],
+                        'total-daily-report'
+                    )
+                </div>
+
+                <div class="col-md-6">
+                    @livewire(
+                        'component.card-mini',
+                        [
+                            'title' => 'Total Day Leave',
+                            'value' => $totalDayLeaveRequest,
+                            'badge' => 'Monthly',
+                        ],
+                        'total-day-leave-request'
+                    )
+                </div>
+
+                <div class="col-md-6">
+                    @livewire(
+                        'component.card-mini',
+                        [
+                            'title' => 'Total Day Present',
+                            'value' => $totalDayPresent,
+                            'badge' => 'Monthly',
+                        ],
+                        'total-day-present'
+                    )
+                </div>
+
+                <div class="col-md-6">
+                    @livewire(
+                        'component.card-mini',
+                        [
+                            'title' => 'Total Amount Financial Request',
+                            'value' => $totalAmountFinancialRequest,
+                            'badge' => 'Monthly',
+                        ],
+                        'total-amount-financial-request'
+                    )
+                </div>
             </div>
 
-            <div class="card">
+            @livewire('component.widget.working-hours-analytic', ['user' => $user])
+
+            {{-- <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-4">My Projects</h4>
                     <div class="table-responsive">
@@ -161,7 +213,18 @@
                         </table>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
+
+    @push('styles')
+        <!-- apexcharts -->
+        <script src="{{ asset('libs/apexcharts/apexcharts.min.js') }}"></script>
+
+        <!-- dashboard init -->
+        {{-- <script src="{{ asset('js/pages/dashboard.init.js') }}"></script> --}}
+    @endpush
+
+    @push('js')
+    @endpush
 </div>

@@ -7,6 +7,7 @@ use App\Livewire\BaseComponent;
 use App\Models\AbsentRequest;
 use App\Models\Employee;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
@@ -18,7 +19,7 @@ class AbsentRequestForm extends BaseComponent
 
     public $mode = 'Create';
     public $absent_request;
-    public $notes, $employee_id, $start_date, $end_date, $type_absent, $recipients = [];
+    public $notes, $employee_id, $start_date, $end_date, $type_absent, $total_days, $recipients = [];
     public $employee;
     public $employees;
 
@@ -54,6 +55,9 @@ class AbsentRequestForm extends BaseComponent
     public function changeInputForm($param, $value)
     {
         $this->$param = $value;
+        if ($param != 'recipients') {
+            $this->getTotalPeriod();
+        }
     }
 
     public function save()
@@ -82,13 +86,15 @@ class AbsentRequestForm extends BaseComponent
     public function store()
     {
         try {
-             // Simpan AbsentRequest terlebih dahulu
+            $period = $this->getTotalPeriod();
+            // Simpan AbsentRequest terlebih dahulu
             $absentRequest = AbsentRequest::create([
                 'notes' => $this->notes,
                 'employee_id' => $this->employee_id,
                 'start_date' => $this->start_date,
                 'end_date' => $this->end_date,
-                'type_absent' => $this->type_absent
+                'type_absent' => $this->type_absent,
+                'total_days' => $period
             ]);
 
             // Buat recipients menggunakan relasi yang ada
@@ -104,20 +110,38 @@ class AbsentRequestForm extends BaseComponent
 
             // Kirim email ke recipients
             foreach ($recipients as $recipient) {
+                $employee = $recipient->employee;
+                createNotification(
+                    $employee->user_id,
+                    $this->authUser->name . ' make Absent Request',
+                    $this->authUser->name . 'make-absent-request',
+                    'Absent Request',
+                    $this->authUser->name . ' telah membuat pengajuan ketidakhadiran dari tanggal ' . $this->start_date . ' sampai ' . $this->end_date . ' dengan catatan ' . $this->notes,
+                    route('absent-request.detail', $absentRequest->id)
+                );
+
                 SendEmailJob::dispatch($recipient->employee->user, 'recipient-absent-request', ['absent_request' => $absentRequest], $employee->user);
             }
 
             // Kirim email menggunakan job
             SendEmailJob::dispatch($employee->user, 'sender-absent-request', ['absent_request' => $absentRequest]);
 
-            $this->reset();
             $this->alert('success', 'Absent Request created successfully');
 
+            createNotification(
+                $this->authUser->id,
+                'You Have Created Absent Request',
+                'you-have-absent-request',
+                'Absent Request',
+                'Anda telah membuat pengajuan ketidakhadiran dari tanggal ' . $this->start_date . ' sampai ' . $this->end_date . ' dengan catatan ' . $this->notes,
+                route('absent-request.detail', $absentRequest->id)
+            );
+
             activity()
-                    ->causedBy($this->authUser) // Pengguna yang melakukan login
-                    ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-                    ->event('create absent request')
-                    ->log("$this->authUser->name telah membuat Absent Request");
+                ->causedBy($this->authUser) // Pengguna yang melakukan login
+                ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+                ->event('create')
+                ->log("{$this->authUser->name} telah membuat Absent Request");
 
             return redirect()->route('absent-request.index');
         } catch (\Exception $e) {
@@ -128,12 +152,14 @@ class AbsentRequestForm extends BaseComponent
     public function update()
     {
         try {
+            $period = $this->getTotalPeriod();
             $this->absent_request->update([
                 'notes' => $this->notes,
                 'employee_id' => $this->employee_id,
                 'start_date' => $this->start_date,
                 'end_date' => $this->end_date,
-                'type_absent' => $this->type_absent
+                'type_absent' => $this->type_absent,
+                'total_days' => $period
             ]);
 
             // Hapus semua recipients yang ada
@@ -144,19 +170,24 @@ class AbsentRequestForm extends BaseComponent
                 collect($this->recipients)->map(fn($recipient) => ['employee_id' => $recipient])->toArray()
             );
 
-            $this->reset();
             $this->alert('success', 'Absent Request updated successfully');
 
             activity()
-                    ->causedBy($this->authUser) // Pengguna yang melakukan login
-                    ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-                    ->event('update absent request')
-                    ->log("$this->authUser->name telah mengubah Absent Request");
+                ->causedBy($this->authUser) // Pengguna yang melakukan login
+                ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
+                ->event('update')
+                ->log("{$this->authUser->name} telah mengubah Absent Request");
 
             return redirect()->route('absent-request.index');
         } catch (\Exception $e) {
             $this->alert('error', $e->getMessage());
         }
+    }
+
+    public function getTotalPeriod()
+    {
+        $this->total_days = Carbon::parse($this->start_date)->diffInDays(Carbon::parse($this->end_date)) + 1;
+        return $this->total_days;
     }
 
     public function render()

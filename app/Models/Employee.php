@@ -27,6 +27,21 @@ class Employee extends Model
         'marital_status',
         'religion',
         'position_id',
+
+        // Salary
+        'basic_salary',
+        'allowance_pulsa',
+        'allowance_position',
+        'allowance_transport',
+        'allowance_meal',
+        'allowance_overtime',
+        'allowance_other',
+
+        // Custom Rates
+        'bpjs_kesehatan_rate',
+        'bpjs_tk_rate',
+        'pension_rate',
+        'pph21_rate',
     ];
 
     public function user()
@@ -47,6 +62,22 @@ class Employee extends Model
     public function attendances(): HasMany
     {
         return $this->hasMany(Attendance::class);
+    }
+
+    public function attendanceAnalytics()
+    {
+        return $this->hasMany(AttendanceAnalytic::class, 'employee_id');
+    }
+
+    public function attendanceAnalyticsLastMonth()
+    {
+        return $this->hasMany(AttendanceAnalytic::class, 'employee_id');
+    }
+
+
+    public function visits(): HasMany
+    {
+        return $this->hasMany(Visit::class);
     }
 
     public function projects(): BelongsToMany
@@ -106,4 +137,13 @@ class Employee extends Model
     {
         return $this->hasMany(RequestValidate::class);
     }
+
+
+    // Payroll
+    public function payrolls(): HasMany
+    {
+        return $this->hasMany(Payroll::class);
+    }
+
+
 }

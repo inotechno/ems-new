@@ -52,11 +52,11 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key' => 'app_author',
-                'value' => 'Ahmad Fatoni'
+                'value' => 'Achmad Fatoni'
             ],
             [
                 'key' => 'app_author_url',
-                'value' => 'https://tpm-facility.com'
+                'value' => 'https://inotechno.my.id'
             ],
             [
                 'key' => 'app_license',

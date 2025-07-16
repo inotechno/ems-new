@@ -112,8 +112,8 @@ class SettingForm extends BaseComponent
             activity()
                 ->causedBy($this->authUser) // Pengguna yang melakukan login
                 ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-                ->event('update setting')
-                ->log("$this->authUser->name telah mengubah setting");
+                ->event('update')
+                ->log("{$this->authUser->name} telah mengubah setting");
 
             return redirect()->route('setting.edit');
         } catch (\Exception $e) {

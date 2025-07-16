@@ -121,8 +121,8 @@ class AttendanceTempItem extends BaseComponent
             activity()
                     ->causedBy($this->authUser) // Pengguna yang melakukan login
                     ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-                    ->event('approve attendance temporary')
-                    ->log("$this->authUser->name telah menyetujui Attendance Temporary");
+                    ->event('approve')
+                    ->log("{$this->authUser->name} telah menyetujui Attendance Temporary");
 
             return redirect()->route('attendance-temporary.index');
         } catch (\Throwable $th) {
@@ -144,7 +144,7 @@ class AttendanceTempItem extends BaseComponent
                     ->causedBy($this->authUser) // Pengguna yang melakukan login
                     ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
                     ->event('reject attendance temporary')
-                    ->log("$this->authUser->name telah menolak Attendance Temporary");
+                    ->log("{$this->authUser->name} telah menolak Attendance Temporary");
 
             return redirect()->route('attendance-temporary.index');
         } catch (\Throwable $th) {

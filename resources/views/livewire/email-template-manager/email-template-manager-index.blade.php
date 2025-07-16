@@ -24,9 +24,9 @@
                         <div class="flex-shrink-0">
                             <button class="btn btn-warning" wire:click="resetFilter">Reset Filter</button>
                         </div>
-                        <div class="flex-shrink-0">
+                        {{-- <div class="flex-shrink-0">
                             <a href="{{ route('email-template.create') }}" class="btn btn-primary waves-effect waves-light">Create</a>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>

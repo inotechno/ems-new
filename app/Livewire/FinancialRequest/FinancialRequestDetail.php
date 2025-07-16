@@ -12,6 +12,11 @@ class FinancialRequestDetail extends Component
     public function mount($id)
     {
         $this->financial_request = \App\Models\FinancialRequest::find($id);
+
+        if(!$this->financial_request) {
+            return redirect()->route('financial-request.index');
+        }
+
         $this->isApproved = $this->financial_request->is_approved;
         $this->employee_id = $this->financial_request->employee_id;
         $this->financial_type_id = $this->financial_request->financial_type_id;

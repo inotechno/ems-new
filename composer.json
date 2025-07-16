@@ -43,7 +43,9 @@
         },
         "files": [
             "app/Helpers/TextHelper.php",
-            "app/Helpers/DateHelper.php"
+            "app/Helpers/DateHelper.php",
+            "app/Helpers/NotificationHelper.php",
+            "app/Helpers/HolidayHelper.php"
         ]
     },
     "autoload-dev": {

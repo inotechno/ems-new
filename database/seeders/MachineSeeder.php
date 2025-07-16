@@ -15,6 +15,7 @@ class MachineSeeder extends Seeder
     {
         Machine::create([
             'name' => 'TPM Door IN',
+            'site_id' => 1,
             'ip_address' => '192.168.20.201',
             'port' => 80,
             'is_active' => 1,
@@ -23,6 +24,7 @@ class MachineSeeder extends Seeder
 
         Machine::create([
             'name' => 'TPM Door OUT',
+            'site_id' => 1,
             'ip_address' => '192.168.20.202',
             'port' => 80,
             'is_active' => 1,

@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Activity\ActivityIndex;
 use App\Livewire\Announcement\AnnouncementDetail;
 use App\Livewire\Announcement\AnnouncementForm;
 use App\Livewire\Announcement\AnnouncementIndex;
@@ -143,6 +144,10 @@ Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
     Route::group(['prefix' => 'visit'], function () {
         Route::get('/', VisitIndex::class)->name('visit.index')->middleware(['can:view:visit']);
         Route::get('create', VisitCreate::class)->name('visit.create');
+    });
+
+    Route::group(['prefix' => 'activity'], function () {
+        Route::get('/', ActivityIndex::class)->name('activity.index')->middleware('can:view:activity');
     });
 
     Route::get('/daily-report-all', DailyReportAll::class)->name('daily-report.all')->middleware('can:view:daily-report-all');

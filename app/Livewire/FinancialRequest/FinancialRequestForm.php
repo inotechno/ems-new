@@ -4,7 +4,6 @@ namespace App\Livewire\FinancialRequest;
 
 use App\Jobs\SendEmailJob;
 use App\Models\Helper;
-use Livewire\Component;
 use App\Models\Employee;
 use Illuminate\Support\Str;
 use App\Livewire\BaseComponent;
@@ -22,7 +21,7 @@ class FinancialRequestForm extends BaseComponent
     public $financial_request;
     public $employee_id, $financial_type_id, $title, $amount, $notes, $receipt_image_path, $receipt_image_url, $image, $uid;
     public $employees;
-    public $previewImage = 'https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg';
+    public $previewImage = 'https://undergroundgym.cz/wp-content/themes/gymat/assets/img/noimage_1210X584.jpg';
 
     public $recipients;
     public $employee;
@@ -122,33 +121,50 @@ class FinancialRequestForm extends BaseComponent
             'receipt_image_url' => $imageUrl,
         ]);
 
-         // Buat recipients menggunakan relasi yang ada
-         $financial_request->recipients()->createMany(
+        // Buat recipients menggunakan relasi yang ada
+        $financial_request->recipients()->createMany(
             collect($this->recipients)->map(fn($recipient) => ['employee_id' => $recipient])->toArray()
         );
 
-         // Akses relasi employee setelah AbsentRequest berhasil disimpan
-         $employee = $financial_request->employee;
+        // Akses relasi employee setelah AbsentRequest berhasil disimpan
+        $employee = $financial_request->employee;
 
-         // Akses relasi recipients setelah AbsentRequest berhasil disimpan
-         $recipients = $financial_request->recipients;
+        // Akses relasi recipients setelah AbsentRequest berhasil disimpan
+        $recipients = $financial_request->recipients;
 
-         // Kirim email ke recipients
-         foreach ($recipients as $recipient) {
-             SendEmailJob::dispatch($recipient->employee->user, 'recipient-financial-request', ['financial_request' => $financial_request], $employee->user);
-         }
+        // Kirim email ke recipients
+        foreach ($recipients as $recipient) {
+            createNotification(
+                $recipient->employee->user->id,
+                $this->authUser->name . ' make Financial Request',
+                $this->authUser->name . 'make-financial-request',
+                'Financial Request',
+                $this->authUser->name . ' telah membuat pengajuan keuangan dengan jumlah Rp' . number_format($financial_request->amount, 0, ',', '.') . ' dengan judul ' . $financial_request->title,
+                route('financial-request.detail', $financial_request->id)
+            );
 
-         // Kirim email menggunakan job
-         SendEmailJob::dispatch($employee->user, 'sender-financial-request', ['financial_request' => $financial_request]);
+            SendEmailJob::dispatch($recipient->employee->user, 'recipient-financial-request', ['financial_request' => $financial_request], $employee->user);
+        }
 
-        $this->reset();
+        // Kirim email menggunakan job
+        SendEmailJob::dispatch($employee->user, 'sender-financial-request', ['financial_request' => $financial_request]);
+
         $this->alert('success', 'Financial request created successfully');
+
+        createNotification(
+            $this->authUser->id,
+            'You have Created Financial Request',
+            'you-have-create-financial-request',
+            'Financial Request',
+            'Anda telah membuat pengajuan keuangan dengan jumlah Rp' . number_format($financial_request->amount, 0, ',', '.') . ' dengan judul ' . $financial_request->title,
+            route('financial-request.detail', $financial_request->id)
+        );
 
         activity()
             ->causedBy($this->authUser) // Pengguna yang melakukan login
             ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-            ->event('create financial request')
-            ->log("$this->authUser->name telah membuat Financial Request");
+            ->event('create')
+            ->log("{$this->authUser->name} telah membuat Financial Request");
 
         return redirect()->route('financial-request.index');
     }
@@ -187,14 +203,13 @@ class FinancialRequestForm extends BaseComponent
                 collect($this->recipients)->map(fn($recipient) => ['employee_id' => $recipient])->toArray()
             );
 
-            $this->reset();
             $this->alert('success', 'Financial request updated successfully');
 
             activity()
                 ->causedBy($this->authUser) // Pengguna yang melakukan login
                 ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-                ->event('update financial request')
-                ->log("$this->authUser->name telah mengubah Financial Request");
+                ->event('update')
+                ->log("{$this->authUser->name} telah mengubah Financial Request");
 
             return redirect()->route('financial-request.index');
         } catch (\Exception $e) {

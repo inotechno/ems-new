@@ -1,17 +1,17 @@
 <tr>
     <td>
-        @if ($employee['avatar_url'])
+        {{-- @if ($employee['avatar_url'])
             <a href="javascript: void(0);" class="d-inline-block" data-bs-toggle="tooltip" data-bs-placement="top"
                 title="{{ $employee['name'] }}">
                 <img src="{{ $employee['avatar_url'] }}" alt="{{ $employee['name'] }}" class="rounded-circle avatar-sm">
             </a>
-        @else
+        @else --}}
             <div class="avatar-sm">
-                <span class="avatar-title rounded-circle bg-success text-white font-size-16">
-                    {{ strtoupper(substr($employee['name'], 0, 1)) }}
+                <span class="avatar-title bg-success text-white rounded">
+                    {{ $day }}
                 </span>
             </div>
-        @endif
+        {{-- @endif --}}
     </td>
     <td>
         <h5 class="text-truncate font-size-14">

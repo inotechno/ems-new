@@ -17,7 +17,8 @@ class EmployeeIndex extends Component
     #[Url(except: '')]
     public $search = '';
 
-    public $perPage = 10;
+    #[Url]
+    public $perPage = 12;
     public $status = '';
 
     public $position_id;
@@ -54,6 +55,8 @@ class EmployeeIndex extends Component
         })->when($this->position_id, function ($query) {
             $query->where('position_id', $this->position_id);
         })->latest()->paginate($this->perPage);
+
+        // dd($employees);
 
         return view('livewire.employee.employee-index', compact('employees'))->layout('layouts.app', ['title' => 'Employee List']);
     }

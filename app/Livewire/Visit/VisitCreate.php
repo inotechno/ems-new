@@ -151,8 +151,8 @@ class VisitCreate extends BaseComponent
             activity()
                 ->causedBy($this->authUser) // Pengguna yang melakukan login
                 ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-                ->event('create visit')
-                ->log("$this->authUser->name telah membuat visit");
+                ->event('create')
+                ->log("{$this->authUser->name} telah membuat visit");
 
             $this->alert('success', 'Visit created successfully');
 

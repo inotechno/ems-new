@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('employee_id')->constrained()->cascadeOnDelete();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
+            $table->integer('total_days')->unsigned();
             $table->text('notes')->nullable();
             $table->string('file_path')->nullable();
             $table->string('file_url')->nullable();

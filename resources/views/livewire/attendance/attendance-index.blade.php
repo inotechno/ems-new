@@ -46,7 +46,7 @@
                     <button class="btn btn-warning mt-2" wire:click="resetFilter" wire:loading.attr="disabled">Reset
                         Filter</button>
                     @can('create:attendance')
-                        <a href="{{ route('attendance.create') }}" class="btn btn-primary mt-2">Create</a>
+                        <a href="{{ route('attendance.create') }}" class="btn btn-primary mt-2">Attendance Now!</a>
                     @endcan
                 </div>
             </div>

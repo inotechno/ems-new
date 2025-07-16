@@ -2,6 +2,7 @@
 
 namespace App\Livewire\DailyReport;
 
+use App\Jobs\SendEmailJob;
 use App\Livewire\BaseComponent;
 use App\Models\DailyReport;
 use App\Models\Employee;
@@ -87,13 +88,35 @@ class DailyReportForm extends BaseComponent
             }, $this->recipients);
 
             $daily_report->dailyReportRecipients()->createMany($recipientsData);
+
+            $recipients = $daily_report->dailyReportRecipients;
+            foreach ($recipients as $recipient) {
+                createNotification(
+                    $recipient->employee->user->id,
+                    $this->authUser->name . ' make Daily Report',
+                    $this->authUser->name . '-make-daily-report',
+                    'Daily Report',
+                    $this->authUser->name . ' telah membuat Daily Report dengan tanggal ' . $this->date,
+                    route('daily-report.detail', $daily_report->id)
+                );
+            }
+
             $this->alert('success', 'Daily Report Stored Successfully');
+
+            createNotification(
+                $this->authUser->id,
+                'You Have Created Daily Report',
+                'you-have-created-daily-report',
+                'Daily Report',
+                'Anda telah membuat Daily Report dengan tanggal ' . $this->date,
+                route('daily-report.detail', $daily_report->id)
+            );
 
             activity()
                 ->causedBy($this->authUser) // Pengguna yang melakukan login
                 ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-                ->event('create daily report')
-                ->log("$this->authUser->name telah membuat Daily Report");
+                ->event('create')
+                ->log("{$this->authUser->name} telah membuat Daily Report");
 
             DB::commit();
             return redirect()->route('daily-report.index');
@@ -144,8 +167,8 @@ class DailyReportForm extends BaseComponent
             activity()
                 ->causedBy($this->authUser) // Pengguna yang melakukan login
                 ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-                ->event('update daily report')
-                ->log("$this->authUser->name telah mengubah Daily Report");
+                ->event('update')
+                ->log("{$this->authUser->name} telah mengubah Daily Report");
 
             // Tampilkan pesan sukses
             $this->alert('success', 'Daily Report Updated Successfully');

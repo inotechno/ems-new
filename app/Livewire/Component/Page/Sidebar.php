@@ -33,18 +33,18 @@ class Sidebar extends BaseComponent
                     'permission' => 'view:import_master_data',
                 ],
                 [
-                    'name' => 'Machine',
-                    'url' => '/machine',
-                    'route' => 'machine.index',
-                    'icon' => 'bx bx-fingerprint',
-                    'permission' => 'view:machine',
-                ],
-                [
                     'name' => 'Site',
                     'url' => '/site',
                     'route' => 'site.index',
                     'icon' => 'bx bx-building-house',
                     'permission' => 'view:site'
+                ],
+                [
+                    'name' => 'Machine',
+                    'url' => '/machine',
+                    'route' => 'machine.index',
+                    'icon' => 'bx bx-fingerprint',
+                    'permission' => 'view:machine',
                 ],
                 [
                     'name' => 'Department',
@@ -255,6 +255,13 @@ class Sidebar extends BaseComponent
                     'icon' => 'bx bx-code-curly',
                     'permission' => 'view:email-template'
                 ],
+                [
+                    'name' => 'Activity',
+                    'url' => '/activity',
+                    'route' => 'activity.index',
+                    'icon' => 'bx bx-history',
+                    'permission' => 'view:activity'
+                ]
             ]
         ],
         [

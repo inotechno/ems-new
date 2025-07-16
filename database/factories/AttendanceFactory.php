@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Employee;
+use App\Models\User;
 use App\Models\Machine;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,10 +21,11 @@ class AttendanceFactory extends Factory
     {
         return [
             'uid' => $this->faker->numberBetween(1, 100000),
-            'employee_id' => Employee::all()->random()->id,
+            'employee_id' => User::first()->employee->id,
+            // 'employee_id' => Employee::all()->random()->id,
             'machine_id' => Machine::all()->random()->id,
             'attendance_method_id' => 1,
-            'timestamp' => $this->faker->dateTimeBetween('-1 month', 'now'),
+            'timestamp' => $this->faker->dateTimeBetween('-2 years', 'now'),
             'site_id' => 1,
             'longitude' => $this->faker->longitude(),
             'latitude' => $this->faker->latitude(),

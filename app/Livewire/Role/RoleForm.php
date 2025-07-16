@@ -72,8 +72,8 @@ class RoleForm extends BaseComponent
             activity()
                 ->causedBy($this->authUser) // Pengguna yang melakukan login
                 ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-                ->event('create role')
-                ->log("$this->authUser->name telah membuat role");
+                ->event('create')
+                ->log("{$this->authUser->name} telah membuat role");
 
             return redirect()->route('role.index');
         } catch (\Exception $e) {
@@ -95,8 +95,8 @@ class RoleForm extends BaseComponent
             activity()
                 ->causedBy($this->authUser) // Pengguna yang melakukan login
                 ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-                ->event('update role')
-                ->log("$this->authUser->name telah mengubah role");
+                ->event('update')
+                ->log("{$this->authUser->name} telah mengubah role");
 
             return redirect()->route('role.index');
         } catch (\Exception $e) {

@@ -78,8 +78,8 @@ class DepartmentForm extends BaseComponent
             activity()
                 ->causedBy($this->authUser) // Pengguna yang melakukan login
                 ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-                ->event('create department')
-                ->log("$this->authUser->name telah membuat department");
+                ->event('create')
+                ->log("{$this->authUser->name} telah membuat department");
 
             $this->resetFormFields();
             $this->dispatch('refreshIndex');
@@ -102,8 +102,8 @@ class DepartmentForm extends BaseComponent
             activity()
                 ->causedBy($this->authUser) // Pengguna yang melakukan login
                 ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-                ->event('update department')
-                ->log("$this->authUser->name telah mengubah department");
+                ->event('update')
+                ->log("{$this->authUser->name} telah mengubah department");
 
             $this->dispatch('refreshIndex');
             $this->resetFormFields();

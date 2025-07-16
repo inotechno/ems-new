@@ -110,7 +110,7 @@ class SiteForm extends BaseComponent
             activity()
                 ->causedBy($this->authUser)
                 ->withProperties(['uid' => $this->uid])
-                ->event('update site')
+                ->event('update')
                 ->log("Site updated successfully with UID: {$this->uid}, name: {$this->name}");
 
             $this->reset();
@@ -158,7 +158,7 @@ class SiteForm extends BaseComponent
             activity()
                 ->causedBy(auth()->user())
                 ->withProperties(['uid' => $this->uid])
-                ->event('create site')
+                ->event('create')
                 ->log("Site created successfully with UID: {$this->uid}, name: {$this->name}");
 
             if ($this->saveMode == 'save') {

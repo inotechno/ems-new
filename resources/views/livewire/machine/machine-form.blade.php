@@ -13,6 +13,23 @@
                 @enderror
             </div>
 
+            <div class="col-md" wire:ignore>
+                <label for="form-label">Site Name</label>
+                <select class="form-select select2 select-site" wire:model="site_id"
+                    data-placeholder="Select Site">
+                    <option></option>
+                    @foreach ($sites as $site)
+                        <option value="{{ $site->id }}">{{ $site->name }}</option>
+                    @endforeach
+                </select>
+
+                @error('site_id')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+
             <div class="col-md">
                 <label for="form-label">IP Address</label>
                 <input type="text" class="form-control @error('ip_address') is-invalid @enderror"
@@ -25,7 +42,7 @@
                 @enderror
             </div>
 
-            <div class="col-md">
+            <div class="col-md-1">
                 <label for="form-label">Port</label>
                 <input type="text" class="form-control @error('port') is-invalid @enderror" wire:model="port"
                     placeholder="Port">
@@ -37,7 +54,7 @@
                 @enderror
             </div>
 
-            <div class="col-md">
+            <div class="col-md-1">
                 <label for="form-label">COM Key</label>
                 <input type="text" class="form-control @error('comkey') is-invalid @enderror" wire:model="comkey"
                     placeholder="COM Key">
@@ -98,12 +115,18 @@
                 @this.set('machine_type_id', this.value);
             });
 
+            $('.select-site').on('change', function() {
+                @this.set('site_id', this.value);
+            });
+
             Livewire.on('change-status-form', () => {
                 $('.select-machine-type').val(@this.machine_type_id).trigger('change');
+                $('.select-site').val(@this.site_id).trigger('change');
             });
 
             Livewire.on('refreshIndex', () => {
                 $('.select-machine-type').val(null).trigger('change');
+                $('.select-site').val(null).trigger('change');
             })
         });
     </script>

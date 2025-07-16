@@ -8,7 +8,6 @@ use App\Models\FinancialRequest;
 use App\Models\RequestValidate;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
-use Livewire\Component;
 
 class FinancialRequestItem extends BaseComponent
 {
@@ -117,11 +116,20 @@ class FinancialRequestItem extends BaseComponent
         // Periksa dan perbarui status isApproved pada AbsentRequest
         $this->financial_request->checkAndUpdateApprovalStatus();
 
+        createNotification(
+            $this->financial_request->employee->user->id,
+            'Approved Financial Request',
+            'approve-financial-request',
+            'Financial Request',
+            'Financial Request has been approve',
+            route('financial-request.detail', $this->financial_request->id)
+        );
+
         activity()
             ->causedBy($this->authUser) // Pengguna yang melakukan login
             ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-            ->event('approve financial request')
-            ->log("$this->authUser->name telah approve Financial Request");
+            ->event('approve')
+            ->log("{$this->authUser->name} telah approve Financial Request");
 
         $this->alert('success', 'Financial Request approved successfully');
         $this->dispatch('refreshIndex');
@@ -146,12 +154,20 @@ class FinancialRequestItem extends BaseComponent
 
         // Periksa dan perbarui status isApproved pada AbsentRequest
         $this->financial_request->checkAndUpdateApprovalStatus();
+        createNotification(
+            $this->financial_request->employee->user->id,
+            'Rejected Financial Request',
+            'rejected-financial-request',
+            'Financial Request',
+            'Financial Request has been rejected',
+            route('financial-request.detail', $this->financial_request->id)
+        );
 
         activity()
             ->causedBy($this->authUser) // Pengguna yang melakukan login
             ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
             ->event('reject financial request')
-            ->log("$this->authUser->name telah reject Financial Request");
+            ->log("{$this->authUser->name} telah reject Financial Request");
 
         $this->alert('success', 'Financial Request rejected successfully');
         $this->dispatch('refreshIndex');
@@ -167,8 +183,8 @@ class FinancialRequestItem extends BaseComponent
         activity()
             ->causedBy($this->authUser) // Pengguna yang melakukan login
             ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-            ->event('delete financial request')
-            ->log("$this->authUser->name telah delete Financial Request");
+            ->event('delete')->subject('delete financial request')
+            ->log("{$this->authUser->name} telah delete Financial Request");
 
         return redirect()->route('financial-request.index');
     }

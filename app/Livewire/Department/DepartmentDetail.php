@@ -20,7 +20,7 @@ class DepartmentDetail extends Component
         $this->site = $this->department->site;
         $this->positions = $this->department->positions;
         $this->employees = $this->getEmployeesProperty();
-        $this->supervisor = $this->department->supervisor;
+        $this->supervisor = $this->department->supervisor ?? null;
     }
 
     public function getEmployeesProperty()

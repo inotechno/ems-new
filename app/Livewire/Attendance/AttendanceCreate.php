@@ -166,8 +166,8 @@ class AttendanceCreate extends BaseComponent
                 activity()
                     ->causedBy($this->authUser) // Pengguna yang melakukan login
                     ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-                    ->event('create attendance')
-                    ->log("$this->authUser->name telah membuat Attendance");
+                    ->event('create')
+                    ->log("{$this->authUser->name} telah membuat Attendance");
 
             } elseif ($this->attendance_method_id == 2) {
                 AttendanceTemp::create([
@@ -188,8 +188,8 @@ class AttendanceCreate extends BaseComponent
                 activity()
                     ->causedBy($this->authUser) // Pengguna yang melakukan login
                     ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-                    ->event('create attendance temp')
-                    ->log("$this->authUser->name telah membuat Attendance Temp");
+                    ->event('create')
+                    ->log("{$this->authUser->name} telah membuat Attendance Temp");
             } else {
                 $this->alert('warning', 'Attendance method not found');
             }

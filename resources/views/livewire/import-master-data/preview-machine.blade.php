@@ -5,6 +5,7 @@
                 <tr>
                     <th class="align-middle">ID</th>
                     <th class="align-middle">Name</th>
+                    <th class="align-middle">Site ID</th>
                     <th class="align-middle">IP Address</th>
                     <th class="align-middle">Port</th>
                     <th class="align-middle">Comkey</th>

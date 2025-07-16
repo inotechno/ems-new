@@ -120,11 +120,20 @@ class AbsentRequestItem extends BaseComponent
         // Periksa dan perbarui status isApproved pada AbsentRequest
         $this->absent_request->checkAndUpdateApprovalStatus();
 
+        createNotification(
+            $this->absent_request->employee->user->id,
+            'Approved Absent Request',
+            'approved-absent-request',
+            'Absent Request',
+            'Absent Request has been approved',
+            route('absent-request.detail', $this->absent_request->id)
+        );
+
         activity()
             ->causedBy($this->authUser) // Pengguna yang melakukan login
             ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-            ->event('approve absent request')
-            ->log("$this->authUser->name telah approve Absent Request");
+            ->event('approve')
+            ->log("{$this->authUser->name} telah approve Absent Request");
 
         $this->alert('success', 'Absent Request approved successfully');
         $this->dispatch('refreshIndex');
@@ -149,12 +158,20 @@ class AbsentRequestItem extends BaseComponent
 
         // Periksa dan perbarui status isApproved pada AbsentRequest
         $this->absent_request->checkAndUpdateApprovalStatus();
+        createNotification(
+            $this->absent_request->employee->user->id,
+            'Rejected Absent Request',
+            'rejected-absent-request',
+            'Absent Request',
+            'Absent Request has been rejected',
+            route('absent-request.detail', $this->absent_request->id)
+        );
 
         activity()
             ->causedBy($this->authUser) // Pengguna yang melakukan login
             ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
             ->event('reject absent request')
-            ->log("$this->authUser->name telah reject Absent Request");
+            ->log("{$this->authUser->name} telah reject Absent Request");
 
         $this->alert('success', 'Absent Request rejected successfully');
         $this->dispatch('refreshIndex');
@@ -170,8 +187,8 @@ class AbsentRequestItem extends BaseComponent
         activity()
             ->causedBy($this->authUser) // Pengguna yang melakukan login
             ->withProperties(['ip' => request()->ip()]) // Menyimpan alamat IP
-            ->event('delete absent request')
-            ->log("$this->authUser->name telah menghapus Absent Request");
+            ->event('delete')
+            ->log("{$this->authUser->name} telah menghapus Absent Request");
 
         return redirect()->route('absent-request.index');
     }
