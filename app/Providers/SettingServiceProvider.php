@@ -21,12 +21,14 @@ class SettingServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $settings = Cache::rememberForever('settings', function () {
-            return \App\Models\Setting::all();
-        });
+        if (Schema::hasTable('settings')) {
+            $settings = Cache::rememberForever('settings', function () {
+                return \App\Models\Setting::all();
+            });
 
-        foreach ($settings as $setting) {
-            Config::set('setting.' . $setting->key, $setting->value);
+            foreach ($settings as $setting) {
+                Config::set('setting.' . $setting->key, $setting->value);
+            }
         }
     }
 }
