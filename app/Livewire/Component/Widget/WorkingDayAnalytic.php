@@ -35,23 +35,24 @@ class WorkingDayAnalytic extends BaseComponent
             ])->distinct('date')->count();
         $this->total_present_days = $presents;
 
-        $absents = AbsentRequest::where('employee_id', $this->authUser->employee->id)
+        $absents = AbsentRequest::selectRaw('start_date, sum(total_days) as total_absents')
+            ->where('employee_id', $this->authUser->employee->id)
             ->where('is_approved', true)
-            ->whereBetween('start_date', [
-                $this->join_date,
-                Carbon::now()
-                    ->format('Y-m-d')
-            ])->distinct('start_date')->sum('total_days');
+            ->whereDate('start_date', '>=', $this->join_date)
+            ->whereDate('end_date', '<=', Carbon::now()->format('Y-m-d'))
+            ->groupBy('start_date')
+            ->get()->sum('total_absents');
         $this->total_absent_days = $absents;
 
-        $leaves = LeaveRequest::where('employee_id', $this->authUser->employee->id)
+        $leaves = LeaveRequest::selectRaw('start_date, sum(total_days) as total_leaves')
+            ->where('employee_id', $this->authUser->employee->id)
             ->where('is_approved', true)
             ->whereBetween('start_date', [
                 $this->join_date,
                 Carbon::now()
                     ->format('Y-m-d')
-            ])->distinct('start_date')->sum('total_days');
-
+            ])->groupBy('start_date')
+            ->get()->sum('total_leaves');
         $this->total_leave_days = $leaves;
 
         $this->percentage_present = round(($this->total_present_days / $this->total_working_days) * 100, 2);

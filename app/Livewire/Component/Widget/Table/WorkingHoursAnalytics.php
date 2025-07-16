@@ -92,6 +92,9 @@ class WorkingHoursAnalytics extends Component
                 'percentage' => $percentage,
             ];
         });
+
+        // Sortir berdasarkan name
+        $this->employeesData = $this->employeesData->sortBy('name')->values()->all();
     }
 
     public function render()

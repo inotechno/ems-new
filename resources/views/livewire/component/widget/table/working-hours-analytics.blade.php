@@ -18,7 +18,7 @@
                 </div>
             </div>
 
-            <h4 class="card-title mb-4">Employees Working Day Analytics</h4>
+            <h4 class="card-title mb-4">Employees Working Hours Analytics</h4>
         </div>
 
         <div class="table-responsive mt-3">
