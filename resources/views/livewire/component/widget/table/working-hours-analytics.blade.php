@@ -74,11 +74,11 @@
     @push('js')
         <script>
             document.addEventListener('livewire:init', function() {
-                Livewire.hook('morph.updated', (el, component) => {
+                Livewire.on('refresh-data-working-hours-analytics', () => {
                     const target = document.getElementById('working-hours-analytics');
                     if (target) {
                         target.scrollIntoView({
-                            behavior: 'auto',
+                            behavior: 'smooth',
                             block: 'start'
                         });
                     }

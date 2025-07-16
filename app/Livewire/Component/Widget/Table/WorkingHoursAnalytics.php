@@ -13,7 +13,7 @@ class WorkingHoursAnalytics extends Component
 {
     use WithPagination;
 
-    protected $paginationTheme = 'bootstrap'; // Gunakan Bootstrap untuk pagination
+    protected $paginationTheme = 'bootstrap-without-text'; // Gunakan Bootstrap tanpa text untuk pagination
 
     public $employeesData = [];
     public $selectedMonth;
@@ -61,17 +61,24 @@ class WorkingHoursAnalytics extends Component
         $startLastMonth = $startThisMonth->copy()->subMonth();
         $endLastMonth = $endThisMonth->copy()->subMonth();
 
+        // Eager load user dan attendance analytic untuk kedua bulan
         $employees = Employee::with('user')->get();
 
-        $this->employeesData = $employees->map(function ($employee) use ($startThisMonth, $endThisMonth, $startLastMonth, $endLastMonth) {
-            $thisMonthData = AttendanceAnalytic::where('employee_id', $employee->id)
-                ->whereBetween('date', [$startThisMonth, $endThisMonth])
-                ->get();
+        // Ambil semua data attendance analitik dalam satu query untuk kedua bulan
+        $attendanceData = AttendanceAnalytic::whereIn('employee_id', $employees->pluck('id')->toArray())
+            ->whereBetween('date', [$startLastMonth, $endThisMonth])  // Ambil data untuk bulan ini dan bulan lalu
+            ->get()
+            ->groupBy(function ($item) {
+                // Group berdasarkan employee_id dan bulan (format Y-m)
+                return $item->employee_id . ':' . Carbon::parse($item->date)->format('Y-m');
+            });
 
-            $lastMonthData = AttendanceAnalytic::where('employee_id', $employee->id)
-                ->whereBetween('date', [$startLastMonth, $endLastMonth])
-                ->get();
+        $this->employeesData = $employees->map(function ($employee) use ($attendanceData, $startThisMonth, $endThisMonth, $startLastMonth, $endLastMonth) {
+            // Ambil data bulan ini dan bulan lalu dari hasil yang sudah dikelompokkan
+            $thisMonthData = $attendanceData->get($employee->id . ':' . $startThisMonth->format('Y-m'), collect());
+            $lastMonthData = $attendanceData->get($employee->id . ':' . $startLastMonth->format('Y-m'), collect());
 
+            // Jumlahkan working hours per bulan
             $thisMonth = $thisMonthData->sum(function ($record) {
                 [$h, $m, $s] = explode(':', $record->working_hourse);
                 return round((int) $h + ((int) $m / 60) + ((int) $s / 3600), 2);
@@ -82,6 +89,7 @@ class WorkingHoursAnalytics extends Component
                 return round((int) $h + ((int) $m / 60) + ((int) $s / 3600), 2);
             });
 
+            // Hitung persentase perbandingan
             $percentage = $lastMonth == 0 ? 0 : round((($thisMonth - $lastMonth) / $lastMonth) * 100, 2);
 
             return [
@@ -95,7 +103,10 @@ class WorkingHoursAnalytics extends Component
 
         // Sortir berdasarkan name
         $this->employeesData = $this->employeesData->sortBy('name')->values()->all();
+        $this->dispatch('refresh-data-working-hours-analytics');
     }
+
+
 
     public function render()
     {

@@ -41,10 +41,14 @@
                 </div>
             </div>
 
-            <div class="col-lg-8" wire:ignore>
+            <div class="col-lg-8" wire:ignore.self>
+                <div id="line-chart" class="apex-charts" wire:key="chart-{{ $chartKey }}"></div>
+            </div>
+
+            {{-- <div class="col-lg-8" wire:ignore>
                 <div id="line-chart" class="apex-charts" data-colors='["--bs-primary"]' dir="ltr"
                     wire:key="chart-{{ $chartKey }}"></div>
-            </div>
+            </div> --}}
         </div>
     </div>
 
@@ -59,14 +63,6 @@
                         height: 200,
                         type: "line",
                         toolbar: false,
-                        dropShadow: {
-                            enabled: true,
-                            color: "#000",
-                            top: 18,
-                            left: 7,
-                            blur: 8,
-                            opacity: 0.2,
-                        },
                     },
                     labels: labels,
                     dataLabels: {
@@ -76,7 +72,21 @@
                         curve: "smooth",
                         width: 3
                     },
-                    colors: getChartColorsArray("line-chart"),
+                    colors: ['#556ee6', '#f46a6a'],
+                    tooltip: {
+                        shared: true,
+                        intersect: false,
+                        x: {
+                            formatter: function(val) {
+                                return "Date " + val;
+                            }
+                        },
+                        y: {
+                            formatter: function(val) {
+                                return val.toFixed(2) + " Hours";
+                            }
+                        }
+                    }
                 };
 
                 if (chart) {

@@ -72,56 +72,69 @@ class WorkingHoursAnalytic extends BaseComponent
         $this->last_month = [];
         $this->series = [];
 
+        // Ambil data employee_id
         $employeeId = $this->user->employee->id;
 
-        $attendance_analytics = AttendanceAnalytic::where('employee_id', $employeeId)
-            ->whereBetween('date', [$this->start_date, $this->end_date])
-            ->orderBy('date', 'asc')
-            ->get();
+        // Tentukan start dan end tanggal untuk bulan ini dan bulan lalu
+        $year = now()->year;
+        $startThisMonth = Carbon::create($year, $this->selectedMonth)->startOfMonth();
+        $endThisMonth = Carbon::create($year, $this->selectedMonth)->endOfMonth();
 
-        $attendance_analytic_last_month = AttendanceAnalytic::where('employee_id', $employeeId)
-            ->whereBetween('date', [
-                Carbon::parse($this->start_date)->subMonth(),
-                Carbon::parse($this->end_date)->subMonth()
-            ])
-            ->orderBy('date', 'asc')
-            ->get();
+        $startLastMonth = $startThisMonth->copy()->subMonth();
+        $endLastMonth = $endThisMonth->copy()->subMonth();
 
-        // Loop data bulan ini
-        foreach ($attendance_analytics as $record) {
-            [$h, $m, $s] = explode(':', $record->working_hourse);
-            $decimal = round((int) $h + ((int) $m / 60) + ((int) $s / 3600), 2);
+        // Ambil data attendance untuk bulan ini dan bulan lalu
+        $thisMonthAnalytics = AttendanceAnalytic::where('employee_id', $employeeId)
+            ->whereBetween('date', [$startThisMonth, $endThisMonth])
+            ->get()
+            ->keyBy(fn($r) => Carbon::parse($r->date)->day); // key by day
 
-            $this->labels[] = Carbon::parse($record->date)->format('d M');
-            $this->this_month[] = $decimal;
+        $lastMonthAnalytics = AttendanceAnalytic::where('employee_id', $employeeId)
+            ->whereBetween('date', [$startLastMonth, $endLastMonth])
+            ->get()
+            ->keyBy(fn($r) => Carbon::parse($r->date)->day); // key by day
+
+        // Loop untuk mengambil data berdasarkan tanggal dari 1 sampai dengan jumlah hari terbanyak antara dua bulan
+        $maxDays = max($startThisMonth->daysInMonth, $startLastMonth->daysInMonth);
+
+        for ($i = 1; $i <= $maxDays; $i++) {
+            $this->labels[] = str_pad($i, 2, '0', STR_PAD_LEFT); // Tanggal 1, 2, 3, dst.
+
+            // Data bulan ini
+            if ($thisMonthAnalytics->has($i)) {
+                [$h, $m, $s] = explode(':', $thisMonthAnalytics[$i]->working_hourse);
+                $thisMonthData = round($h + ($m / 60) + ($s / 3600), 2);
+            } else {
+                $thisMonthData = 0;
+            }
+            $this->this_month[] = $thisMonthData;
+
+            // Data bulan lalu
+            if ($lastMonthAnalytics->has($i)) {
+                [$h, $m, $s] = explode(':', $lastMonthAnalytics[$i]->working_hourse);
+                $lastMonthData = round($h + ($m / 60) + ($s / 3600), 2);
+            } else {
+                $lastMonthData = 0;
+            }
+            $this->last_month[] = $lastMonthData;
         }
 
-        // Loop data bulan lalu
-        foreach ($attendance_analytic_last_month as $record) {
-            [$h, $m, $s] = explode(':', $record->working_hourse);
-            $decimal = round((int) $h + ((int) $m / 60) + ((int) $s / 3600), 2);
-
-            $this->last_month[] = $decimal;
-        }
-
-        // Data untuk chart
+        // Menyusun data untuk chart
         $this->series = [
-            [
-                'name' => 'Working Hours',
-                'data' => $this->this_month,
-            ]
+            ['name' => 'This Month', 'data' => $this->this_month],
+            ['name' => 'Last Month', 'data' => $this->last_month],
         ];
 
-        // Hitung presentase dibanding bulan lalu
+        // Hitung persentase perbandingan bulan ini dengan bulan lalu
         $last = collect($this->last_month)->sum();
         $now = collect($this->this_month)->sum();
-
         $this->percentage_based_on_last_month = $last == 0 ? 0 : round((($now - $last) / $last) * 100, 2);
 
-        // Label periode
-        $this->start_date_last_month = Carbon::parse($this->start_date)->subMonth()->format('Y-m-d');
-        $this->end_date_last_month = Carbon::parse($this->end_date)->subMonth()->format('Y-m-d');
+        // Tentukan label periode untuk bulan ini dan bulan lalu
+        $this->start_date_last_month = $startLastMonth->format('Y-m-d');
+        $this->end_date_last_month = $endLastMonth->format('Y-m-d');
     }
+
     public function render()
     {
         return view('livewire.component.widget.working-hours-analytic', [

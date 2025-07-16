@@ -151,7 +151,7 @@
 
     @can('view:attendance-all')
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-xl-6">
                 @livewire('component.widget.table.working-hours-analytics')
             </div>
         </div>
