@@ -23,7 +23,7 @@
         @if ($checkIn != null)
             <div class="d-flex">
                 <div class="flex-shrink-0 me-3 align-self-center">
-                    <img class="rounded avatar-md" src="{{ $checkIn['image_url'] ?? asset('images/users/avatar-1.jpg') }}" alt="{{ $checkIn['image_url'] ?? asset('images/users/avatar-1.jpg') }}">
+                    <img class="rounded avatar-md" src="{{ $checkIn['image_url'] ?? asset('images/time.png') }}" alt="{{ $checkIn['image_url'] ?? asset('images/time.png') }}">
                 </div>
                 <div class="flex-grow-1">
                     @if ($checkIn['attendance_method']['id'] == 3)
@@ -59,8 +59,8 @@
         @if ($checkOut != null)
             <div class="d-flex">
                 <div class="flex-shrink-0 me-3 align-self-center">
-                    <img class="rounded avatar-md" src="{{ $checkOut['image_url'] }}"
-                        alt="{{ $checkOut['image_url'] }}">
+                    <img class="rounded avatar-md" src="{{ $checkOut['image_url'] ?? asset('images/time.png') }}"
+                        alt="{{ $checkOut['image_url'] ?? asset('images/time.png') }}">
                 </div>
                 <div class="flex-grow-1">
                     @if ($checkOut['attendance_method']['id'] == 3)
