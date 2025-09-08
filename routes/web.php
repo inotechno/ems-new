@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\IClockController;
 use App\Livewire\Activity\ActivityIndex;
 use App\Livewire\Announcement\AnnouncementDetail;
 use App\Livewire\Announcement\AnnouncementForm;
@@ -75,6 +76,13 @@ use App\Livewire\Visit\VisitIndex;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/iclock/cdata', [IClockController::class, 'handshake']);
+Route::post('/iclock/cdata', [IClockController::class, 'receiveRecords']);
+
+Route::get('/iclock/test', [IClockController::class, 'test']);
+Route::get('/iclock/getrequest', [IClockController::class, 'getrequest']);
+Route::post('/test-attendance', [IClockController::class, 'testAttendance']);
 
 Route::get('/test-component', TestComponent::class)->name('test-component');
 

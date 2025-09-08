@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->string('marital_status')->nullable();
             $table->string('religion')->nullable();
             $table->foreignId('position_id')->nullable();
+            $table->string('whatsapp_number')->nullable();
 
             // Salary Components
             $table->decimal('basic_salary', 15, 2)->nullable();

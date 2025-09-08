@@ -211,6 +211,20 @@
                             </div>
                         </div>
 
+                        <div class="row mb-4">
+                            <label for="whatsapp_number" class="col-form-label col-lg-2">Whatsapp Number</label>
+                            <div class="col-lg-10">
+                                <input id="whatsapp_number" name="whatsapp_number" wire:model="whatsapp_number"
+                                    type="text" class="form-control @error('whatsapp_number') is-invalid @enderror"
+                                    placeholder="Enter Whatsapp Number... Ex: 6289676490...">
+                                @error('whatsapp_number')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
                         @can('update:employee')
                             {{-- select-role --}}
                             <div class="row mb-4" wire:ignore>

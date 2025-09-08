@@ -41,7 +41,8 @@ class EmployeeForm extends BaseComponent
     $avatar,
     $previewAvatar = "https://cdn.vectorstock.com/i/500p/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg",
     $avatar_url,
-    $avatar_path;
+    $avatar_path,
+    $whatsapp_number;
 
     // Sallary Component
     public $basic_salary,
@@ -89,6 +90,7 @@ class EmployeeForm extends BaseComponent
             $this->position_id = $this->employee->position_id;
             $this->avatar_url = $this->employee->user->avatar_url;
             $this->avatar_path = $this->employee->user->avatar_path;
+            $this->whatsapp_number = $this->employee->whatsapp_number;
 
             if ($this->avatar_url) {
                 $this->previewAvatar = $this->avatar_url;
@@ -133,6 +135,7 @@ class EmployeeForm extends BaseComponent
                 'marital_status' => 'nullable|string|max:255',
                 'religion' => 'nullable|string|max:255',
                 'avatar' => 'nullable|image|max:2048',
+                'whatsapp_number' => 'nullable|numeric',
             ]);
 
             $uid = (string) Str::uuid();
@@ -196,6 +199,7 @@ class EmployeeForm extends BaseComponent
                 'religion' => $this->religion,
                 'leave_remaining' => $this->leave_remaining,
                 'position_id' => $this->position_id,
+                'whatsapp_number' => $this->whatsapp_number,
             ];
 
             if ($this->password || $this->password != null) {
